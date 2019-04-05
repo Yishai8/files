@@ -15,7 +15,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Interop;
-
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using CodeFluent.Runtime.BinaryServices;
+using System.Collections;
 
 namespace WpfApp4
 {
@@ -28,6 +31,10 @@ namespace WpfApp4
         {
             InitializeComponent();
            
+            Tag a = new Tag();
+            a.getFileTag();
+            a.setFileTag(@"C:\Users\Yishai\Desktop\Logo.psd", "trying to set a tag");
+
         }
 
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)

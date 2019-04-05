@@ -32,19 +32,33 @@
             </TreeView.Resources>
         </TreeView>
 
-        <ListView Name="Thumbnails" Grid.Column="1" Margin="0.4,27,-0.4,0.4">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="{Binding}" Height="30" Width="30" Margin="5"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <TabControl HorizontalAlignment="Left" Height="22" Margin="10,0,0,0" VerticalAlignment="Top" Width="474" Grid.ColumnSpan="2">
-            <TabItem Header="Files Control">
-                <Grid Background="#FFE5E5E5"/>
+
+        <TabControl   HorizontalAlignment="Left" Height="1000" Margin="0.4,0,0,0" VerticalAlignment="Top" Width="1000" Grid.Column="1">
+            <TabItem Header="Files Control" Margin="-2,-2,-2.4,0">
+                <Grid Background="White">
+                <StackPanel>
+                        <ListView Name="Thumbnails" Grid.Column="1" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="False">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" Height="30" Width="30" Margin="5"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Tag Control">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="White">
+                    <StackPanel>
+                        <ListView Name="Thumbnails1" Grid.Column="1" BorderThickness="0" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding}" Height="30" Width="30" Margin="5"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

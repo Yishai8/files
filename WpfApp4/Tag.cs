@@ -53,7 +53,7 @@ namespace WpfApp4
             {
 
                 string streamName = ":fileTags";
-                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.Write, FileMode.OpenOrCreate, FileShare.None);
+                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
                 stream.Close();
                 IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(fileName);
                 foreach (NtfsAlternateStream ads in fileStream)
@@ -62,7 +62,8 @@ namespace WpfApp4
                         if (ads.Name.Equals(streamName + ":$DATA"))
 
                         {
-                            return Regex.Replace(NtfsAlternateStream.ReadAllText(fileName + streamName),"\n|\r", String.Empty);
+                            string a = NtfsAlternateStream.ReadAllText(@"C:\Users\Yishai\Desktop\new2.txt:fileTags");
+                            return Regex.Replace(NtfsAlternateStream.ReadAllText(@fileName + streamName),"\n|\r", "");
                         }
                 }
             }
@@ -74,9 +75,27 @@ namespace WpfApp4
         }
 
 
-        private void createTagsFile(string fileName)
+        public void saveFileTags(string fileName,string tags)
         {
             string streamName = ":fileTags";
+            if (checkTagFileExists(fileName))
+            {
+
+               
+                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                stream.Close();
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(fileName);
+                foreach (NtfsAlternateStream ads in fileStream)
+                {
+                    if (ads.StreamType.ToString().Equals("AlternateData"))
+                        if (ads.Name.Equals(streamName + ":$DATA"))
+
+                        {
+                             NtfsAlternateStream.WriteAllText(fileName+streamName, tags);
+                            
+                        }
+                }
+            }
 
         }
             public string getFileTag()
@@ -95,10 +114,7 @@ namespace WpfApp4
                 //Enumerating all the ADS in test.txt
                 IEnumerable<NtfsAlternateStream> adsStreams = NtfsAlternateStream.EnumerateStreams(fileName);
                 //bool a=adsStreams.Contains("{:fileTags:$DATA}");
-                foreach (NtfsAlternateStream ads in adsStreams)
-                {
-                    Console.WriteLine(ads.Name);
-                }
+                
 
                 //This will not delete the test.txt file
                 //NtfsAlternateStream.Delete(fileName + streamName);

@@ -107,7 +107,7 @@ namespace WpfApp4
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
             Thumbnails.Items.Clear();
             Tag a = new Tag(temp.Tag.ToString());
-            TagsOutput.Text = a.getFileTag();
+           
 
 
             //expend only a folder
@@ -138,6 +138,7 @@ namespace WpfApp4
             }
 
             }
+            TagsOutput.Text = a.getFileTag();
 
 
 
@@ -158,6 +159,15 @@ namespace WpfApp4
 
                 }
             }
+
+        }
+
+        private void saveTags(object sender, RoutedEventArgs e)
+        {
+            string output = TagsOutput.Text;
+            TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
+            Tag a = new Tag(_item.Tag.ToString());
+            a.saveFileTags(_item.Tag.ToString(), output);
 
         }
     }

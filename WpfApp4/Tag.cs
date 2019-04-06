@@ -16,10 +16,10 @@ namespace WpfApp4
     {
 
         List<string> FileTag { get; set; }
-        string path;
-        public Tag()
+        string _path;
+        public Tag(string pathName)
         {
-            //this.path = pathName;
+            _path = pathName;
         }
         public void setFileTag(string path, string tag)
         {
@@ -73,29 +73,38 @@ namespace WpfApp4
 
         }
 
-        public List<string> getFileTag()
+
+        private void createTagsFile(string fileName)
+        {
+            string streamName = ":fileTags";
+
+        }
+            public string getFileTag()
         {
             //Create a stream supporting ADS syntax
-            string fileName = @"C:\Users\Yishai\desktop\test2.txt";
-            string fileTags=getFileStream(fileName);
+            string fileName = this._path;
+            
+                string fileTags = getFileStream(fileName);
 
-            //Writing in to an ADS
-            //NtfsAlternateStream.WriteAllText("test.txt:hide", "Secret content");
+                //Writing in to an ADS
+                //NtfsAlternateStream.WriteAllText("test.txt:hide", "Secret content");
 
-            //Reading data from an ADS
-            //string text = NtfsAlternateStream.ReadAllText(fileName + streamName);
+                //Reading data from an ADS
+                //string text = NtfsAlternateStream.ReadAllText(fileName + streamName);
 
-            //Enumerating all the ADS in test.txt
-            IEnumerable<NtfsAlternateStream> adsStreams = NtfsAlternateStream.EnumerateStreams(fileName);
-            //bool a=adsStreams.Contains("{:fileTags:$DATA}");
-            foreach (NtfsAlternateStream ads in adsStreams)
-            {
-                Console.WriteLine(ads.Name);
-            }
+                //Enumerating all the ADS in test.txt
+                IEnumerable<NtfsAlternateStream> adsStreams = NtfsAlternateStream.EnumerateStreams(fileName);
+                //bool a=adsStreams.Contains("{:fileTags:$DATA}");
+                foreach (NtfsAlternateStream ads in adsStreams)
+                {
+                    Console.WriteLine(ads.Name);
+                }
 
-            //This will not delete the test.txt file
-            //NtfsAlternateStream.Delete(fileName + streamName);
-            return FileTag;
+                //This will not delete the test.txt file
+                //NtfsAlternateStream.Delete(fileName + streamName);
+                return fileTags;
+            
+           
         }
 
         public void windowsSearchForTag()

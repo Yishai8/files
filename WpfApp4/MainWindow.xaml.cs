@@ -31,9 +31,9 @@ namespace WpfApp4
         {
             InitializeComponent();
            
-            Tag a = new Tag();
+            Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             a.getFileTag();
-            a.setFileTag(@"C:\Users\Yishai\Desktop\Logo.psd", "trying to set a tag");
+            a.setFileTag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf", "trying set a tag");
 
         }
 
@@ -106,13 +106,15 @@ namespace WpfApp4
             TreeView tree = (TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
             Thumbnails.Items.Clear();
+            Tag a = new Tag(temp.Tag.ToString());
+            TagsOutput.Text = a.getFileTag();
 
 
+            //expend only a folder
+            if (!File.Exists(temp.Tag.ToString()))
+            { 
 
-        
-          
-
-            foreach (string dir in Directory.GetDirectories(temp.Tag.ToString()))
+                foreach (string dir in Directory.GetDirectories(temp.Tag.ToString()))
             {
                 DirectoryInfo _dirinfo = new DirectoryInfo(dir);
                 if ((_dirinfo.Attributes & FileAttributes.System) == 0)
@@ -135,13 +137,14 @@ namespace WpfApp4
                 }
             }
 
-            
+            }
 
 
 
 
 
         }
+
 
         private void folders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

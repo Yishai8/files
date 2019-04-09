@@ -1,25 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Interop;
-using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
-using CodeFluent.Runtime.BinaryServices;
-using System.Collections;
-
+`   
 namespace WpfApp4
 {
     /// <summary>
@@ -32,6 +17,7 @@ namespace WpfApp4
             InitializeComponent();
            
             Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
+            List<string> d= a.windowsSearch("Test");
             a.getFileTag();
             a.setFileTag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf", "trying set a tag");
 
@@ -103,6 +89,7 @@ namespace WpfApp4
 
         private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+
             TreeView tree = (TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
             Thumbnails.Items.Clear();
@@ -167,7 +154,10 @@ namespace WpfApp4
             string output = TagsOutput.Text;
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
             Tag a = new Tag(_item.Tag.ToString());
-            a.saveFileTags(_item.Tag.ToString(), output);
+            if (string.Compare(output, string.Empty) != 0)
+                a.saveFileTags(_item.Tag.ToString(), output);
+            else
+                a.DeleteFileTags(_item.Tag.ToString());
 
         }
     }

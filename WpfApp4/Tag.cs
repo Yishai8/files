@@ -15,7 +15,7 @@ namespace WpfApp4
 {
     class Tag
     {
-
+        static XMLFile;
         List<string> FileTag { get; set; }
         string _path;
         public Tag(string pathName)
@@ -25,7 +25,7 @@ namespace WpfApp4
         public void setFileTag(string path, string tag)
         {
             //FileTag.Add(tag);
-
+            
             // path is a file.
             if (File.Exists(path))
 

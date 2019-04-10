@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-`   
+using System;
+
 namespace WpfApp4
 {
     /// <summary>
@@ -15,7 +16,7 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
-           
+            XMLFile.init();
             Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             List<string> d= a.windowsSearch("Test");
             a.getFileTag();
@@ -45,8 +46,15 @@ namespace WpfApp4
 
             foreach (DriveInfo driv in DriveInfo.GetDrives())
             {
-                if (driv.IsReady)
-                    Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, foldersItem, null, false);
+                try
+                {
+                    var a = Directory.GetAccessControl(driv.Name);
+                    if (driv.IsReady)
+                        Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, foldersItem, null, false);
+                }
+                catch (UnauthorizedAccessException ex)
+                { }
+
             }
         }
 

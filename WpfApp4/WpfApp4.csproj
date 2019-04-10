@@ -68,6 +68,7 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="SysIcon.cs" />
     <Compile Include="Tag.cs" />
+    <Compile Include="XMLFile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

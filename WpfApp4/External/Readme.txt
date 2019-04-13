@@ -8,7 +8,7 @@ The CodeFluent Runtime Client is a library of utilities which is usable across a
 
 Please note that the following list of utilities is not exhaustive and we encourage you to browse the library using tools as Visual Studio's Object Browser or Reflector to find more. Nonetheless, here are the major ones:
 
- * AssemblyUtilities: represents a set of reflection utilities, e.g. getting assembly paths, getting attributes or members, or parsing assembly qualified names.
+ * AssemblyUtilities: represents a set of reflection utilities, e.g. getting assembly paths, getting attributes or subCat, or parsing assembly qualified names.
  * Authenticode: a utility class to sign file using authenticode and check if files are signed using in-process code, without using the signcode.exe or signtool.exe tools.
  * AutoObject: a utility class to implement objects with typed properties without private fields. Furthermore this class supports automatically property change notifications and error validations.
  * BitsServer: a Backgroung Intelligent Transfer Service (BITS) implementation independent from IIS. Supports range download and upload (BITS Upload Protocol 1.5).
@@ -25,7 +25,7 @@ Please note that the following list of utilities is not exhaustive and we encour
  * DiffUtilities: a helper class to compute differences between two versions of a text or a text file.
  * DockPanel: a simple dock panel control for WinForms.
  * EditableUri: provides an editable object representation of a uniform resource identifier (URI) and easy access to the parts of the URI.
- * GrammaticalNumberConverter: provides plural to singular and singular to plural conversion of nouns in a specific culture. This implementation is not strictly a general inflector, as it's been designed for table name conversion. For instance, it doesn't change a table named "People" in a table named "Person".
+ * GrammaticalNumberConverter: provides plural to singular and singular to plural conversion of nouns in a specific culture. This implementation is not strictly a general inflector, as it's been designed for table name conversion. For instance, it doesn't change a table named "People" in a table named "SubCategory".
  * IOUtilities: provides IO utilites, e.g. wrapping sharing violations and automatically re-trying operation a specific number of times, or automatically creating a directory if it does not exist.
  * JobObject: a utility class to manipulate Windows Job Objects (limit CPU, memory, etc.)
  * JsonUtilities: a light yet powerful JSON serializer/deserializer supporting dates, generics, the object type, as well as all classic features.  

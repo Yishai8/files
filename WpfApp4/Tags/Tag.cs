@@ -15,7 +15,7 @@ namespace WpfApp4
 {
     class Tag
     {
-        static XMLFile;
+        
         List<string> FileTag { get; set; }
         string _path;
         public Tag(string pathName)

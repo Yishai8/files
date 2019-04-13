@@ -17,13 +17,18 @@ namespace WpfApp4
         {
             InitializeComponent();
             XMLFile.init();
-            Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
-            List<string> d= a.windowsSearch("Test");
-            a.getFileTag();
-            a.setFileTag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf", "trying set a tag");
+            //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
+            //List<string> d= a.windowsSearch("Test");
+            //a.getFileTag();
+            //a.setFileTag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf", "trying set a tag");
 
         }
 
+        private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeView tv = sender as TreeView;
+            tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+        }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
         {
            
@@ -48,9 +53,12 @@ namespace WpfApp4
             {
                 try
                 {
-                    var a = Directory.GetAccessControl(driv.Name);
                     if (driv.IsReady)
+                    { //check drive access permissions
+                        var a = Directory.GetAccessControl(driv.Name);
+                    
                         Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, foldersItem, null, false);
+                    }
                 }
                 catch (UnauthorizedAccessException ex)
                 { }

@@ -10,7 +10,7 @@ namespace WpfApp4
 {
     static class XMLFile
     {
-        static readonly string filePath = @"C:\Users\Yishai\Desktop\Tags.xml";
+        static readonly string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
         static XDocument doc = null;
         private static void AddTagNode(string tag,string path)
         {
@@ -25,7 +25,7 @@ namespace WpfApp4
 
         private static void CheckRemovedTag()
         {
-
+            
         }
 
         private static bool CheckFileExsists()

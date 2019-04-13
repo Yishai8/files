@@ -65,10 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="NativeMethods.cs" />
-    <Compile Include="SysIcon.cs" />
-    <Compile Include="Tag.cs" />
-    <Compile Include="XMLFile.cs" />
+    <Compile Include="SystemClasses\NativeMethods.cs" />
+    <Compile Include="SystemClasses\SysIcon.cs" />
+    <Compile Include="Tags\Tag.cs" />
+    <Compile Include="Tags\XMLFile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,8 +77,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HeaderToImageConverter.cs" />
-    <Compile Include="IconMethods.cs" />
+    <Compile Include="SystemClasses\HeaderToImageConverter.cs" />
+    <Compile Include="SystemClasses\IconMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

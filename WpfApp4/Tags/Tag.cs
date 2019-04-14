@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace WpfApp4
 {
-    class Tag
+    class Tag //each file is a tag
     {
         
-        List<string> FileTag { get; set; }
-        string _path;
+        List<string> FileTag { get; set; } //list of tags name and value sport.ski
+        string _path;  //file path
         public Tag(string pathName)
         {
             _path = pathName;
         }
-        public void setFileTag(string path, string tag)
+       /* public void setFileTag(string path, string tag)  //get path and text tag
         {
             //FileTag.Add(tag);
             
@@ -39,28 +39,28 @@ namespace WpfApp4
 
             }
 
-        }
+        }*/
 
         private bool checkTagFileExists(string path)
         {
-            string streamName = ":fileTags";
+            string streamName = ":fileTags"; //ads needs file name : stream name
             return NtfsAlternateStream.Exists(path + streamName);
         }
 
         //get tags file content
-        private string getFileStream(string fileName)
+        private string getFileStream(string fileName)   //brings the stream the ads read the ads of the file
         {
-            if (checkTagFileExists(fileName))
+            if (checkTagFileExists(fileName))  //if there is a tag
             {
 
                 string streamName = ":fileTags";
-                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None); //open the ads
                 stream.Close();
-                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(fileName);
-                foreach (NtfsAlternateStream ads in fileStream)
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(fileName); //bring all the ads the file has whats in the stream
+                foreach (NtfsAlternateStream ads in fileStream) //enter the filestream
                 {
                     if (ads.StreamType.ToString().Equals("AlternateData"))
-                        if (ads.Name.Equals(streamName + ":$DATA"))
+                        if (ads.Name.Equals(streamName + ":$DATA"))             //type of ads
 
                         {
                            return Regex.Replace(NtfsAlternateStream.ReadAllText(fileName + streamName),"\n|\r", "");
@@ -75,7 +75,7 @@ namespace WpfApp4
         }
 
 
-        public void saveFileTags(string fileName,string tags)
+        public void saveFileTags(string fileName,string tags)   //write text to ads
         {
             string streamName = ":fileTags";
 
@@ -96,7 +96,7 @@ namespace WpfApp4
 
         }
 
-        public void DeleteFileTags(string fileName)
+        public void DeleteFileTags(string fileName) //delete all ads from file
         {
             string streamName = ":fileTags";
             if (checkTagFileExists(fileName))
@@ -124,7 +124,7 @@ namespace WpfApp4
             //Create a stream supporting ADS syntax
             string fileName = this._path;
             
-                string fileTags = getFileStream(fileName);
+                string fileTags = getFileStream(fileName);  //brings the tags by the filename
 
                 //Writing in to an ADS
                 //NtfsAlternateStream.WriteAllText("test.txt:hide", "Secret content");
@@ -133,7 +133,7 @@ namespace WpfApp4
                 //string text = NtfsAlternateStream.ReadAllText(fileName + streamName);
 
                 //Enumerating all the ADS in test.txt
-                IEnumerable<NtfsAlternateStream> adsStreams = NtfsAlternateStream.EnumerateStreams(fileName);
+              // IEnumerable<NtfsAlternateStream> adsStreams = NtfsAlternateStream.EnumerateStreams(fileName);
                 //bool a=adsStreams.Contains("{:fileTags:$DATA}");
                 
 
@@ -144,20 +144,20 @@ namespace WpfApp4
            
         }
 
-        public void windowsSearchForTag()
+        public void windowsSearchForTag()   //search on index tags on file made by windows , systemindex is all the indexed files the query can search only indexed files - is windows search
         {
-            var connection = new OleDbConnection(@"Provider=Search.CollatorDSO;Extended Properties=""Application=Windows""; Data Source=(local);");
+            var connection = new OleDbConnection(@"Provider=Search.CollatorDSO;Extended Properties=""Application=Windows""; Data Source=(local);"); //windows files properties db
 
             // File name search (case insensitive), also searches sub directories
-            var query1 = @"SELECT System.ItemName,System.FileName,SYSTEM.ITEMURL FROM SystemIndex " +
-                        @"WHERE scope ='file:C:/' AND SYSTEM.ITEMURL LIKE '%AdwCleaner%'";
+            var query1 = @"SELECT System.ItemName,System.FileName,SYSTEM.ITEMURL FROM SystemIndex " +   //filename itemanem itemurl r[2]    brings only files with system index
+                        @"WHERE scope ='file:C:/' AND SYSTEM.ITEMURL LIKE '%AdwCleaner%'";  //brings adwcleaner by filename
             try
             {
                 connection.Open();
 
                 var command = new OleDbCommand(query1, connection);
 
-                using (var r = command.ExecuteReader())
+                using (var r = command.ExecuteReader()) //bring all the items to r r[0],r[1],r[2]
                 {
                     while (r.Read())
                     {
@@ -174,7 +174,7 @@ namespace WpfApp4
             }
         }
 
-        public List<string> windowsSearch(string tag)
+        public List<string> windowsSearch(string tag)   //run on all the items tree on windows to search for tags - not windows search nothing to do with indexes
         {
             string[] drives = System.Environment.GetLogicalDrives();
             List<string> tagsList = new List<string>();
@@ -190,12 +190,12 @@ namespace WpfApp4
                     continue;
                 }
                 System.IO.DirectoryInfo rootDir = di.RootDirectory;
-                WalkDirectoryTree(rootDir,tagsList,tag);
+              /*  WalkDirectoryTree(rootDir,tagsList,tag);*/
             }
             return tagsList;
         }
 
-        static void WalkDirectoryTree(System.IO.DirectoryInfo root,List<string> tagslist,string tag)
+        /*static void WalkDirectoryTree(System.IO.DirectoryInfo root,List<string> tagslist,string tag)    //not used 
         {
             System.IO.FileInfo[] files = null;
             System.IO.DirectoryInfo[] subDirs = null;
@@ -252,7 +252,7 @@ namespace WpfApp4
                     WalkDirectoryTree(dirInfo,tagslist,tag);
                 }
             }
-        }
+        }*/
 
 
         }

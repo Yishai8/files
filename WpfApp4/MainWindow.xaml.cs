@@ -24,12 +24,12 @@ namespace WpfApp4
 
         }
 
-        private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
         {
             TreeView tv = sender as TreeView;
             tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
-        private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
+        private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
            
            Icon ic= SysIcon.OfPath(tag);
@@ -49,7 +49,7 @@ namespace WpfApp4
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            foreach (DriveInfo driv in DriveInfo.GetDrives())
+            foreach (DriveInfo driv in DriveInfo.GetDrives())   //fetch the drives info
             {
                 try
                 {
@@ -69,7 +69,7 @@ namespace WpfApp4
 
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
-            TreeViewItem _item = (TreeViewItem)sender;
+            TreeViewItem _item = (TreeViewItem)sender;  
             if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
             {
                 _item.Items.Clear();
@@ -103,7 +103,7 @@ namespace WpfApp4
             //your logic here 
         }
 
-        private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)   //files on right side of the tree view
         {
 
             TreeView tree = (TreeView)sender;
@@ -141,7 +141,7 @@ namespace WpfApp4
             }
 
             }
-            TagsOutput.Text = a.getFileTag();
+            TagsOutput.Text = a.getFileTag();   //brings the ads on the textblock
 
 
 
@@ -150,7 +150,7 @@ namespace WpfApp4
         }
 
 
-        private void folders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void folders_MouseDoubleClick(object sender, MouseButtonEventArgs e) 
         {
             
 
@@ -165,7 +165,7 @@ namespace WpfApp4
 
         }
 
-        private void saveTags(object sender, RoutedEventArgs e)
+        private void saveTags(object sender, RoutedEventArgs e) //tag the file
         {
             string output = TagsOutput.Text;
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;

@@ -127,5 +127,8 @@
     <Content Include="External\x64\CodeFluent.Runtime.Compression.dll" />
     <Content Include="External\x86\CodeFluent.Runtime.Compression.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -26,6 +26,12 @@ namespace WpfApp4
 
         }
 
+        public class ComboBoxItem
+        {
+            public string DisplayText { get; set; }
+            public bool IsHeader { get; set; }
+        }
+
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
         {
             TreeView tv = sender as TreeView;

@@ -16,6 +16,8 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
+            Views.SystemView b = new Views.SystemView();
+            b.LoadCategoryListFromXML();
             XMLFile.init();
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             //List<string> d= a.windowsSearch("Test");

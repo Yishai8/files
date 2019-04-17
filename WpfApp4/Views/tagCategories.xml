@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <HeaderTag name="Music">
+    <ChildTag name="Classical &amp; Opera"/>
+    <ChildTag name="Country &amp; Gospel"/>
+    <ChildTag name="Instruments &amp; Performers"/>
+    <ChildTag name="Jazz &amp; Blues"/>
+    <ChildTag name="Music News"/>
+    <ChildTag name="Rock, Hard Rock &amp; Heavy Metal"/>
+    <ChildTag name="Urban"/>
+  </HeaderTag>
+
+<HeaderTag name="Sports &amp; Recreation">
+  <ChildTag name="Aviation"/>
+  <ChildTag name="Boats"/>
+  <ChildTag name="Golf"/>
+  <ChildTag name="Hunting &amp; Fishing"/>
+  <ChildTag name="Snow &amp; Water"/>
+  <ChildTag name="Sports"/>
+</HeaderTag>
+
+  <HeaderTag name="Animals &amp; Pets">
+    <ChildTag name="Birds"/>
+    <ChildTag name="Dogs &amp; Cats"/>
+    <ChildTag name="Farming"/>
+    <ChildTag name="Fish &amp; Reptiles"/>
+    <ChildTag name="Horses"/>
+    <ChildTag name="Wildlife"/>
+  </HeaderTag>
+  <HeaderTag name="Hobbies">
+    <ChildTag name="Arts &amp; Crafts"/>
+    <ChildTag name="Coin Collecting"/>
+    <ChildTag name="Comics"/>
+    <ChildTag name="Puzzles &amp; Games"/>
+    <ChildTag name="Sci-Fi &amp; Mystery"/>
+    <ChildTag name="Toys &amp; Collectibles"/>
+    <ChildTag name="Woodworking &amp; Machining"/>
+  </HeaderTag>
+
+
+  </root>

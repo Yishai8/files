@@ -16,7 +16,7 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
-            Views.SystemView b = new Views.SystemView();
+            Views.tagsCategory b = new Views.tagsCategory();
             b.LoadCategoryListFromXML();
             XMLFile.init();
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
@@ -24,12 +24,6 @@ namespace WpfApp4
             //a.getFileTag();
             //a.setFileTag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf", "trying set a tag");
 
-        }
-
-        public class ComboBoxItem
-        {
-            public string DisplayText { get; set; }
-            public bool IsHeader { get; set; }
         }
 
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2

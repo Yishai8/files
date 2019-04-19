@@ -68,7 +68,10 @@
     <Compile Include="SystemClasses\NativeMethods.cs" />
     <Compile Include="SystemClasses\SysIcon.cs" />
     <Compile Include="Tags\Tag.cs" />
+    <Compile Include="Tags\TagManagment.cs" />
     <Compile Include="Tags\XMLFile.cs" />
+    <Compile Include="Tags\tagsCategory.cs" />
+    <Compile Include="Views\View.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +104,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -123,9 +127,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Tags\tagCategories.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="External\Readme.txt" />
     <Content Include="External\x64\CodeFluent.Runtime.Compression.dll" />
     <Content Include="External\x86\CodeFluent.Runtime.Compression.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

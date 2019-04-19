@@ -75,20 +75,20 @@ namespace WpfApp4
         }
 
 
-        public void saveFileTags(string fileName,string tags)   //write text to ads
+        public void saveFileTags(string tags)   //write text to ads
         {
             string streamName = ":fileTags";
 
-                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
                 stream.Close();
-                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(fileName);
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
                 foreach (NtfsAlternateStream ads in fileStream)
                 {
                     if (ads.StreamType.ToString().Equals("AlternateData"))
                         if (ads.Name.Equals(streamName + ":$DATA"))
 
                         {
-                             NtfsAlternateStream.WriteAllText(fileName+streamName, tags);
+                             NtfsAlternateStream.WriteAllText(this._path + streamName, tags);
                             
                         }
                 }
@@ -96,23 +96,23 @@ namespace WpfApp4
 
         }
 
-        public void DeleteFileTags(string fileName) //delete all ads from file
+        public void DeleteFileTags() //delete all ads from file
         {
             string streamName = ":fileTags";
-            if (checkTagFileExists(fileName))
+            if (checkTagFileExists(this._path))
             {
 
 
-                FileStream stream = NtfsAlternateStream.Open(fileName + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
                 stream.Close();
-                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(fileName);
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
                 foreach (NtfsAlternateStream ads in fileStream)
                 {
                     if (ads.StreamType.ToString().Equals("AlternateData"))
                         if (ads.Name.Equals(streamName + ":$DATA"))
 
                         {
-                            NtfsAlternateStream.Delete(fileName+streamName);
+                            NtfsAlternateStream.Delete(this._path + streamName);
 
                         }
                 }

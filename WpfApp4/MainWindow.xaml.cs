@@ -13,11 +13,12 @@ namespace WpfApp4
     /// </summary>
     public partial class MainWindow : Window
     {
+      
         public MainWindow()
         {
             InitializeComponent();
-            Views.tagsCategory b = new Views.tagsCategory();
-            b.LoadCategoryListFromXML();
+            //Views.tagsCategory b = new Views.tagsCategory();
+            //b.LoadCategoryListFromXML();
             XMLFile.init();
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             //List<string> d= a.windowsSearch("Test");
@@ -111,8 +112,6 @@ namespace WpfApp4
             TreeView tree = (TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
             Thumbnails.Items.Clear();
-            Tag a = new Tag(temp.Tag.ToString());
-           
 
 
             //expend only a folder
@@ -143,7 +142,7 @@ namespace WpfApp4
             }
 
             }
-            TagsOutput.Text = a.getFileTag();   //brings the ads on the textblock
+            TagsOutput.Text = Tags.TagManagment.getFileTag(temp.Tag.ToString());   //brings the ads on the textblock
 
 
 
@@ -173,9 +172,9 @@ namespace WpfApp4
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
             Tag a = new Tag(_item.Tag.ToString());
             if (string.Compare(output, string.Empty) != 0)
-                a.saveFileTags(_item.Tag.ToString(), output);
+                Tags.TagManagment.saveFileTags(_item.Tag.ToString(), output);
             else
-                a.DeleteFileTags(_item.Tag.ToString());
+                Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
 
         }
     }

@@ -68,8 +68,9 @@
     <Compile Include="SystemClasses\NativeMethods.cs" />
     <Compile Include="SystemClasses\SysIcon.cs" />
     <Compile Include="Tags\Tag.cs" />
+    <Compile Include="Tags\TagManagment.cs" />
     <Compile Include="Tags\XMLFile.cs" />
-    <Compile Include="Views\tagsCategory.cs" />
+    <Compile Include="Tags\tagsCategory.cs" />
     <Compile Include="Views\View.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -126,7 +127,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\tagCategories.xml">
+    <EmbeddedResource Include="Tags\tagCategories.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Resource Include="External\Readme.txt" />

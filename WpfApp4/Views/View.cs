@@ -8,11 +8,21 @@ using System.Xml.Linq;
 
 namespace WpfApp4.Views
 {
-    class SystemView
+     class View
     {
-        
+        public string category;
+        public string subCategory;
+        public List<string> listOfPaths;
+       private View()
+        {
+
+        }
        
-       
+    }
+
+    internal class SystemView
+    {
+
     }
     
       

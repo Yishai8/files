@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace WpfApp4.Tags
 {
-    class tagsCategory
+    public class tagsCategory
     {        
         List<string> categoryOptions; //single category
         public tagsCategory(string name, List<string> options)

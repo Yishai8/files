@@ -22,7 +22,7 @@ namespace WpfApp4
             //_Categories = Tags.TagManagment.LoadCategoriesListFromXML();
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
-            XMLFile.init();
+            Tags.XMLFile.init();
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             //List<string> d= a.windowsSearch("Test");
             //a.getFileTag();

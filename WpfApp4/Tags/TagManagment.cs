@@ -21,6 +21,7 @@ namespace WpfApp4.Tags
         {
             Tag newTag = new Tag(filepath);
             newTag.saveFileTags(tags);
+            
         }
 
         public static void DeleteFileTags(string filepath)

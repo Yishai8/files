@@ -60,7 +60,7 @@
             <TabItem Header="Tag Control">
                 <Grid Background="White">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="30">
-
+                
                         <Label Width="60" Height="100" HorizontalAlignment="Left" >File Tags:</Label>
                         <TextBox Name="TagsOutput" Height="100" Width="200" HorizontalAlignment="Left"/>
                         <Button Margin="10,0,0,0" Click="saveTags">Save Tags</Button>

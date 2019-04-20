@@ -21,7 +21,9 @@ namespace WpfApp4.Tags
         {
             Tag newTag = new Tag(filepath);
             newTag.saveFileTags(tags);
-            
+            Tags.XMLFile.AddTagNode(tags, filepath);
+
+
         }
 
         public static void DeleteFileTags(string filepath)

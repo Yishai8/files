@@ -12,20 +12,41 @@ namespace WpfApp4.Tags
     {
         static readonly string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";  //create xml on desktop
         static XDocument doc = null;    //load the xml file to object
-        private static void AddTagNode(string tag,string path)
+        public static void AddTagNode(string tag, string path)
         {
-            IEnumerable<XElement> address = //bring all the tag block from the xml includes subtags
-            from el in XMLFile.doc.Descendants("root").Elements("tag")
-            where (string)el.Attribute("value") == "fefdf"
-             select el;
-            foreach (XElement el in address.Descendants())  //paths
-                Console.WriteLine(el.Value);
+            List<string> parsedTags = parse_tags(tag);
+            foreach (string tagRes in parsedTags)
+            {
+                int nodesCount = 0;
+                var i = tagRes.IndexOf('.');     
+                string mainCat = tagRes.Substring(0, i); ;
+                string subCat = tagRes.Substring(i+1, (tagRes.Length)-i-1);
+                IEnumerable<XElement> categoriesToAdd = //bring all the tag block from the xml includes subtags
+                from el in XMLFile.doc.Descendants("root").Elements("tag")
+                where ((string)el.Attribute("Name") == mainCat)
+                select el;
 
+                foreach (XElement el in categoriesToAdd.Descendants())  //paths
+                    nodesCount++;
+                if(nodesCount>0)
+                {
+
+                }
+
+            }
+        }
+
+        //get all categories from tags parsed by delimiter (;)
+        public static List<string> parse_tags(string tags)
+        {
+            List<string> parsedTags = new List<string>();
+            parsedTags = tags.Split(';').ToList();
+            return parsedTags;
         }
 
         private static void CheckRemovedTag()   //needs to remove or change tag
         {
-            
+
         }
 
         private static bool CheckFileExsists()  //if the xml exsist
@@ -52,7 +73,7 @@ namespace WpfApp4.Tags
             var newDoc = new XDocument(new XElement("root",
               from p in XMLFile.doc.Element("root").Elements("tag")
               select p));
-            
+
         }
 
     }

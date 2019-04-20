@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace WpfApp4
+namespace WpfApp4.Tags
 {
     class Tag //each file is a tag
     {

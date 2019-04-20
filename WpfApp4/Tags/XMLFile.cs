@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WpfApp4
+namespace WpfApp4.Tags
 {
     static class XMLFile
     {
@@ -52,6 +52,7 @@ namespace WpfApp4
             var newDoc = new XDocument(new XElement("root",
               from p in XMLFile.doc.Element("root").Elements("tag")
               select p));
+            
         }
 
     }

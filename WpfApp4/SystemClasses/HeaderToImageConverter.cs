@@ -19,8 +19,10 @@ namespace WpfApp4
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            try { 
             string tag = value.ToString();
             
+           
                 Icon ic = SysIcon.OfPath(tag);
 
             ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
@@ -30,7 +32,13 @@ namespace WpfApp4
             //var bitmap = ic.ToBitmap();
             //BitmapImage source = bitmap;
             return imageSource;
-          
+        }
+            catch (NullReferenceException e1)
+            {
+                Console.WriteLine(e1.InnerException);
+                return new object();
+            }
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

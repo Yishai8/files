@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System;
+using System.Collections.ObjectModel;
 
 namespace WpfApp4
 {
@@ -17,6 +18,8 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
+           // ObservableCollection<tagsCategory> _Categories = new ObservableCollection<tagsCategory>();
+            //_Categories = Tags.TagManagment.LoadCategoriesListFromXML();
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
             XMLFile.init();
@@ -34,12 +37,12 @@ namespace WpfApp4
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
-           
-           Icon ic= SysIcon.OfPath(tag);
+            try { 
+           Icon ic = SysIcon.OfPath(tag);
             TreeViewItem _driitem = new TreeViewItem();
             _driitem.Tag = tag;
             _driitem.Header = header;
-          
+
             _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
             if (!isfile)
                 _driitem.Items.Add(new TreeViewItem());
@@ -47,6 +50,9 @@ namespace WpfApp4
             if (_root != null)
             { _root.Items.Add(_driitem); }
             else { _child.Items.Add(_driitem); }
+        }
+             catch (System.NullReferenceException ex)
+            { Console.WriteLine(ex.InnerException); }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -63,8 +69,8 @@ namespace WpfApp4
                         Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, foldersItem, null, false);
                     }
                 }
-                catch (UnauthorizedAccessException ex)
-                { }
+                catch (System.NullReferenceException ex)
+                { Console.WriteLine(ex.InnerException); }
 
             }
         }

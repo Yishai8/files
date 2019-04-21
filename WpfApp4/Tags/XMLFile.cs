@@ -20,17 +20,17 @@ namespace WpfApp4.Tags
                 int nodesCount = 0;
                 var i = tagRes.IndexOf('.');     
                 string mainCat = tagRes.Substring(0, i); ;
-                string subCat = tagRes.Substring(i+1, (tagRes.Length)-i-1);
+                string subCat = tagRes.Substring(i+1, (tagRes.Length)-i-1);  
                 IEnumerable<XElement> categoriesToAdd = //bring all the tag block from the xml includes subtags
                 from el in XMLFile.doc.Descendants("root").Elements("tag")
-                where ((string)el.Attribute("Name") == mainCat)
+                where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
                 select el;
 
                 foreach (XElement el in categoriesToAdd.Descendants())  //paths
                     nodesCount++;
                 if(nodesCount>0)
                 {
-
+                        
                 }
 
             }

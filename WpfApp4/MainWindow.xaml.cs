@@ -190,7 +190,6 @@ namespace WpfApp4
         {
             string output = TagsOutput.Text;
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
-            Tags.Tag a = new Tags.Tag(_item.Tag.ToString());
             if (string.Compare(output, string.Empty) != 0)
                 Tags.TagManagment.saveFileTags(_item.Tag.ToString(), output);
             else

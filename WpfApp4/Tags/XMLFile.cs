@@ -10,37 +10,68 @@ namespace WpfApp4.Tags
 {
     static class XMLFile
     {
-        static readonly string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";  //create xml on desktop
+        static readonly string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";  //create xml on desktop
         static XDocument doc = null;    //load the xml file to object
         public static void AddTagNode(string tag, string path)
         {
             List<string> parsedTags = parse_tags(tag);
             foreach (string tagRes in parsedTags)
             {
-                int nodesCount = 0;
-                var i = tagRes.IndexOf('.');     
+
+                var i = tagRes.IndexOf('.');
                 string mainCat = tagRes.Substring(0, i); ;
-                string subCat = tagRes.Substring(i+1, (tagRes.Length)-i-1);  
+                string subCat = tagRes.Substring(i + 1, (tagRes.Length) - i - 1);
                 IEnumerable<XElement> categoriesToAdd = //bring all the tag block from the xml includes subtags
                 from el in XMLFile.doc.Descendants("root").Elements("tag")
                 where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
                 select el;
-
-                foreach (XElement el in categoriesToAdd.Descendants())  //paths
-                    nodesCount++;
-                if(nodesCount>0)
+                if (categoriesToAdd.Any())
                 {
-                        
+                    foreach (XElement el in categoriesToAdd)  //paths
+                    {
+
+                        addPathToExistingNode(el, path);
+
+                    }
                 }
+
+                else
+                    addPathToNewNode(mainCat, subCat, path);
+
+
 
             }
         }
 
+
+        //tag+subtag exist
+        private static void addPathToExistingNode(XElement el, string path)
+        {
+            var isPathExistInNode = from p in el.Elements("path")
+                                    where (string)p.Attribute("value") == path
+                                    select p;
+
+            //path doesn't exist in node
+            if (!isPathExistInNode.Any())
+            {
+                XElement pathNode = new XElement("path");
+                pathNode.Add(new XAttribute("value", path));
+                //add value for it
+                el.Add(pathNode);
+                XMLFile.doc.Save(XMLFile.docFilePath);
+            }
+        }
+
+        //tag+subtag doesn't exist
+        private static void addPathToNewNode(string main, string sub, string path)
+        {
+
+        }
         //get all categories from tags parsed by delimiter (;)
         public static List<string> parse_tags(string tags)
         {
             List<string> parsedTags = new List<string>();
-            parsedTags = tags.Split(';').ToList();
+            parsedTags = tags.Split(';').Select(t => t.Trim()).ToList();
             return parsedTags;
         }
 
@@ -51,7 +82,7 @@ namespace WpfApp4.Tags
 
         private static bool CheckFileExsists()  //if the xml exsist
         {
-            return File.Exists(filePath);
+            return File.Exists(docFilePath);
         }
 
         private static void CreateTagFile() //create nodes to the xml which creates tag
@@ -61,13 +92,13 @@ namespace WpfApp4.Tags
 
         private static XDocument LoadFile() //load the xml file
         {
-            return XDocument.Load(filePath);
+            return XDocument.Load(docFilePath);
         }
         static public void init()
         {
             if (!CheckFileExsists())
                 new XDocument(
-                     new XElement("root")).Save(filePath);
+                     new XElement("root")).Save(docFilePath);
             XMLFile.doc = LoadFile();
 
             var newDoc = new XDocument(new XElement("root",

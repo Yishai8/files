@@ -14,11 +14,11 @@ namespace WpfApp4
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+
         public MainWindow()
         {
             InitializeComponent();
-           // ObservableCollection<tagsCategory> _Categories = new ObservableCollection<tagsCategory>();
+            // ObservableCollection<tagsCategory> _Categories = new ObservableCollection<tagsCategory>();
             //_Categories = Tags.TagManagment.LoadCategoriesListFromXML();
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
@@ -37,22 +37,25 @@ namespace WpfApp4
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
-            try { 
-           Icon ic = SysIcon.OfPath(tag);
-            TreeViewItem _driitem = new TreeViewItem();
-            _driitem.Tag = tag;
-            _driitem.Header = header;
+            try
+            {
+                Icon ic = SysIcon.OfPath(tag);
+                TreeViewItem _driitem = new TreeViewItem();
+                _driitem.Tag = tag;
+                _driitem.Header = header;
 
-            _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
-            if (!isfile)
-                _driitem.Items.Add(new TreeViewItem());
+                _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
+                if (!isfile)
+                    _driitem.Items.Add(new TreeViewItem());
 
-            if (_root != null)
-            { _root.Items.Add(_driitem); }
-            else { _child.Items.Add(_driitem); }
-        }
-             catch (System.NullReferenceException ex)
+                if (_root != null)
+                { _root.Items.Add(_driitem); }
+                else { _child.Items.Add(_driitem); }
+            }
+            catch (System.NullReferenceException ex)
             { Console.WriteLine(ex.InnerException); }
+            catch (System.UnauthorizedAccessException unauth)
+            { Console.WriteLine(unauth.InnerException); }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -65,12 +68,14 @@ namespace WpfApp4
                     if (driv.IsReady)
                     { //check drive access permissions
                         var a = Directory.GetAccessControl(driv.Name);
-                    
+
                         Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, foldersItem, null, false);
                     }
                 }
                 catch (System.NullReferenceException ex)
                 { Console.WriteLine(ex.InnerException); }
+                catch (System.UnauthorizedAccessException unauth)
+                { Console.WriteLine(unauth.InnerException); }
 
             }
         }
@@ -78,31 +83,36 @@ namespace WpfApp4
 
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
-            TreeViewItem _item = (TreeViewItem)sender;  
+            TreeViewItem _item = (TreeViewItem)sender;
             if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
             {
                 _item.Items.Clear();
-                
-                foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
+
+                try
                 {
-                    DirectoryInfo _dirinfo = new DirectoryInfo(dir);
-                    if((_dirinfo.Attributes & FileAttributes.System) ==0 )
-                    Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+
+                    foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
+                    {
+                        DirectoryInfo _dirinfo = new DirectoryInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+                    }
+
+                    foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
+                    {
+                        FileInfo _dirinfo = new FileInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
+
+
+                    }
+
                 }
-
-                foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
-                {
-                    FileInfo _dirinfo = new FileInfo(dir);
-                    if ((_dirinfo.Attributes & FileAttributes.System) == 0)
-                        Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
-                  
-
-                    
-
-                }
+                catch (System.UnauthorizedAccessException unauth)
+                { Console.WriteLine(unauth.InnerException); }
 
             }
-          
+
         }
 
         void _driitem_Selected(object sender, RoutedEventArgs e)
@@ -122,30 +132,34 @@ namespace WpfApp4
 
             //expend only a folder
             if (!File.Exists(temp.Tag.ToString()))
-            { 
-
-                foreach (string dir in Directory.GetDirectories(temp.Tag.ToString()))
             {
-                DirectoryInfo _dirinfo = new DirectoryInfo(dir);
-                if ((_dirinfo.Attributes & FileAttributes.System) == 0)
-                { 
-                    ListViewItem item = new ListViewItem { Content = dir };
-                item.Tag = dir;
+                try
+                {
+                    foreach (string dir in Directory.GetDirectories(temp.Tag.ToString()))
+                    {
+                        DirectoryInfo _dirinfo = new DirectoryInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                        {
+                            ListViewItem item = new ListViewItem { Content = dir };
+                            item.Tag = dir;
 
-                Thumbnails.Items.Add(item);
-                }
-            }
-            foreach (string file in Directory.GetFiles(temp.Tag.ToString()))
-            {
-                FileInfo _dirinfo = new FileInfo(file);
-                if ((_dirinfo.Attributes & FileAttributes.System) == 0)
-                { 
-                    ListViewItem item = new ListViewItem { Content = file };
-                item.Tag = file;
+                            Thumbnails.Items.Add(item);
+                        }
+                    }
+                    foreach (string file in Directory.GetFiles(temp.Tag.ToString()))
+                    {
+                        FileInfo _dirinfo = new FileInfo(file);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                        {
+                            ListViewItem item = new ListViewItem { Content = file };
+                            item.Tag = file;
 
-                Thumbnails.Items.Add(item);
+                            Thumbnails.Items.Add(item);
+                        }
+                    }
                 }
-            }
+                catch (System.UnauthorizedAccessException unauth)
+                { Console.WriteLine(unauth.InnerException); }
 
             }
             TagsOutput.Text = Tags.TagManagment.getFileTag(temp.Tag.ToString());   //brings the ads on the textblock
@@ -157,12 +171,12 @@ namespace WpfApp4
         }
 
 
-        private void folders_MouseDoubleClick(object sender, MouseButtonEventArgs e) 
+        private void folders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
 
 
-                if (((TreeView)sender).SelectedItem is TreeViewItem )
+
+            if (((TreeView)sender).SelectedItem is TreeViewItem)
             {
                 if (MessageBox.Show("Close Application?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
@@ -176,7 +190,6 @@ namespace WpfApp4
         {
             string output = TagsOutput.Text;
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
-            Tag a = new Tag(_item.Tag.ToString());
             if (string.Compare(output, string.Empty) != 0)
                 Tags.TagManagment.saveFileTags(_item.Tag.ToString(), output);
             else

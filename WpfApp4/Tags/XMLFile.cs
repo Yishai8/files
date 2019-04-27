@@ -17,14 +17,11 @@ namespace WpfApp4.Tags
             List<string> parsedTags = parse_tags(tag);
             foreach (string tagRes in parsedTags)
             {
-
                 var i = tagRes.IndexOf('.');
                 string mainCat = tagRes.Substring(0, i); ;
                 string subCat = tagRes.Substring(i + 1, (tagRes.Length) - i - 1);
-                IEnumerable<XElement> categoriesToAdd = //bring all the tag block from the xml includes subtags
-                from el in XMLFile.doc.Descendants("root").Elements("tag")
-                where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
-                select el;
+
+                IEnumerable<XElement> categoriesToAdd = getNodeByTag(tagRes, false);
                 if (categoriesToAdd.Any())
                 {
                     foreach (XElement el in categoriesToAdd)  //paths
@@ -42,6 +39,45 @@ namespace WpfApp4.Tags
 
             }
         }
+
+        public static IEnumerable<XElement> getNodeByTag(string tag, bool getBySubCat)
+        {
+            IEnumerable<XElement> NodeList;
+            var i = tag.IndexOf('.');
+            string mainCat = tag.Substring(0, i); ;
+            string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
+            if (!getBySubCat)
+            {
+                NodeList = //bring all the tag block from the xml includes subtags
+                from el in XMLFile.doc.Descendants("root").Elements("tag")
+                where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
+                select el;
+            }
+            else
+            {
+                NodeList = //bring all the tag block from the xml includes subtags
+                from el in XMLFile.doc.Descendants("root").Elements("tag")
+                where (string)el.Attribute("value") == subCat
+                select el;
+            }
+            return NodeList;
+        }
+
+        //public static List<string> getPathsByTag(string tag)
+        //{
+        //    var i = tag.IndexOf('.');
+        //    string mainCat = tag.Substring(0, i); ;
+        //    string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
+
+        //    IEnumerable<XElement> pathToGet = //bring all the tag block from the xml includes subtags
+        //        from el in XMLFile.doc.Descendants("root").Elements("tag")
+        //        where ((string)el.Attribute("name") == tag && (string)el.Attribute("value") == tag)
+        //        select el;
+
+
+
+        //    return pathList;
+        //}
 
 
         //tag+subtag exist

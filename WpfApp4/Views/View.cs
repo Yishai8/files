@@ -10,20 +10,23 @@ namespace WpfApp4.Views
 {
      class SystemView
     {
-        public string viewBaseCategory;
-        bool isMainCategory;
-       
-        
-       private SystemView()
+        public static ICollection<TreeNode<singleView>> listOfViews { get; set; }
+
+        private SystemView()
         {
 
         }
        
     }
 
-    internal class ViewChildern
+    internal class singleView
     {
-
+        public string viewBaseCategory { get; set; }
+        public bool isMainCategory { get; set; }
+       public singleView(string tag)
+           {
+            this.viewBaseCategory = tag;
+        }
 
     }
     

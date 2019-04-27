@@ -101,6 +101,8 @@
     <Compile Include="Tags\TagManagment.cs" />
     <Compile Include="Tags\XMLFile.cs" />
     <Compile Include="Tags\tagsCategory.cs" />
+    <Compile Include="Views\HandleViews.cs" />
+    <Compile Include="Views\TreeNode.cs" />
     <Compile Include="Views\View.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace WpfApp4
 {
@@ -34,6 +35,15 @@ namespace WpfApp4
         {
             TreeView tv = sender as TreeView;
             tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+        }
+
+        private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
+        {
+            ListView _item = (ListView)sender;
+            ListViewItem selected =(ListViewItem) _item.SelectedItem;
+            var isFile = new Uri(selected.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
+            if(isFile)
+                System.Diagnostics.Process.Start(selected.Tag.ToString());
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {

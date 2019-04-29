@@ -8,20 +8,25 @@ using System.Xml.Linq;
 
 namespace WpfApp4.Views
 {
-     class View
+     class SystemView
     {
-        public string category;
-        public string subCategory;
-        public List<string> listOfPaths;
-       private View()
+        public static ICollection<TreeNode<singleView>> listOfViews { get; set; }
+
+        private SystemView()
         {
 
         }
        
     }
 
-    internal class SystemView
+    internal class singleView
     {
+        public string viewBaseCategory { get; set; }
+        public bool isMainCategory { get; set; }
+       public singleView(string tag)
+           {
+            this.viewBaseCategory = tag;
+        }
 
     }
     

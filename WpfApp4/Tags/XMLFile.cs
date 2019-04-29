@@ -99,9 +99,19 @@ namespace WpfApp4.Tags
         }
 
         //tag+subtag doesn't exist
-        private static void addPathToNewNode(string main, string sub, string path)
+        private static void addPathToNewNode(string mainCat, string subCat, string path)
         {
-
+            XElement tagNode = new XElement("tag");
+            tagNode.Add(new XAttribute("name", mainCat));
+            tagNode.Add(new XAttribute("value", subCat));
+            XElement pathNode = new XElement("path");
+            pathNode.Add(new XAttribute("value", path));
+            //add value for it
+            tagNode.Add(pathNode);
+            //add value for it
+            XElement XMLBody = XMLFile.doc.Element("root");
+            XMLBody.Add(tagNode);
+            XMLFile.doc.Save(XMLFile.docFilePath);
         }
         //get all categories from tags parsed by delimiter (;)
         public static List<string> parse_tags(string tags)

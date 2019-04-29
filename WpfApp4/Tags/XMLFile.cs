@@ -43,8 +43,11 @@ namespace WpfApp4.Tags
         public static IEnumerable<XElement> getNodeByTag(string tag, bool getBySubCat)
         {
             IEnumerable<XElement> NodeList;
-            var i = tag.IndexOf('.');
-            string mainCat = tag.Substring(0, i); ;
+            string mainCat = null ;
+            int i = -1;
+            i=tag.IndexOf('.');
+            if(i!=-1)
+            mainCat = tag.Substring(0, i); ;
             string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
             if (!getBySubCat)
             {

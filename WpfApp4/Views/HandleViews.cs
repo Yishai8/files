@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
+
 namespace WpfApp4.Views
 {
     class HandleViews
@@ -22,18 +23,27 @@ namespace WpfApp4.Views
             //SystemView.listOfViews.Add(root);
         }
 
-        public void createViewSubTag(string tag)
+        public TreeView createViewSubTag(string tag)
         {
+            TreeView view = new TreeView();
+            var Tagslist = Tags.TagManagment.getPathsByTag(tag,true);
+
+            Populate(tag, view, null, false);
+            foreach(List<string> list  in Tagslist)
+            {
+                //Populate(li, view, null, false);
+            }
             
+            return view;
         }
 
-        private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
+        private void Populate(string header,TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
             try
             {
                 //Icon ic = SysIcon.OfPath(tag);
                 TreeViewItem _driitem = new TreeViewItem();
-                _driitem.Tag = tag;
+                //_driitem.Tag = tag;
                 _driitem.Header = header;
 
                 _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
@@ -63,15 +73,15 @@ namespace WpfApp4.Views
                     foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
                     {
                         DirectoryInfo _dirinfo = new DirectoryInfo(dir);
-                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
-                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+                        //if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                           // Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
                     }
 
                     foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
                     {
                         FileInfo _dirinfo = new FileInfo(dir);
-                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
-                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
+                       // if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                           // Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
 
 
                     }

@@ -26,9 +26,9 @@ namespace WpfApp4.Tags
 
         }
 
-        public static IEnumerable<XElement> getNodeBySubTag(string tag)
+        public static List<List<string>> getPathsByTag(string tag,bool isSubCat)
         {
-            return Tags.XMLFile.getNodeByTag(tag, true);
+            return Tags.XMLFile.getPathsByTag(tag, true);
         }
 
         public static void DeleteFileTags(string filepath)

@@ -24,7 +24,10 @@ namespace WpfApp4
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
             Tags.XMLFile.init();
-            Tags.TagManagment.getNodeBySubTag("test");
+            Views.HandleViews a = new Views.HandleViews();
+            viewTree=a.createViewSubTag("test");
+            Tags.TagManagment.getPathsByTag("test",true);
+
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             //List<string> d= a.windowsSearch("Test");
             //a.getFileTag();

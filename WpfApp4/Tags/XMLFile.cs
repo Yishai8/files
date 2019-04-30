@@ -66,21 +66,29 @@ namespace WpfApp4.Tags
             return NodeList;
         }
 
-        //public static List<string> getPathsByTag(string tag)
-        //{
-        //    var i = tag.IndexOf('.');
-        //    string mainCat = tag.Substring(0, i); ;
-        //    string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
-
-        //    IEnumerable<XElement> pathToGet = //bring all the tag block from the xml includes subtags
-        //        from el in XMLFile.doc.Descendants("root").Elements("tag")
-        //        where ((string)el.Attribute("name") == tag && (string)el.Attribute("value") == tag)
-        //        select el;
 
 
+        public static List<List<string>> getPathsByTag(string tag, bool getBySubCat)
+        {
+            List<List<string>> pathList = new List<List<string>>();
 
-        //    return pathList;
-        //}
+            IEnumerable<XElement> listOftags = getNodeByTag(tag, getBySubCat);
+            foreach (XElement tagNode in listOftags)
+            {
+                List<string> innerPathList = new List<string>();
+                innerPathList.Add(tagNode.Attribute("name").Value);
+                innerPathList.Add(tagNode.Attribute("value").Value);
+                foreach (XElement pathNode in tagNode.Descendants())
+                {
+                    innerPathList.Add(pathNode.Attribute("value").Value);
+                }
+                pathList.Add(innerPathList);
+
+            }
+
+
+            return pathList;
+        }
 
 
         //tag+subtag exist

@@ -10,8 +10,42 @@ namespace WpfApp4.Tags
 {
     static class XMLFile
     {
-        static readonly string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";  //create xml on desktop
-        static XDocument doc = null;    //load the xml file to object
+        static readonly string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
+        static readonly string viewFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Views.xml";//create xml on desktop
+        static XDocument tagDoc = null;    //load the xml file to object
+        static XDocument viewDoc = null;    //load the xml file to object
+
+        public static void AddViewNode(List<List<string>> list,string tag)
+        {
+            // List<string> parsedTags = parse_tags(tag);
+            XElement viewNode = new XElement("view");
+            viewNode.Add(new XAttribute("name", tag));
+            
+            //add value for it
+          
+            foreach (List<string> l in list)
+            {
+                XElement CategoryNode = new XElement("category");
+                CategoryNode.Add(new XAttribute("value", l[0] + "." + l[1]));
+                for(int i=2;i<l.Count;i++)
+                {
+                    XElement PathNode = new XElement("path");
+                    PathNode.Add(new XAttribute("value", l[i]));
+                    CategoryNode.Add(PathNode);
+                }
+                viewNode.Add(CategoryNode);
+
+
+            }
+
+           
+            //add value for it
+            XElement XMLBody = XMLFile.viewDoc.Element("root");
+            XMLBody.Add(viewNode);
+            XMLFile.viewDoc.Save(XMLFile.viewFilePath);
+        }
+
+
         public static void AddTagNode(string tag, string path)
         {
             List<string> parsedTags = parse_tags(tag);
@@ -52,14 +86,14 @@ namespace WpfApp4.Tags
             if (!getBySubCat)
             {
                 NodeList = //bring all the tag block from the xml includes subtags
-                from el in XMLFile.doc.Descendants("root").Elements("tag")
+                from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
                 where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
                 select el;
             }
             else
             {
                 NodeList = //bring all the tag block from the xml includes subtags
-                from el in XMLFile.doc.Descendants("root").Elements("tag")
+                from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
                 where (string)el.Attribute("value") == subCat
                 select el;
             }
@@ -105,7 +139,7 @@ namespace WpfApp4.Tags
                 pathNode.Add(new XAttribute("value", path));
                 //add value for it
                 el.Add(pathNode);
-                XMLFile.doc.Save(XMLFile.docFilePath);
+                XMLFile.tagDoc.Save(XMLFile.docFilePath);
             }
         }
 
@@ -120,9 +154,9 @@ namespace WpfApp4.Tags
             //add value for it
             tagNode.Add(pathNode);
             //add value for it
-            XElement XMLBody = XMLFile.doc.Element("root");
+            XElement XMLBody = XMLFile.tagDoc.Element("root");
             XMLBody.Add(tagNode);
-            XMLFile.doc.Save(XMLFile.docFilePath);
+            XMLFile.tagDoc.Save(XMLFile.docFilePath);
         }
         //get all categories from tags parsed by delimiter (;)
         public static List<string> parse_tags(string tags)
@@ -137,9 +171,9 @@ namespace WpfApp4.Tags
 
         }
 
-        private static bool CheckFileExsists()  //if the xml exsist
+        private static bool CheckFileExsists(string path)  //if the xml exsist
         {
-            return File.Exists(docFilePath);
+            return File.Exists(path);
         }
 
         private static void CreateTagFile() //create nodes to the xml which creates tag
@@ -147,20 +181,22 @@ namespace WpfApp4.Tags
 
         }
 
-        private static XDocument LoadFile() //load the xml file
+        private static XDocument LoadFile(string filePath) //load the xml file
         {
-            return XDocument.Load(docFilePath);
+            return XDocument.Load(filePath);
         }
         static public void init()
         {
-            if (!CheckFileExsists())
+            if (!CheckFileExsists(docFilePath))
                 new XDocument(
                      new XElement("root")).Save(docFilePath);
-            XMLFile.doc = LoadFile();
+            if (!CheckFileExsists(viewFilePath))
+                new XDocument(
+                     new XElement("root")).Save(viewFilePath);
+            XMLFile.tagDoc = LoadFile(docFilePath);
+            XMLFile.viewDoc = LoadFile(viewFilePath);
 
-            var newDoc = new XDocument(new XElement("root",
-              from p in XMLFile.doc.Element("root").Elements("tag")
-              select p));
+           
 
         }
 

@@ -27,10 +27,15 @@ namespace WpfApp4.Views
         {
             TreeView view = new TreeView();
             var Tagslist = Tags.TagManagment.getPathsByTag(tag,true);
-
+            Tags.XMLFile.AddViewNode(Tagslist, tag);
             Populate(tag, view, null, false);
             foreach(List<string> list  in Tagslist)
             {
+                TreeViewItem _item =
+    (TreeViewItem)view.ItemContainerGenerator.Items[0];
+              
+                Populate(list[0]+"."+list[1], null, _item, false);
+                for (int i = 2; i < list.Count; i++) { }
                 //Populate(li, view, null, false);
             }
             

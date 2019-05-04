@@ -24,8 +24,8 @@ namespace WpfApp4
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
             Tags.XMLFile.init();
-            Views.HandleViews a = new Views.HandleViews();
-            viewTree=a.createViewSubTag("test");
+            
+          
             Tags.TagManagment.getPathsByTag("test",true);
 
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
@@ -74,7 +74,8 @@ namespace WpfApp4
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            Views.HandleViews b = new Views.HandleViews();
+              b.createViewSubTag("test", viewTree);
             foreach (DriveInfo driv in DriveInfo.GetDrives())   //fetch the drives info
             {
                 try

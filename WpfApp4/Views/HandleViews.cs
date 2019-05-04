@@ -23,23 +23,28 @@ namespace WpfApp4.Views
             //SystemView.listOfViews.Add(root);
         }
 
-        public TreeView createViewSubTag(string tag)
+        public void createViewSubTag(string tag,TreeView t)
         {
-            TreeView view = new TreeView();
+           
             var Tagslist = Tags.TagManagment.getPathsByTag(tag,true);
             Tags.XMLFile.AddViewNode(Tagslist, tag);
-            Populate(tag, view, null, false);
+            Populate(tag, t, null, true);
+            int childernIndex = 0;
             foreach(List<string> list  in Tagslist)
             {
+                childernIndex = t.ItemContainerGenerator.Items.Count - 1;
                 TreeViewItem _item =
-    (TreeViewItem)view.ItemContainerGenerator.Items[0];
+    (TreeViewItem)t.ItemContainerGenerator.Items[childernIndex];
               
-                Populate(list[0]+"."+list[1], null, _item, false);
-                for (int i = 2; i < list.Count; i++) { }
-                //Populate(li, view, null, false);
+                Populate(list[0]+"."+list[1], null, _item, true);
+                _item = (TreeViewItem)_item.Items[childernIndex];
+                for (int i = 2; i < list.Count; i++) { 
+                Populate(list[i], null, _item, true);
+                }
+                childernIndex++;
             }
             
-            return view;
+           
         }
 
         private void Populate(string header,TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view

@@ -74,8 +74,7 @@ namespace WpfApp4
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Views.HandleViews b = new Views.HandleViews();
-              b.createViewSubTag("test", viewTree);
+           
             foreach (DriveInfo driv in DriveInfo.GetDrives())   //fetch the drives info
             {
                 try
@@ -209,6 +208,16 @@ namespace WpfApp4
                 Tags.TagManagment.saveFileTags(_item.Tag.ToString(), output);
             else
                 Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
+
+        }
+
+        private void getView(object sender, RoutedEventArgs e) //populate treeview with view
+        {
+            Views.HandleViews b = new Views.HandleViews();
+            string output = viewTxt.Text;
+            b.createViewSubTag(output, viewTree);
+            
+            
 
         }
     }

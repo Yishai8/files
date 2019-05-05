@@ -65,6 +65,13 @@
             </TabItem>
             <TabItem Header="Views">
                 <Grid Background="White">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <Label Width="74" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" >tag for view</Label>
+                        <TextBox Name="viewTxt" Height="34" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Click="getView">Create view</Button>
+                        
+                    </StackPanel>
+                    
                     <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
 
                         <TreeView.Resources>

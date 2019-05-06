@@ -25,21 +25,22 @@ namespace WpfApp4.Views
 
         public void createViewSubTag(string tag,TreeView t)
         {
-            bool isFirst = true;
+           
             var Tagslist = Tags.TagManagment.getPathsByTag(tag,true);
             Tags.XMLFile.AddViewNode(Tagslist, tag);
+            t.Items.Clear();
             Populate(tag, t, null, true);
             TreeViewItem _item =
     (TreeViewItem)t.ItemContainerGenerator.Items[0];
-            int j = 0;
+            int nodeLocation = 0;
             foreach (List<string> list  in Tagslist)
             {
                 Populate(list[0]+"."+list[1], null, _item, true);
-                TreeViewItem _item1 = (TreeViewItem)_item.Items[j];
+                TreeViewItem _item1 = (TreeViewItem)_item.Items[nodeLocation];
                 for (int i = 2; i < list.Count; i++) { 
                 Populate(list[i], null, _item1, true);
                 }
-                j++;
+                nodeLocation++;
             }
             
            

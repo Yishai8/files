@@ -41,8 +41,19 @@ namespace WpfApp4.Tags
            
             //add value for it
             XElement XMLBody = XMLFile.viewDoc.Element("root");
-            XMLBody.Add(viewNode);
-            XMLFile.viewDoc.Save(XMLFile.viewFilePath);
+            IEnumerable<XElement> isViewExist = XMLBody.Elements("view")
+
+.Where(v => (string)v.Attribute("name") == tag);
+            foreach(XElement v in isViewExist)
+            {
+                if (XNode.DeepEquals(v, viewNode))
+                    return;
+            }
+            
+                XMLBody.Add(viewNode);
+                XMLFile.viewDoc.Save(XMLFile.viewFilePath); ;
+            
+           
         }
 
 

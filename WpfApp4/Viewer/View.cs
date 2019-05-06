@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WpfApp4.Views
+namespace Client.Viewer
 {
-     class SystemView
+    class SystemView
     {
         public static ICollection<TreeNode<singleView>> listOfViews { get; set; }
 
@@ -16,19 +16,19 @@ namespace WpfApp4.Views
         {
 
         }
-       
+
     }
 
     internal class singleView
     {
         public string viewBaseCategory { get; set; }
         public bool isMainCategory { get; set; }
-       public singleView(string tag)
-           {
+        public singleView(string tag)
+        {
             this.viewBaseCategory = tag;
         }
 
     }
-    
-      
+
+
 }

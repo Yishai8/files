@@ -11,12 +11,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace WpfApp4.Tags
+namespace Client.Tags
 {
     class Tag //each file is a tag
     {
-        
-        List<string> FileTag { get; set; } //list of tags name and value sport.ski
+
+        List<string> FileTag { get; set; } = new List<string>(); //list of tags name and value sport.ski
         string _path;  //file path
         public Tag(string pathName)
         {
@@ -75,7 +75,7 @@ namespace WpfApp4.Tags
         }
 
 
-        public void saveFileTags(string tags)   //write text to ads
+        public void saveFileTags(string tags)   //write text to ads 
         {
             string streamName = ":fileTags";
 

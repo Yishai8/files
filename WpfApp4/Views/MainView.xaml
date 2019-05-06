@@ -1,0 +1,48 @@
+﻿<Window x:Class="Client.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.Views"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d" FontSize="18"
+        Title="File Pick" Height="550" Width="800">
+    <Grid Background="LemonChiffon">
+        <Grid.ColumnDefinitions>
+            <!--space width from borders-->
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!--space height from borders-->
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <!--myviews page-->
+        <TextBlock Text="Main Page" Grid.Column="1" Grid.Row="1"></TextBlock>
+        <Button x:Name="LoadMyViews" Grid.Row="0" Grid.Column="1">File Tagger</Button>
+        <Button x:Name="LoadMyTags" Grid.Row="0" Grid.Column="2">Load My Tags</Button>
+        <Button x:Name="LoadMyTaggedFiles" Grid.Row="0" Grid.Column="3">File Browser</Button>
+        <!--<Button cal:Message.Attach="[Event PreviewMouseRightButtonDown]= [Action Save]; [Event Click]= [Action Save($eventArgs,$this)]" Grid.Row="3" Grid.Column="3">caliburn event para test</Button>-->
+        <!--<Button Content="Savebutton " Grid.Column="3" Grid.Row="1">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="Wee">
+                        <cal:Parameter Value="{Binding ElementName=LoadMyViews, Path=Content}" />
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>-->
+        <ContentControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="4"
+                        x:Name="ActiveItem"/>
+    </Grid>
+</Window>

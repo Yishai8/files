@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp4.Views
+namespace Client.Viewer
 {
     class HandleViews
     {
 
-       // TreeNode<Views.singleView> root = new TreeNode<Views.singleView>();
+        // TreeNode<Views.singleView> root = new TreeNode<Views.singleView>();
 
         public void getPathsForView(string tag)
         {

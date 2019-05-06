@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -6,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WpfApp4.Tags
+namespace Client.Tags
 {
     //tags management class - centrelized place for all tags related classes
-    static class TagManagment
+    public static class TagManagment
     {
          public static string getFileTag(string filepath)
         {
@@ -20,8 +21,8 @@ namespace WpfApp4.Tags
         public static void saveFileTags(string filepath, string tags)
         {
             Tag newTag = new Tag(filepath);
-            newTag.saveFileTags(tags);
-            Tags.XMLFile.AddTagNode(tags, filepath);
+            newTag.saveFileTags(tags); //write tag to ads
+            Tags.XMLFile.AddTagNode(tags, filepath); //write the tag in the xml
 
 
         }
@@ -32,7 +33,7 @@ namespace WpfApp4.Tags
             newTag.DeleteFileTags();
         }
 
-        public static ObservableCollection<tagsCategory> LoadCategoriesListFromXML()
+        /*public static ObservableCollection<tagsCategory> LoadCategoriesListFromXML()
         {
             ObservableCollection<tagsCategory> _Categories = new ObservableCollection<tagsCategory>(); //collection of categories
             XDocument doc = XDocument.Load(@"Tags/tagCategories.xml");
@@ -43,7 +44,7 @@ namespace WpfApp4.Tags
             select el;
             foreach (XElement el in listOfcategories)  //paths
             {
-                List<string> cat = new List<string>();
+                BindableCollection<string> cat = new BindableCollection<string>();
                 header = (string)el.Attribute("name").Value;
 
                 foreach (XElement child in el.Descendants())
@@ -56,6 +57,6 @@ namespace WpfApp4.Tags
             }
             return _Categories;
 
-        }
+        }*/
     }
 }

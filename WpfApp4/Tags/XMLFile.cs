@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WpfApp4.Tags
+namespace Client.Tags
 {
     static class XMLFile
     {
@@ -17,7 +17,7 @@ namespace WpfApp4.Tags
             List<string> parsedTags = parse_tags(tag);
             foreach (string tagRes in parsedTags)
             {
-                var i = tagRes.IndexOf('.');
+                var i = tagRes.IndexOf(':');
                 string mainCat = tagRes.Substring(0, i); ;
                 string subCat = tagRes.Substring(i + 1, (tagRes.Length) - i - 1);
 
@@ -43,7 +43,7 @@ namespace WpfApp4.Tags
         public static IEnumerable<XElement> getNodeByTag(string tag, bool getBySubCat)
         {
             IEnumerable<XElement> NodeList;
-            var i = tag.IndexOf('.');
+            var i = tag.IndexOf(':');
             string mainCat = tag.Substring(0, i); ;
             string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
             if (!getBySubCat)
@@ -100,7 +100,7 @@ namespace WpfApp4.Tags
 
         //tag+subtag doesn't exist
         private static void addPathToNewNode(string mainCat, string subCat, string path)
-        {
+      {
             XElement tagNode = new XElement("tag");
             tagNode.Add(new XAttribute("name", mainCat));
             tagNode.Add(new XAttribute("value", subCat));
@@ -113,6 +113,7 @@ namespace WpfApp4.Tags
             XMLBody.Add(tagNode);
             XMLFile.doc.Save(XMLFile.docFilePath);
         }
+
         //get all categories from tags parsed by delimiter (;)
         public static List<string> parse_tags(string tags)
         {
@@ -144,13 +145,9 @@ namespace WpfApp4.Tags
         {
             if (!CheckFileExsists())
                 new XDocument(
-                     new XElement("root")).Save(docFilePath);
+                    new XElement("root")).Save(docFilePath);
             XMLFile.doc = LoadFile();
-
-            var newDoc = new XDocument(new XElement("root",
-              from p in XMLFile.doc.Element("root").Elements("tag")
-              select p));
-
+            var newDoc = new XDocument(new XElement("root", from p in XMLFile.doc.Element("root").Elements("tag") select p));
         }
 
     }

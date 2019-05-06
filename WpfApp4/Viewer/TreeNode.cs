@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp4.Views
+namespace Client.Viewer
 {
     public class TreeNode<T> : IEnumerable<TreeNode<T>>
     {
-       
+
 
         public T Data { get; set; }
         public TreeNode<T> Parent { get; set; }

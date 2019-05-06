@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -6,18 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WpfApp4.Tags
+namespace Client.Tags
 {
     public class tagsCategory
     {        
-        List<string> categoryOptions; //single category
-        public tagsCategory(string name, List<string> options)
-        {
-            this.categoryName = name;
-            this.categoryOptions = options;
-        }
-        private string categoryName { get; set; }
-        }
+        public BindableCollection<string> CategoryOptions; //single category
+        public string CategoryName { get; set; }
+        public bool isChecked;
+        
 
+        public tagsCategory(string name, BindableCollection<string> options)
+        {
+            this.CategoryName = name;
+            this.CategoryOptions = options;
+        }    
     }
+}
 

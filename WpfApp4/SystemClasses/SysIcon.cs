@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WpfApp4
+namespace Client
 {
     class SysIcon : IconMethods
     {

@@ -180,9 +180,13 @@ namespace Client.ViewModels //view model for the main directory view
             {
                 _selectedCategory = value;
                 NotifyOfPropertyChange(() => _selectedCategory); //updates the value in the code to match the view
-                this.Options = _selectedCategory.CategoryOptions;
-                NotifyOfPropertyChange(() => Options);
             }
+        }
+
+        public void OptionsSet()
+        {
+            this.Options = _selectedCategory.CategoryOptions;
+            NotifyOfPropertyChange(() => Options);
         }
 
         public string SelectedOptions

@@ -51,6 +51,7 @@ namespace Client.ViewModels
             List<DirModel> children = DirStructureModel.GetDirContent(this.Path); //get the directory sub folders/files by its path
             this.Children = new BindableCollection<MyViewModel>(
                 children.Select(content => new MyViewModel(content.FullPath, content.Type)));  //create sub folders 
+                NotifyOfPropertyChange(() => Children);
             }
 
         }

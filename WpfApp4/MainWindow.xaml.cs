@@ -208,11 +208,20 @@ namespace WpfApp4
     
             try { 
             TreeViewItem selected = (TreeViewItem)CustomviewTree.SelectedItem;
+
             if (selected.Parent != null && selected.Parent.GetType().Name!= "TreeView")
             {
                 var par = (TreeViewItem)selected.Parent;
+                    var itemIndex = par.Items.IndexOf(selected);
                 par.Items.Remove(selected);
+                if(par.Items.Count>0)
+                    {
+                        if (itemIndex == 0)
+                            ((TreeViewItem)par.Items[0]).IsSelected = true;
+                        else
+                            ((TreeViewItem)par.Items[itemIndex]).IsSelected = true;
 
+                    }
 
 
             }
@@ -221,6 +230,7 @@ namespace WpfApp4
                 
                 CustomviewTree.Items.Remove(CustomviewTree.SelectedItem);
             }
+                
             }
             catch (NullReferenceException ex)
             {

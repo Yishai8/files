@@ -121,6 +121,7 @@
                                 <EventSetter Event="TreeViewItem.Drop" Handler="CustomviewTree_Drop" />
                                 <EventSetter Event="TreeViewItem.PreviewMouseLeftButtonDown" Handler="CustomviewTree_PreviewMouseLeftButtonDown" />
                             </Style>
+                            
                         </TreeView.ItemContainerStyle>
                     </TreeView>
 

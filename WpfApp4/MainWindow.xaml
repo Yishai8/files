@@ -112,7 +112,7 @@
 
                     </StackPanel>
 
-                    <TreeView x:Name="CustomviewTree" Width="Auto" Background="#FFFFFFFF" AllowDrop="True" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
+                    <TreeView x:Name="CustomviewTree" Width="Auto" Background="#FFFFFFFF" AllowDrop="True" Drop="CustomTree_Drop" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
 
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}" >

@@ -146,6 +146,8 @@ namespace WpfApp4
 
         private void CustomviewTree_Drop(object sender, DragEventArgs e)
         {
+            if(e.OriginalSource.GetType().Name != "Grid")
+            { 
             TreeViewItem source = e.Source as TreeViewItem;
            
             //treeviewitem moving
@@ -156,7 +158,12 @@ namespace WpfApp4
                 {
                     (dest.Parent as TreeViewItem).Items.Remove(dest);
                 }
-                source.Items.Remove(dest);
+
+                    else if ((dest.Parent as TreeView) != null)
+                    {
+                        (dest.Parent as TreeView).Items.Remove(dest);
+                    }
+                    source.Items.Remove(dest);
                 source.Items.Insert(0, dest);
                 e.Handled = true;
                 _IsDragging = false;
@@ -169,7 +176,51 @@ namespace WpfApp4
                 TreeViewItem newEntry = new TreeViewItem();
                 newEntry.Header = f;
                // source.Items.Add(newEntry);
-                Populate(f, f, null, source, false);
+                Populate(Path.GetFileName(f),f, null, source, false);
+            }
+            }
+
+        }
+
+        private void CustomTree_Drop(object sender, DragEventArgs e)
+        {
+            if (e.OriginalSource.GetType().Name == "Grid")
+            {
+                TreeView source = e.Source as TreeView;
+                if (_IsDragging)
+                {
+                    TreeView from = e.Source as TreeView;
+                    TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
+                    if ((dest.Parent as TreeViewItem) != null)
+                    {
+                        (dest.Parent as TreeViewItem).Items.Remove(dest);
+                    }
+
+                    else if ((dest.Parent as TreeView) != null)
+                    {
+                        (dest.Parent as TreeView).Items.Remove(dest);
+                    }
+                    from.Items.Remove(dest);
+                    from.Items.Insert(0, dest);
+                    e.Handled = true;
+                    _IsDragging = false;
+                    return;
+                }
+
+                //files drop
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string f in files)
+                {
+                    TreeViewItem newEntry = new TreeViewItem();
+                    newEntry.Header = f;
+                    // source.Items.Add(newEntry);
+                    var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
+                    if (!isFile)
+                        Populate(Path.GetFileName(f), f, source, null, false);
+                    else
+                        Populate(Path.GetFileName(f), f, source, null, true);
+
+                }
             }
 
         }

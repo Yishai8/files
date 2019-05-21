@@ -23,6 +23,11 @@ namespace WpfApp4.Views
             //SystemView.listOfViews.Add(root);
         }
 
+        public void saveCustomView(TreeView tree)
+        {
+            Tags.XMLFile.SaveView(tree);
+        }
+
         public void createViewSubTag(string tag,TreeView t)
         {
            

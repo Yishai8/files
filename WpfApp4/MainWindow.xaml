@@ -105,10 +105,11 @@
             <TabItem Header="Custom view" >
                 <Grid Background="White">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree">Create new view</Button>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode">Add node</Button>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode">Add root node</Button>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="removeNode">Remove</Button>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode" Content="Add node"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode" Content="Add root node"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="removeNode" Content="Remove"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="saveView" Content="Save"/>
 
                     </StackPanel>
 

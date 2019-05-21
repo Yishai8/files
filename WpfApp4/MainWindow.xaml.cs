@@ -425,5 +425,15 @@ namespace WpfApp4
 
         }
 
+        private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
+        {
+            Views.HandleViews b = new Views.HandleViews();
+            
+            b.saveCustomView(CustomviewTree);
+
+
+
+        }
+
     }
 }

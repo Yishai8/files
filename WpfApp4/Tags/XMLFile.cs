@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Xml.Linq;
 
 namespace WpfApp4.Tags
@@ -14,6 +15,48 @@ namespace WpfApp4.Tags
         static readonly string viewFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Views.xml";//create xml on desktop
         static XDocument tagDoc = null;    //load the xml file to object
         static XDocument viewDoc = null;    //load the xml file to object
+
+
+        
+             public static void SaveView(TreeView tree)
+        {
+            XElement CustomViewNode = new XElement("CustomView");
+            CustomViewNode.Add(new XAttribute("name", tag));
+
+            //add value for it
+
+            foreach (List<string> l in list)
+            {
+                XElement CategoryNode = new XElement("category");
+                CategoryNode.Add(new XAttribute("value", l[0] + "." + l[1]));
+                for (int i = 2; i < l.Count; i++)
+                {
+                    XElement PathNode = new XElement("path");
+                    PathNode.Add(new XAttribute("value", l[i]));
+                    CategoryNode.Add(PathNode);
+                }
+                viewNode.Add(CategoryNode);
+
+
+            }
+
+
+            //add value for it
+            XElement XMLBody = XMLFile.viewDoc.Element("root");
+            IEnumerable<XElement> isViewExist = XMLBody.Elements("view")
+
+.Where(v => (string)v.Attribute("name") == tag);
+            foreach (XElement v in isViewExist)
+            {
+                if (XNode.DeepEquals(v, viewNode))
+                    return;
+            }
+
+            XMLBody.Add(viewNode);
+            XMLFile.viewDoc.Save(XMLFile.viewFilePath); ;
+
+
+        }
 
         public static void AddViewNode(List<List<string>> list,string tag)
         {

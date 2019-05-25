@@ -25,7 +25,8 @@ namespace WpfApp4.Views
 
         public void saveCustomView(TreeView tree)
         {
-            Tags.XMLFile.SaveView(tree);
+            ItemCollection items = tree.Items;
+            Tags.XMLFile.SaveView(items);
         }
 
         public void createViewSubTag(string tag,TreeView t)

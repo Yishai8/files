@@ -18,45 +18,30 @@ namespace WpfApp4.Tags
 
 
         
-             public static void SaveView(TreeView tree)
+             public static void SaveView(ItemCollection treeItems)
         {
             XElement CustomViewNode = new XElement("CustomView");
-            CustomViewNode.Add(new XAttribute("name", tag));
+            CustomViewNode.Add(new XAttribute("name", "x"));
 
             //add value for it
 
-            foreach (List<string> l in list)
+            for (int i = 0; i < treeItems.Count; i++)
             {
-                XElement CategoryNode = new XElement("category");
-                CategoryNode.Add(new XAttribute("value", l[0] + "." + l[1]));
-                for (int i = 2; i < l.Count; i++)
+                TreeViewItem node = (TreeViewItem)treeItems[i];
+               
+                // add other node properties to serialize here  
+                if (node.Items.Count > 0)
                 {
-                    XElement PathNode = new XElement("path");
-                    PathNode.Add(new XAttribute("value", l[i]));
-                    CategoryNode.Add(PathNode);
+                    XElement CategoryNode = new XElement("category");
+                    ItemCollection items = node.Items;
+                    SaveView(items);
                 }
-                viewNode.Add(CategoryNode);
-
-
+                
             }
-
-
-            //add value for it
-            XElement XMLBody = XMLFile.viewDoc.Element("root");
-            IEnumerable<XElement> isViewExist = XMLBody.Elements("view")
-
-.Where(v => (string)v.Attribute("name") == tag);
-            foreach (XElement v in isViewExist)
-            {
-                if (XNode.DeepEquals(v, viewNode))
-                    return;
-            }
-
-            XMLBody.Add(viewNode);
-            XMLFile.viewDoc.Save(XMLFile.viewFilePath); ;
-
 
         }
+
+
 
         public static void AddViewNode(List<List<string>> list,string tag)
         {

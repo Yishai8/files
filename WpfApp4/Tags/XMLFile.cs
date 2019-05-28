@@ -18,27 +18,84 @@ namespace WpfApp4.Tags
 
 
         
-             public static void SaveView(ItemCollection treeItems)
+             public static string SaveView(ItemCollection treeItems,string viewName)
         {
-            XElement CustomViewNode = new XElement("CustomView");
-            CustomViewNode.Add(new XAttribute("name", "x"));
+            XElement XMLElements = XMLFile.viewDoc.Element("root");
+            IEnumerable<XElement> isViewExist = XMLElements.Elements("CustomView")
 
+.Where(v => (string)v.Attribute("name") == viewName);
+            if (isViewExist.Any())
+                return "name already exists";
+            XElement CustomViewNode = new XElement("CustomView");
+            CustomViewNode.Add(new XAttribute("name", viewName));
+            
             //add value for it
 
             for (int i = 0; i < treeItems.Count; i++)
             {
                 TreeViewItem node = (TreeViewItem)treeItems[i];
+                XElement folderNode = new XElement("folder");
+                folderNode.Add(new XAttribute("name", node.Header));
+                processTree(node, folderNode);
+                CustomViewNode.Add(folderNode);
                
-                // add other node properties to serialize here  
-                if (node.Items.Count > 0)
-                {
-                    XElement CategoryNode = new XElement("category");
-                    ItemCollection items = node.Items;
-                    SaveView(items);
-                }
                 
             }
+            XElement XMLBody = XMLFile.viewDoc.Element("root");
+            XMLBody.Add(CustomViewNode);
+            XMLFile.viewDoc.Save(XMLFile.viewFilePath);
+            return "Success";
 
+        }
+
+        public static XElement processTree(TreeViewItem treeItems,XElement parent)
+        {
+            XElement folder=null; 
+          
+            List<TreeViewItem> children = GetChildren(treeItems);
+            for (int i = 0; i < children.Count; i++)
+            {
+                folder = new XElement("folder");
+                TreeViewItem node = children[i];
+                if(node.Header!=null)
+                { 
+                folder.Add(new XAttribute("name", node.Header));
+                    // add other node properties to serialize here  
+                    if (node.Items.Count > 0)
+                    {
+
+
+                        parent.Add(processTree(node, folder));
+                    }
+                    else
+                        parent.Add(folder);
+                }
+
+            }
+            return parent;
+
+        }
+
+        static List<TreeViewItem> GetChildren(TreeViewItem parent)
+        {
+            List<TreeViewItem> children = new List<TreeViewItem>();
+
+            if (parent != null)
+            {
+                foreach (var item in parent.Items)
+                {
+                    TreeViewItem child = item as TreeViewItem;
+
+                    if (child == null)
+                    {
+                        child = parent.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
+                    }
+
+                    children.Add(child);
+                }
+            }
+
+            return children;
         }
 
 
@@ -79,7 +136,7 @@ namespace WpfApp4.Tags
             }
             
                 XMLBody.Add(viewNode);
-                XMLFile.viewDoc.Save(XMLFile.viewFilePath); ;
+                XMLFile.viewDoc.Save(XMLFile.viewFilePath);
             
            
         }

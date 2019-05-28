@@ -427,11 +427,15 @@ namespace WpfApp4
 
         private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
         {
+            if(CustomviewTree.Items.Count>0)
+            { 
             Views.HandleViews b = new Views.HandleViews();
-            
-            b.saveCustomView(CustomviewTree);
-
-
+            Controls.inputMessage inputDialog = new Controls.inputMessage("Please enter view name", "");
+            if (inputDialog.ShowDialog() == true && inputDialog.Answer!=string.Empty)
+            { 
+            string txt=b.saveCustomView(CustomviewTree, inputDialog.Answer);
+            }
+            }
 
         }
 

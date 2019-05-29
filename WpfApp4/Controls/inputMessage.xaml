@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp4.Controls"
         mc:Ignorable="d"
-        Title="inputMessage" Height="450" Width="800">
+        Title="inputMessage" Height="150" Width="400">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

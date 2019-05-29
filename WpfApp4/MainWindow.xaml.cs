@@ -297,6 +297,7 @@ namespace WpfApp4
         {
 
             CustomviewTree.Items.Clear();
+            viewName.Text = string.Empty;
 
         }
         void _driitem_Expanded(object sender, RoutedEventArgs e)
@@ -431,10 +432,22 @@ namespace WpfApp4
             { 
             Views.HandleViews b = new Views.HandleViews();
             Controls.inputMessage inputDialog = new Controls.inputMessage("Please enter view name", "");
+                inputDialog.Title = "Save Custom View";
             if (inputDialog.ShowDialog() == true && inputDialog.Answer!=string.Empty)
-            { 
-            string txt=b.saveCustomView(CustomviewTree, inputDialog.Answer);
-            }
+            {
+                   
+            string msg=b.saveCustomView(CustomviewTree, inputDialog.Answer);
+                    if(msg=="success")
+                    {
+                        MessageBox.Show("View saved");
+                        viewName.Text = inputDialog.Answer;
+
+                    }
+                        
+                    else
+                        MessageBox.Show("View wasn't saved as view name already exists");
+
+                }
             }
 
         }

@@ -147,12 +147,17 @@ namespace WpfApp4
         private void CustomviewTree_Drop(object sender, DragEventArgs e)
         {
             if(e.OriginalSource.GetType().Name != "Grid")
-            { 
-            TreeViewItem source = e.Source as TreeViewItem;
-           
-            //treeviewitem moving
-            if (_IsDragging)
             {
+                FileAttributes attr = FileAttributes.Directory; //default
+            TreeViewItem source = e.Source as TreeViewItem;
+                 attr = File.GetAttributes(source.Tag.ToString());
+
+                //treeviewitem moving
+                if (_IsDragging)
+            {
+                    //destination is not a folder
+                    if (!attr.HasFlag(FileAttributes.Directory))
+                        return;
                 TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
                 if ((dest.Parent as TreeViewItem)!=null)
                 {
@@ -175,8 +180,12 @@ namespace WpfApp4
             {
                 TreeViewItem newEntry = new TreeViewItem();
                 newEntry.Header = f;
-               // source.Items.Add(newEntry);
-                Populate(Path.GetFileName(f),f, null, source, false);
+                    // source.Items.Add(newEntry);
+                     attr = File.GetAttributes(f);
+
+                    if (attr.HasFlag(FileAttributes.Directory))
+                      
+                    Populate(Path.GetFileName(f),f, null, source, false);
             }
             }
 
@@ -260,7 +269,15 @@ namespace WpfApp4
     
             try { 
             TreeViewItem selected = (TreeViewItem)CustomviewTree.SelectedItem;
+            if(viewName.Text!=string.Empty && selected.Parent.GetType().Name == "TreeView")
+                {
 
+                    string messageBoxText = "Are you sure you want to delete view "+viewName.Text +"?";
+                    MessageBoxButton button = MessageBoxButton.YesNo;
+                    MessageBoxImage icon = MessageBoxImage.Warning;
+                    if (MessageBox.Show(messageBoxText, null, button, icon) == MessageBoxResult.No)
+                        return;
+                }
             if (selected.Parent != null && selected.Parent.GetType().Name!= "TreeView")
             {
                 var par = (TreeViewItem)selected.Parent;

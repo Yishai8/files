@@ -23,10 +23,30 @@ namespace WpfApp4.Views
             //SystemView.listOfViews.Add(root);
         }
 
-        public string saveCustomView(TreeView tree,string viewName)
+
+        public string saveCustomView(TreeView tree,string viewName,bool replace )
         {
-            ItemCollection items = tree.Items;
-            return Tags.XMLFile.SaveView(items, viewName);
+            ItemCollection items = null;
+            if (!replace)
+                items = tree.Items;
+            else
+            {
+                TreeViewItem item = (TreeViewItem)tree.Items[0];
+                items = item.Items; //without the root item=tree name
+            }
+             
+            return Tags.XMLFile.SaveView(items, viewName,replace);
+        }
+
+        public List<string> getCustomViewsList()
+        {  
+            return Tags.XMLFile.getViewList();
+        }
+
+        public void LoadCustomView(TreeView t,string ViewName)
+        {
+            t.Items.Clear();
+            Tags.XMLFile.BuildTree(t, ViewName);
         }
 
         public void createViewSubTag(string tag,TreeView t)
@@ -63,7 +83,12 @@ namespace WpfApp4.Views
 
                 _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
                 if (!isfile)
+                {
                     _driitem.Items.Add(new TreeViewItem());
+
+                    _driitem.IsExpanded=true;
+                   
+                }
 
                 if (_root != null)
                 { _root.Items.Add(_driitem); }

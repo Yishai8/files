@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp4.Controls
+namespace WpfApp4.Controls.InputDialog
 {
     /// <summary>
     /// Interaction logic for inputMessage.xaml

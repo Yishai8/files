@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace WpfApp4.Controls
+namespace WpfApp4.Controls.InputDialog
 {
     public partial class inputMessage : Window
     {

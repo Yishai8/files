@@ -212,7 +212,8 @@ namespace WpfApp4
                 foreach (string f in files)
                 {
                     TreeViewItem newEntry = new TreeViewItem();
-                    newEntry.Header = f;
+                    newEntry.Header = Path.GetFileName(f);
+                    newEntry.Tag = f;
                     // source.Items.Add(newEntry);
                     var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
                     if (!isFile)
@@ -428,15 +429,25 @@ namespace WpfApp4
 
         private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
         {
+            Views.HandleViews b = new Views.HandleViews();
+            //save existing view
+            if (viewName.Text!=string.Empty)
+            {
+                b.saveCustomView(CustomviewTree, viewName.Text, true);
+                return;
+            }
+
             if(CustomviewTree.Items.Count>0)
             { 
-            Views.HandleViews b = new Views.HandleViews();
-            Controls.inputMessage inputDialog = new Controls.inputMessage("Please enter view name", "");
+           
+            Controls.InputDialog.inputMessage inputDialog = new Controls.InputDialog.inputMessage("Please enter view name", "");
                 inputDialog.Title = "Save Custom View";
+                if (viewName.Text != string.Empty)
+                    inputDialog.txtAnswer.Text = viewName.Text;
             if (inputDialog.ShowDialog() == true && inputDialog.Answer!=string.Empty)
             {
                    
-            string msg=b.saveCustomView(CustomviewTree, inputDialog.Answer);
+            string msg=b.saveCustomView(CustomviewTree, inputDialog.Answer,false);
                     if(msg=="success")
                     {
                         MessageBox.Show("View saved");
@@ -451,6 +462,24 @@ namespace WpfApp4
             }
 
         }
+
+        private void LoadView(object sender, RoutedEventArgs e) //populate treeview with view
+        {
+            Views.HandleViews b = new Views.HandleViews();
+            List<string> NamesList = b.getCustomViewsList();
+            Controls.List.ListMessage inputDialog = new Controls.List.ListMessage(NamesList);
+
+            //b.LoadCustomView
+
+            //string msg = b.LoadCustomView(CustomviewTree, inputDialog.Answer);
+            if (inputDialog.ShowDialog() == true)
+            {
+                b.LoadCustomView(CustomviewTree, inputDialog.lblQuestion.SelectedItem.ToString());
+                viewName.Text = inputDialog.lblQuestion.SelectedItem.ToString();
+            }
+
+
+            }
 
     }
 }

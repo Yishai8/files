@@ -55,16 +55,16 @@ namespace WpfApp4.Views
             var Tagslist = Tags.TagManagment.getPathsByTag(tag,true);
             Tags.XMLFile.AddViewNode(Tagslist, tag);
             t.Items.Clear();
-            Populate(tag, t, null, true);
+            Populate(tag, null, t, null, true);
             TreeViewItem _item =
     (TreeViewItem)t.ItemContainerGenerator.Items[0];
             int nodeLocation = 0;
             foreach (List<string> list  in Tagslist)
             {
-                Populate(list[0]+"."+list[1], null, _item, true);
+                Populate(list[0]+"."+list[1],null, null, _item, true);
                 TreeViewItem _item1 = (TreeViewItem)_item.Items[nodeLocation];
                 for (int i = 2; i < list.Count; i++) { 
-                Populate(list[i], null, _item1, true);
+                Populate(list[i], list[i], null, _item1, true);
                 }
                 nodeLocation++;
             }
@@ -72,15 +72,15 @@ namespace WpfApp4.Views
            
         }
 
-        private void Populate(string header,TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
+        private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
             try
             {
                 //Icon ic = SysIcon.OfPath(tag);
                 TreeViewItem _driitem = new TreeViewItem();
-                //_driitem.Tag = tag;
+                _driitem.Tag = tag;
                 _driitem.Header = header;
-
+                
                 _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
                 if (!isfile)
                 {

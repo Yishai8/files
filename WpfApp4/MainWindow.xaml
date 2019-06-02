@@ -77,6 +77,8 @@
                         <TreeView.Resources>
 
                             <Style TargetType="{x:Type TreeViewItem}">
+                                <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
+
                                 <Setter Property="HeaderTemplate">
                                     <Setter.Value>
                                         <DataTemplate>
@@ -119,6 +121,7 @@
 
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}" >
+                                <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
                                 <Setter Property="TreeViewItem.AllowDrop" Value="True"/>
                                 <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="CustomviewTree_PreviewMouseMove" />
                                 <EventSetter Event="TreeViewItem.Drop" Handler="CustomviewTree_Drop" />

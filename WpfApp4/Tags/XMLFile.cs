@@ -36,7 +36,9 @@ namespace WpfApp4.Tags
             {
                 XElement itemToAdd = null;
                 TreeViewItem node = (TreeViewItem)treeItems[i];
-                FileAttributes attr = File.GetAttributes(node.Tag.ToString());
+                FileAttributes attr = FileAttributes.Directory; //default
+                if (node.Tag.ToString() != "Custom Folder") //item dropped on is not custom folder
+                 attr = File.GetAttributes(node.Tag.ToString());
 
                 if (attr.HasFlag(FileAttributes.Directory))
                 { 
@@ -72,6 +74,21 @@ namespace WpfApp4.Tags
             XMLFile.viewDoc.Save(XMLFile.viewFilePath);
             return "success";
 
+        }
+
+        public static void deleteView(string viewName)
+        {
+            XElement XMLElements = XMLFile.viewDoc.Element("root");
+            IEnumerable<XElement> isViewExist = XMLElements.Elements("CustomView")
+
+.Where(v => (string)v.Attribute("name") == viewName);
+            foreach (XElement el in isViewExist)
+            {
+                el.Remove();
+            }
+
+          
+            XMLFile.viewDoc.Save(XMLFile.viewFilePath);
         }
 
         public static bool checkDifferenceInNodes(XElement newElement, IEnumerable<XElement> isViewExist)
@@ -156,7 +173,9 @@ namespace WpfApp4.Tags
 
                 if (node.Header != null)
                 {
-                    FileAttributes attr = File.GetAttributes(node.Tag.ToString());
+                    FileAttributes attr = FileAttributes.Directory; //default
+                    if (node.Tag.ToString() != "Custom Folder") //item dropped on is not custom folder
+                        attr = File.GetAttributes(node.Tag.ToString());
 
                     if (attr.HasFlag(FileAttributes.Directory))
                         itemToAdd = new XElement("folder");

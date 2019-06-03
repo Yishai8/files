@@ -43,8 +43,9 @@ namespace WpfApp4
             //tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
-        private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
+        private void ThumbnailsOpenFile(object sender, RoutedEventArgs e)
         {
+             
             if (sender is ListView)
             {
                 ListView _item = (ListView)sender;
@@ -56,14 +57,20 @@ namespace WpfApp4
             }
             else
             {
+
                
                 TreeViewItem _item = (TreeViewItem)sender;
-                if (_item.Tag != null)
+                while (!(_item.Parent.GetType().Name is "TreeView")) //get to treeview parent
+                    _item = (TreeViewItem)_item.Parent;
+                _item = (TreeViewItem)((TreeView)_item.Parent).SelectedItem;
+                if (_item.Tag != null && _item.Tag.ToString()!="Custom Folder")
                 {
                     var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
                     if (isFile)
                         System.Diagnostics.Process.Start(_item.Tag.ToString());
                 }
+                e.Handled = true;
+                sender = null;
             }
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
@@ -165,6 +172,7 @@ namespace WpfApp4
             {
                 FileAttributes attr = FileAttributes.Directory; //default
                 TreeViewItem source = e.Source as TreeViewItem;
+                if(source.Tag.ToString()!="Custom Folder") //item dropped on is not custom folder
                 attr = File.GetAttributes(source.Tag.ToString());
 
                 //treeviewitem moving
@@ -198,9 +206,15 @@ namespace WpfApp4
                     // source.Items.Add(newEntry);
                     attr = File.GetAttributes(f);
 
-                    if (attr.HasFlag(FileAttributes.Directory))
+                    if (attr.HasFlag(FileAttributes.Directory) || source.Tag.ToString() == "Custom Folder")
+                    {
+                        if(attr.HasFlag(FileAttributes.Directory))
+                        Populate(Path.GetFileName(f), f, null, source, false); //dropped file is a folder
+                        else
+                            Populate(Path.GetFileName(f), f, null, source, true); //dropped file is a file
 
-                        Populate(Path.GetFileName(f), f, null, source, false);
+                    }
+
                 }
             }
 
@@ -251,18 +265,40 @@ namespace WpfApp4
         }
         private void addNode(object sender, RoutedEventArgs e)
         {
-            //first root for empty tree
-            if (CustomviewTree.Items.Count < 1)
+
+            TreeViewItem newRoot = new TreeViewItem();
+            Controls.InputDialog.inputMessage inputDialog = new Controls.InputDialog.inputMessage("Please enter folder name", "");
+            inputDialog.Title = "Add New Folder";
+            if (inputDialog.ShowDialog() == true)
             {
-                TreeViewItem a = new TreeViewItem();
-                a.Header = "aa";
-                CustomviewTree.Items.Add(a);
-                return;
-            }
-            TreeViewItem aa = new TreeViewItem();
-            aa.Header = "ab";
-            TreeViewItem d = (TreeViewItem)CustomviewTree.SelectedItem;
-            if (d != null) d.Items.Add(aa);
+                newRoot.Header = inputDialog.txtAnswer.Text;
+                newRoot.Tag = "Custom Folder";
+                //first root for empty tree
+                if (CustomviewTree.Items.Count < 1)
+                {
+                   
+                    
+                        //TreeViewItem topParent = (TreeViewItem)CustomviewTree.Items[0];
+                       
+                        CustomviewTree.Items.Add(newRoot);
+                    return;
+
+
+                    }
+                else
+                {
+                    TreeViewItem DestToAdd = (TreeViewItem)CustomviewTree.SelectedItem;
+                    if (DestToAdd != null) DestToAdd.Items.Add(newRoot);
+                    else
+                        MessageBox.Show("No Item was selected - please selet a item to add the folder to");
+                }
+
+
+                }
+            
+        
+            
+         
 
 
 
@@ -270,9 +306,32 @@ namespace WpfApp4
 
         private void addRootNode(object sender, RoutedEventArgs e)
         {
-            TreeViewItem aa = new TreeViewItem();
-            aa.Header = "ac";
-            CustomviewTree.Items.Add(aa);
+            TreeViewItem newRoot = new TreeViewItem();
+            Controls.InputDialog.inputMessage inputDialog = new Controls.InputDialog.inputMessage("Please enter folder name", "");
+            inputDialog.Title = "Add New Folder";
+            if (inputDialog.ShowDialog() == true && inputDialog.Answer != string.Empty)
+            {
+
+            
+                if (viewName.Text != string.Empty)
+            {
+                    TreeViewItem topParent = (TreeViewItem)CustomviewTree.Items[0];
+                    newRoot.Header = inputDialog.txtAnswer.Text;
+                    newRoot.Tag = "Custom Folder";
+                    topParent.Items.Add(newRoot);
+                    
+            }
+                else
+                {
+                    newRoot.Header = inputDialog.txtAnswer.Text;
+                    newRoot.Tag = "Custom Folder";
+                    CustomviewTree.Items.Add(newRoot);
+                }
+                //inputDialog.txtAnswer.Text = viewName.Text;
+           
+                
+            }
+
             return;
 
 
@@ -293,6 +352,16 @@ namespace WpfApp4
                     MessageBoxImage icon = MessageBoxImage.Warning;
                     if (MessageBox.Show(messageBoxText, null, button, icon) == MessageBoxResult.No)
                         return;
+                    else
+                    {
+                        Views.HandleViews b = new Views.HandleViews();
+                        b.deleteCustomView(viewName.Text);
+                        MessageBox.Show("View deleted");
+                        CustomviewTree.Items.Clear();
+                        return;
+
+                    }
+
                 }
                 if (selected.Parent != null && selected.Parent.GetType().Name != "TreeView")
                 {
@@ -326,6 +395,7 @@ namespace WpfApp4
 
 
         }
+
 
         private void createNewTree(object sender, RoutedEventArgs e)
         {

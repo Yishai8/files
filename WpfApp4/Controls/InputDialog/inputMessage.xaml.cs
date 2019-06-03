@@ -14,7 +14,10 @@ namespace WpfApp4.Controls.InputDialog
 
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            if (this.txtAnswer.Text != string.Empty)
+                this.DialogResult = true;
+            else
+                lbErr.Content = "Name can't be Empty";
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

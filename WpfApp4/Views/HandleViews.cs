@@ -38,6 +38,12 @@ namespace WpfApp4.Views
             return Tags.XMLFile.SaveView(items, viewName,replace);
         }
 
+        public void deleteCustomView(string viewName)
+        {
+
+             Tags.XMLFile.deleteView(viewName);
+        }
+
         public List<string> getCustomViewsList()
         {  
             return Tags.XMLFile.getViewList();

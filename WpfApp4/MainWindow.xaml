@@ -74,16 +74,16 @@
                     
                     <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
 
-                        <TreeView.Resources>
 
+                        <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
-                                <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
+                            <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
 
-                                <Setter Property="HeaderTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Name="img"  Width="20" Height="20" Stretch="Fill" 
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"  Width="20" Height="20" Stretch="Fill" 
                                        Source="{Binding
                                        RelativeSource={RelativeSource 
                                        Mode=FindAncestor, 
@@ -91,14 +91,14 @@
                                        Path=Tag, 
                                        Converter={x:Static local:HeaderToImageConverter.Instance}}"       
                                        />
-                                                <TextBlock Text="{Binding}" Margin="5,0" />
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
 
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </TreeView.Resources>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                            </TreeView.ItemContainerStyle>
                     </TreeView>
 
                 </Grid>

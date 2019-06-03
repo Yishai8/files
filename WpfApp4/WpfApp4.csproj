@@ -95,6 +95,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\List\ListDialog.cs" />
+    <Compile Include="Controls\List\ListDialog.xaml.cs">
+      <DependentUpon>ListDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InputDialog\inputMessage.xaml.cs">
+      <DependentUpon>inputMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SystemClasses\NativeMethods.cs" />
     <Compile Include="SystemClasses\SysIcon.cs" />
     <Compile Include="Tags\Tag.cs" />
@@ -104,6 +111,14 @@
     <Compile Include="Views\HandleViews.cs" />
     <Compile Include="Views\TreeNode.cs" />
     <Compile Include="Views\View.cs" />
+    <Page Include="Controls\List\ListDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\InputDialog\inputMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -26,6 +26,11 @@ namespace WpfApp4.Tags
 
         }
 
+        public static List<List<string>> getPathsByTag(string tag,bool isSubCat)
+        {
+            return Tags.XMLFile.getPathsByTag(tag, true);
+        }
+
         public static void DeleteFileTags(string filepath)
         {
             Tag newTag = new Tag(filepath);

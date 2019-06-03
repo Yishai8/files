@@ -15,6 +15,8 @@ namespace WpfApp4
     /// </summary>
     public partial class MainWindow : Window
     {
+        System.Windows.Point _startPoint;
+        bool _IsDragging = false;
 
         public MainWindow()
         {
@@ -24,6 +26,10 @@ namespace WpfApp4
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
             Tags.XMLFile.init();
+
+
+            Tags.TagManagment.getPathsByTag("test", true);
+
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             //List<string> d= a.windowsSearch("Test");
             //a.getFileTag();
@@ -34,16 +40,31 @@ namespace WpfApp4
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
         {
             TreeView tv = sender as TreeView;
-            tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+            //tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
         private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
         {
-            ListView _item = (ListView)sender;
-            ListViewItem selected =(ListViewItem) _item.SelectedItem;
-            var isFile = new Uri(selected.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
-            if(isFile)
-                System.Diagnostics.Process.Start(selected.Tag.ToString());
+            if (sender is ListView)
+            {
+                ListView _item = (ListView)sender;
+                ListViewItem selected = (ListViewItem)_item.SelectedItem;
+                var isFile = new Uri(selected.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
+                if (isFile)
+                    System.Diagnostics.Process.Start(selected.Tag.ToString());
+                return;
+            }
+            else
+            {
+               
+                TreeViewItem _item = (TreeViewItem)sender;
+                if (_item.Tag != null)
+                {
+                    var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
+                    if (isFile)
+                        System.Diagnostics.Process.Start(_item.Tag.ToString());
+                }
+            }
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
@@ -90,7 +111,229 @@ namespace WpfApp4
             }
         }
 
+        private void CustomviewTree_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && !_IsDragging)
 
+            {
+
+                System.Windows.Point position = e.GetPosition(null);
+
+                if (Math.Abs(position.X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
+
+                    Math.Abs(position.Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+
+                {
+
+                    StartDrag(e);
+
+
+                }
+
+            }
+        }
+
+        private void StartDrag(MouseEventArgs e)
+        {
+            _IsDragging = true;
+            object temp = this.CustomviewTree.SelectedItem;
+            DataObject data = null;
+
+            data = new DataObject("inadt", temp);
+
+            if (data != null)
+            {
+                DragDropEffects dde = DragDropEffects.Move;
+                if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    dde = DragDropEffects.All;
+                }
+                DragDropEffects de = DragDrop.DoDragDrop(this.CustomviewTree, data, dde);
+            }
+            _IsDragging = false;
+        }
+
+        private void CustomviewTree_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _startPoint = e.GetPosition(null);
+
+        }
+
+        private void CustomviewTree_Drop(object sender, DragEventArgs e)
+        {
+            if (e.OriginalSource.GetType().Name != "Grid")
+            {
+                FileAttributes attr = FileAttributes.Directory; //default
+                TreeViewItem source = e.Source as TreeViewItem;
+                attr = File.GetAttributes(source.Tag.ToString());
+
+                //treeviewitem moving
+                if (_IsDragging)
+                {
+                    //destination is not a folder
+                    if (!attr.HasFlag(FileAttributes.Directory))
+                        return;
+                    TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
+                    if ((dest.Parent as TreeViewItem) != null)
+                    {
+                        (dest.Parent as TreeViewItem).Items.Remove(dest);
+                    }
+
+                    else if ((dest.Parent as TreeView) != null)
+                    {
+                        (dest.Parent as TreeView).Items.Remove(dest);
+                    }
+                    source.Items.Remove(dest);
+                    source.Items.Insert(0, dest);
+                    e.Handled = true;
+                    _IsDragging = false;
+                    return;
+                }
+                //files drop
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string f in files)
+                {
+                    TreeViewItem newEntry = new TreeViewItem();
+                    newEntry.Header = f;
+                    // source.Items.Add(newEntry);
+                    attr = File.GetAttributes(f);
+
+                    if (attr.HasFlag(FileAttributes.Directory))
+
+                        Populate(Path.GetFileName(f), f, null, source, false);
+                }
+            }
+
+        }
+
+        private void CustomTree_Drop(object sender, DragEventArgs e)
+        {
+            if (e.OriginalSource.GetType().Name == "Grid")
+            {
+                TreeView source = e.Source as TreeView;
+                if (_IsDragging)
+                {
+                    TreeView from = e.Source as TreeView;
+                    TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
+                    if ((dest.Parent as TreeViewItem) != null)
+                    {
+                        (dest.Parent as TreeViewItem).Items.Remove(dest);
+                    }
+
+                    else if ((dest.Parent as TreeView) != null)
+                    {
+                        (dest.Parent as TreeView).Items.Remove(dest);
+                    }
+                    from.Items.Remove(dest);
+                    from.Items.Insert(0, dest);
+                    e.Handled = true;
+                    _IsDragging = false;
+                    return;
+                }
+
+                //files drop
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string f in files)
+                {
+                    TreeViewItem newEntry = new TreeViewItem();
+                    newEntry.Header = Path.GetFileName(f);
+                    newEntry.Tag = f;
+                    // source.Items.Add(newEntry);
+                    var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
+                    if (!isFile)
+                        Populate(Path.GetFileName(f), f, source, null, false);
+                    else
+                        Populate(Path.GetFileName(f), f, source, null, true);
+
+                }
+            }
+
+        }
+        private void addNode(object sender, RoutedEventArgs e)
+        {
+            //first root for empty tree
+            if (CustomviewTree.Items.Count < 1)
+            {
+                TreeViewItem a = new TreeViewItem();
+                a.Header = "aa";
+                CustomviewTree.Items.Add(a);
+                return;
+            }
+            TreeViewItem aa = new TreeViewItem();
+            aa.Header = "ab";
+            TreeViewItem d = (TreeViewItem)CustomviewTree.SelectedItem;
+            if (d != null) d.Items.Add(aa);
+
+
+
+        }
+
+        private void addRootNode(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem aa = new TreeViewItem();
+            aa.Header = "ac";
+            CustomviewTree.Items.Add(aa);
+            return;
+
+
+
+        }
+
+        private void removeNode(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                TreeViewItem selected = (TreeViewItem)CustomviewTree.SelectedItem;
+                if (viewName.Text != string.Empty && selected.Parent.GetType().Name == "TreeView")
+                {
+
+                    string messageBoxText = "Are you sure you want to delete view " + viewName.Text + "?";
+                    MessageBoxButton button = MessageBoxButton.YesNo;
+                    MessageBoxImage icon = MessageBoxImage.Warning;
+                    if (MessageBox.Show(messageBoxText, null, button, icon) == MessageBoxResult.No)
+                        return;
+                }
+                if (selected.Parent != null && selected.Parent.GetType().Name != "TreeView")
+                {
+                    var par = (TreeViewItem)selected.Parent;
+                    var itemIndex = par.Items.IndexOf(selected);
+                    par.Items.Remove(selected);
+                    if (par.Items.Count > 0)
+                    {
+                        if (itemIndex == 0)
+                            ((TreeViewItem)par.Items[0]).IsSelected = true;
+                        else
+                            ((TreeViewItem)par.Items[itemIndex]).IsSelected = true;
+
+                    }
+
+
+                }
+                else
+                {
+
+                    CustomviewTree.Items.Remove(CustomviewTree.SelectedItem);
+                }
+
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex.InnerException);
+            }
+
+
+
+
+        }
+
+        private void createNewTree(object sender, RoutedEventArgs e)
+        {
+
+            CustomviewTree.Items.Clear();
+            viewName.Text = string.Empty;
+
+        }
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem _item = (TreeViewItem)sender;
@@ -206,5 +449,70 @@ namespace WpfApp4
                 Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
 
         }
+
+        private void getView(object sender, RoutedEventArgs e) //populate treeview with view
+        {
+            Views.HandleViews b = new Views.HandleViews();
+            string output = viewTxt.Text;
+            b.createViewSubTag(output, viewTree);
+
+
+
+        }
+
+        private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
+        {
+            Views.HandleViews b = new Views.HandleViews();
+            //save existing view
+            if (viewName.Text != string.Empty)
+            {
+                b.saveCustomView(CustomviewTree, viewName.Text, true);
+                return;
+            }
+
+            if (CustomviewTree.Items.Count > 0)
+            {
+
+                Controls.InputDialog.inputMessage inputDialog = new Controls.InputDialog.inputMessage("Please enter view name", "");
+                inputDialog.Title = "Save Custom View";
+                if (viewName.Text != string.Empty)
+                    inputDialog.txtAnswer.Text = viewName.Text;
+                if (inputDialog.ShowDialog() == true && inputDialog.Answer != string.Empty)
+                {
+
+                    string msg = b.saveCustomView(CustomviewTree, inputDialog.Answer, false);
+                    if (msg == "success")
+                    {
+                        MessageBox.Show("View saved");
+                        viewName.Text = inputDialog.Answer;
+
+                    }
+
+                    else
+                        MessageBox.Show("View wasn't saved as view name already exists");
+
+                }
+            }
+
+        }
+
+        private void LoadView(object sender, RoutedEventArgs e) //populate treeview with view
+        {
+            Views.HandleViews b = new Views.HandleViews();
+            List<string> NamesList = b.getCustomViewsList();
+            Controls.List.ListMessage inputDialog = new Controls.List.ListMessage(NamesList);
+
+            //b.LoadCustomView
+
+            //string msg = b.LoadCustomView(CustomviewTree, inputDialog.Answer);
+            if (inputDialog.ShowDialog() == true)
+            {
+                b.LoadCustomView(CustomviewTree, inputDialog.lblQuestion.SelectedItem.ToString());
+                viewName.Text = inputDialog.lblQuestion.SelectedItem.ToString();
+            }
+
+
+        }
+
     }
 }

@@ -10,13 +10,7 @@
             <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
         <TreeView x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
-            <TreeView.ContextMenu>
-                <ContextMenu Name="TagMenu">
-                    <MenuItem Header="Menu item 1" />
-                    <MenuItem Header="Menu item 2" />
-                    
-                </ContextMenu>
-            </TreeView.ContextMenu>
+           
             <TreeView.Resources>
                
                 <Style TargetType="{x:Type TreeViewItem}">
@@ -67,6 +61,76 @@
                        
                     </StackPanel>
                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Views">
+                <Grid Background="White">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <Label Width="74" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" >tag for view</Label>
+                        <TextBox Name="viewTxt" Height="34" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Click="getView">Create view</Button>
+                        
+                    </StackPanel>
+                    
+                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
+
+                        <TreeView.Resources>
+
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
+
+                                <Setter Property="HeaderTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Name="img"  Width="20" Height="20" Stretch="Fill" 
+                                       Source="{Binding
+                                       RelativeSource={RelativeSource 
+                                       Mode=FindAncestor, 
+                                       AncestorType={x:Type TreeViewItem}}, 
+                                       Path=Tag, 
+                                       Converter={x:Static local:HeaderToImageConverter.Instance}}"       
+                                       />
+                                                <TextBlock Text="{Binding}" Margin="5,0" />
+
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TreeView.Resources>
+                    </TreeView>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Custom view" >
+                <Grid Background="White">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode" Content="Add node"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode" Content="Add root node"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="removeNode" Content="Remove"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="saveView" Content="Save"/>
+                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="LoadView" Content="Load view"/>
+                        <TextBlock Name="viewName"  Visibility="Hidden"></TextBlock>
+                        <Label Name="msgTxt"></Label>
+                    </StackPanel>
+
+                    <TreeView x:Name="CustomviewTree" Width="Auto" Background="#FFFFFFFF" AllowDrop="True" Drop="CustomTree_Drop" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
+
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}" >
+                                <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
+                                <Setter Property="TreeViewItem.AllowDrop" Value="True"/>
+                                <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="CustomviewTree_PreviewMouseMove" />
+                                <EventSetter Event="TreeViewItem.Drop" Handler="CustomviewTree_Drop" />
+                                <EventSetter Event="TreeViewItem.PreviewMouseLeftButtonDown" Handler="CustomviewTree_PreviewMouseLeftButtonDown" />
+                            </Style>
+                            
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+
                 </Grid>
             </TabItem>
         </TabControl>

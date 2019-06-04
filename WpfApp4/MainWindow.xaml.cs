@@ -166,6 +166,23 @@ namespace WpfApp4
 
         }
 
+
+        private void files_Drop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string f in files)
+            {
+                lb_tag.Items.Add(f);
+            }
+        }
+        private void removeTagsFromList(object sender, EventArgs e)
+            {
+            if (lb_tag.SelectedItem != null)
+                lb_tag.Items.Remove(lb_tag.SelectedItem);
+        }
+
+        
+
         private void CustomviewTree_Drop(object sender, DragEventArgs e)
         {
             if (e.OriginalSource.GetType().Name != "Grid")

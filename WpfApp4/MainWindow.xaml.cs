@@ -177,8 +177,8 @@ namespace WpfApp4
         }
         private void removeTagsFromList(object sender, EventArgs e)
             {
-            if (lb_tag.SelectedItem != null)
-                lb_tag.Items.Remove(lb_tag.SelectedItem);
+            if (lb_tag.SelectedIndex >=0)
+                lb_tag.Items.RemoveAt(lb_tag.SelectedIndex);
         }
 
         

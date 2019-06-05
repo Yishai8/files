@@ -533,7 +533,7 @@ namespace WpfApp4
                 { Console.WriteLine(unauth.InnerException); }
 
             }
-            TagsOutput.Text = Tags.TagManagment.getFileTag(temp.Tag.ToString());   //brings the ads on the textblock
+            TagsOutput.Content = Tags.TagManagment.getFileTag(temp.Tag.ToString());   //brings the ads on the textblock
 
 
 

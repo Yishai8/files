@@ -17,18 +17,22 @@ namespace WpfApp4.Tags
             return newTag.getFileTag();
         }
 
-        public static void saveFileTags(string filepath, string tags)
+        public static void saveFileTags(List<string> filepaths, string tags)
         {
-            Tag newTag = new Tag(filepath);
-            newTag.saveFileTags(tags);
-            Tags.XMLFile.AddTagNode(tags, filepath);
+            foreach(string filename in filepaths)
+            {
+                Tag newTag = new Tag(filename);
+                newTag.saveFileTags(tags);
+                Tags.XMLFile.AddTagNode(tags, filename);
+
+            }
 
 
         }
 
-        public static List<List<string>> getPathsByTag(string tag,bool isSubCat)
+        public static List<List<string>> getPathsByTag(string tag,string isCategory)
         {
-            return Tags.XMLFile.getPathsByTag(tag, true);
+            return Tags.XMLFile.getPathsByTag(tag, isCategory);
         }
 
         public static void DeleteFileTags(string filepath)

@@ -21,14 +21,15 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
-            // ObservableCollection<tagsCategory> _Categories = new ObservableCollection<tagsCategory>();
-            //_Categories = Tags.TagManagment.LoadCategoriesListFromXML();
+                var Categories = Tags.TagManagment.LoadCategoriesListFromXML();
+           lb.ItemsSource = Categories;
+            lb2.ItemsSource = Categories;
             //Views.tagsCategory b = new Views.tagsCategory();
             //b.LoadCategoryListFromXML();
             Tags.XMLFile.init();
 
 
-            Tags.TagManagment.getPathsByTag("test", true);
+            
 
             //Tag a = new Tag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf");
             //List<string> d= a.windowsSearch("Test");
@@ -170,8 +171,11 @@ namespace WpfApp4
         private void files_Drop(object sender, DragEventArgs e)
         {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var myOtherList = lb_tag.Items.Cast<String>().ToList();
+            //list.Add(lb_tag.Items);
             foreach (string f in files)
             {
+                if (!myOtherList.Contains(f))
                 lb_tag.Items.Add(f);
             }
         }
@@ -199,17 +203,24 @@ namespace WpfApp4
                     if (!attr.HasFlag(FileAttributes.Directory))
                         return;
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
-                    if ((dest.Parent as TreeViewItem) != null)
+                    var List = source.Items.Cast<TreeViewItem>().ToList();
+                    TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
+                    if (searchItem == null)
                     {
-                        (dest.Parent as TreeViewItem).Items.Remove(dest);
-                    }
+                        if ((dest.Parent as TreeViewItem) != null)
+                        {
+                            (dest.Parent as TreeViewItem).Items.Remove(dest);
+                        }
 
-                    else if ((dest.Parent as TreeView) != null)
-                    {
-                        (dest.Parent as TreeView).Items.Remove(dest);
+                        else if ((dest.Parent as TreeView) != null)
+                        {
+                            (dest.Parent as TreeView).Items.Remove(dest);
+                        }
+                        source.Items.Remove(dest);
+                        source.Items.Insert(0, dest);
                     }
-                    source.Items.Remove(dest);
-                    source.Items.Insert(0, dest);
+                    else
+                        MessageBox.Show("Item with the same name exists in destination - Copy failed");
                     e.Handled = true;
                     _IsDragging = false;
                     return;
@@ -239,24 +250,33 @@ namespace WpfApp4
 
         private void CustomTree_Drop(object sender, DragEventArgs e)
         {
-            if (e.OriginalSource.GetType().Name == "Grid")
+            
+           
+                if (e.OriginalSource.GetType().Name == "Grid")
             {
                 TreeView source = e.Source as TreeView;
                 if (_IsDragging)
                 {
                     TreeView from = e.Source as TreeView;
+                    var List = from.Items.Cast<TreeViewItem>().ToList();
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
-                    if ((dest.Parent as TreeViewItem) != null)
+                    TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
+                    if (searchItem == null)
                     {
-                        (dest.Parent as TreeViewItem).Items.Remove(dest);
-                    }
+                        if ((dest.Parent as TreeViewItem) != null)
+                        {
+                            (dest.Parent as TreeViewItem).Items.Remove(dest);
+                        }
 
-                    else if ((dest.Parent as TreeView) != null)
-                    {
-                        (dest.Parent as TreeView).Items.Remove(dest);
+                        else if ((dest.Parent as TreeView) != null)
+                        {
+                            (dest.Parent as TreeView).Items.Remove(dest);
+                        }
+                        from.Items.Remove(dest);
+                        from.Items.Insert(0, dest);
                     }
-                    from.Items.Remove(dest);
-                    from.Items.Insert(0, dest);
+                    else
+                        MessageBox.Show("Item with the same name exists in destination - Copy failed");
                     e.Handled = true;
                     _IsDragging = false;
                     return;
@@ -264,8 +284,14 @@ namespace WpfApp4
 
                 //files drop
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var myOtherList = source.Items.Cast<TreeViewItem>().ToList();
                 foreach (string f in files)
                 {
+                    TreeViewItem searchItem=myOtherList.Find(x => x.Header.ToString().Equals(Path.GetFileName(f)));
+                    if(searchItem==null)
+                    {
+
+                    
                     TreeViewItem newEntry = new TreeViewItem();
                     newEntry.Header = Path.GetFileName(f);
                     newEntry.Tag = f;
@@ -275,7 +301,7 @@ namespace WpfApp4
                         Populate(Path.GetFileName(f), f, source, null, false);
                     else
                         Populate(Path.GetFileName(f), f, source, null, true);
-
+                    }
                 }
             }
 
@@ -352,6 +378,11 @@ namespace WpfApp4
             return;
 
 
+
+        }
+
+        private void checkDistinct(object sender, RoutedEventArgs e)
+        {
 
         }
 
@@ -526,22 +557,56 @@ namespace WpfApp4
 
         }
 
-        private void saveTags(object sender, RoutedEventArgs e) //tag the file
+        private void saveTags(List<string> fileNames, string tag) //tag the file
         {
-            string output = TagsOutput.Text;
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
-            if (string.Compare(output, string.Empty) != 0)
-                Tags.TagManagment.saveFileTags(_item.Tag.ToString(), output);
-            else
-                Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
+            //if (string.Compare(output, string.Empty) != 0)
+                Tags.TagManagment.saveFileTags(fileNames, tag);
+            //else
+              //  Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
 
         }
 
         private void getView(object sender, RoutedEventArgs e) //populate treeview with view
         {
             Views.HandleViews b = new Views.HandleViews();
-            string output = viewTxt.Text;
-            b.createViewSubTag(output, viewTree);
+            var selectedCategoryLB = lb2.SelectedValue as Tags.tagsCategory;
+            var selectedSubCategory = lb3.SelectedValue;
+            if (selectedCategoryLB!=null)
+            {
+                string selectedCategory = selectedCategoryLB.categoryName;
+                string selectedSubCategoryName = null; ;
+                List<RadioButton> radioButtons = Radio.Children.OfType<RadioButton>().ToList();
+                RadioButton rbTarget = radioButtons
+                 .Where(r => r.GroupName == "tagsWay" && r.IsChecked == true)
+                 .Single();
+
+                if(rbTarget.Content.ToString()== "Main Category")
+                {
+                    selectedSubCategoryName = "";
+                }
+                else
+                {
+                    if (selectedSubCategory != null)
+                    {
+                        selectedSubCategoryName = lb3.SelectedValue.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("sub category was not selected");
+                        return;
+                    }
+
+
+                }
+                
+           
+           
+           
+            b.createViewByTag(rbTarget.Content.ToString(), selectedCategory+"."+selectedSubCategory, viewTree);
+            }
+            else
+                MessageBox.Show("main category was not selected");
 
 
 
@@ -601,5 +666,42 @@ namespace WpfApp4
 
         }
 
+        private void clearTagsFromList(object sender, RoutedEventArgs e)
+        {
+            lb_tag.Items.Clear();
+        }
+
+        private void changeBinding(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox av = (ListBox)sender;
+            var Categories = Tags.TagManagment.LoadCategoriesListFromXML();
+            var  a =(Tags.tagsCategory) (((ListBox)sender).SelectedItem);
+            if(av.Name=="lb")
+            
+            lb1.ItemsSource = a.categoryOptions;
+            else
+                lb3.ItemsSource = a.categoryOptions;
+        }
+
+        private void addTags(object sender, RoutedEventArgs e)
+        {
+            var selectedCategoty = lb.SelectedValue as Tags.tagsCategory;
+            var selectedSubCategory = lb1.SelectedValue;
+            List<string> fileslist=lb_tag.Items.Cast<String>().ToList();
+            saveTags(fileslist, selectedCategoty.categoryName + "." + selectedSubCategory);
+            MessageBox.Show("Tags added successfuly");
+
+            lb_tag.Items.Clear();
+        }
+
+        private void updateSelected()
+        {
+
+        }
+
+        private void OnTabSelected(object sender, RoutedEventArgs e)
+        {
+            updateSelected();
+        }
     }
 }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WpfApp4"
        
-    Title="Window1" Height="400" Width="500" Loaded="Window_Loaded" WindowState="Maximized" >
+    Title="Window1" Height="1479.13" Width="840" Loaded="Window_Loaded" WindowState="Maximized" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
@@ -56,29 +56,74 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="30">
 
                         <Label Width="60" Height="100" HorizontalAlignment="Left" >File Tags:</Label>
-                        <TextBox Name="TagsOutput" Height="100" Width="200" HorizontalAlignment="Left"/>
-                        <Button Margin="10,0,0,0" Click="saveTags">Save Tags</Button>
+                        <TextBox Name="TagsOutput" Height="30" Width="200" HorizontalAlignment="Left"/>
+                        <Button Margin="10,0,0,0" Click="addTags">Save Tags</Button>
 
                     </StackPanel>
 
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="removeTagsFromList" Margin="10,43,0,0">remove file</Button>
-                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="-1,73,-1,0" RenderTransformOrigin="0.5,0.5" Width="996">
-                       
+                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="clearTagsFromList" Margin="80,43,0,0">clear List</Button>
+                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="-1,73,520.4,692" RenderTransformOrigin="0.5,0.5" Width="475">
+
 
                     </ListBox>
-                  
+                    <Label HorizontalAlignment="Left" Margin="155,43,0,0" VerticalAlignment="Top" Content="Drop files to tag"/>
+                    <Label HorizontalAlignment="Left" Margin="43,328,0,0" VerticalAlignment="Top" Content="Main category"/>
+                    <Label HorizontalAlignment="Left" Margin="327,328,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203"/>
+                    <ListBox x:Name="lb"  SelectionChanged="changeBinding"  HorizontalAlignment="Center" Margin="-1,371,809.4,386" RenderTransformOrigin="0.5,0.5" Width="186">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Name="txtname" Text="{Binding Path=categoryName}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" Margin="281,371,521.4,386" RenderTransformOrigin="0.5,0.5" Width="192">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="201,601,0,0" RenderTransformOrigin="0.597,-1.44">Add tag to files</Button>
+
                 </Grid>
             </TabItem>
-            <TabItem Header="Views">
+            <TabItem Header="Views" Selector.Selected="OnTabSelected">
                 <Grid Background="White">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <Label Width="74" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" >tag for view</Label>
-                        <TextBox Name="viewTxt" Height="34" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Click="getView">Create view</Button>
+                    <StackPanel Name="Radio" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" />
+                        <RadioButton GroupName="tagsWay" Content="Main+SubCategory" IsChecked="True" Margin="10" Height="16" FontSize="11"/>
+                        <RadioButton GroupName="tagsWay" Content="Main Category" Margin="10" Height="16" FontSize="11" />
+                        <RadioButton GroupName="tagsWay" Content="SubCategoy" Margin="10" Height="16" FontSize="11" />
+                        <Button Height="19" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" Content="Create view"/>
 
                     </StackPanel>
+                    <ListBox x:Name="lb2" Margin="33,58,769.4,814" SelectionChanged="changeBinding" HorizontalAlignment="Center" Width="192">
 
-                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Name="txtname" Text="{Binding Path=categoryName}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <ListBox x:Name="lb3"   HorizontalAlignment="Center" Margin="281,58,521.4,814"  Width="192">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="0,235,295.4,10">
 
 
                         <TreeView.ItemContainerStyle>

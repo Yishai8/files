@@ -55,10 +55,10 @@ namespace WpfApp4.Views
             Tags.XMLFile.BuildTree(t, ViewName);
         }
 
-        public void createViewSubTag(string tag,TreeView t)
+        public void createViewByTag(string iscategory,string tag,TreeView t)
         {
-           
-            var Tagslist = Tags.TagManagment.getPathsByTag(tag,true);
+         
+            var Tagslist = Tags.TagManagment.getPathsByTag(tag,iscategory);
             Tags.XMLFile.AddViewNode(Tagslist, tag);
             t.Items.Clear();
             Populate(tag, null, t, null, true);

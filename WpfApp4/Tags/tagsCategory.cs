@@ -10,14 +10,17 @@ namespace WpfApp4.Tags
 {
     public class tagsCategory
     {        
-        List<string> categoryOptions; //single category
+        public List<string> categoryOptions { get; set; } //single category
         public tagsCategory(string name, List<string> options)
         {
             this.categoryName = name;
             this.categoryOptions = options;
         }
-        private string categoryName { get; set; }
-        }
+        public string categoryName { get; set; }
 
+      
     }
+
+
+}
 

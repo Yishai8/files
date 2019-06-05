@@ -272,13 +272,12 @@ namespace WpfApp4.Tags
 
         }
 
-
         public static void AddTagNode(string tag, string path)
         {
             List<string> parsedTags = parse_tags(tag);
             foreach (string tagRes in parsedTags)
             {
-                var i = tagRes.IndexOf('.');
+                var i = tagRes.IndexOf(':');
                 string mainCat = tagRes.Substring(0, i); ;
                 string subCat = tagRes.Substring(i + 1, (tagRes.Length) - i - 1);
 

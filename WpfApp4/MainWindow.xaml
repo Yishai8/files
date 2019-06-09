@@ -12,8 +12,9 @@
         <TreeView x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
 
             <TreeView.Resources>
-
                 <Style TargetType="{x:Type TreeViewItem}">
+                    <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="CustomviewTree_PreviewMouseMove" />
+                    <EventSetter Event="TreeViewItem.PreviewMouseLeftButtonDown" Handler="CustomviewTree_PreviewMouseLeftButtonDown" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate>
@@ -34,6 +35,9 @@
                     </Setter>
                 </Style>
             </TreeView.Resources>
+            <TreeView.BindingGroup>
+                <BindingGroup/>
+            </TreeView.BindingGroup>
         </TreeView>
 
 
@@ -93,7 +97,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Views" Selector.Selected="OnTabSelected">
+            <TabItem Header="Views">
                 <Grid Background="White">
                     <StackPanel Name="Radio" Orientation="Horizontal" VerticalAlignment="Top">
                         <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" />

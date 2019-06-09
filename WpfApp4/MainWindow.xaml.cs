@@ -61,9 +61,9 @@ namespace WpfApp4
 
                
                 TreeViewItem _item = (TreeViewItem)sender;
-                while (!(_item.Parent.GetType().Name is "TreeView")) //get to treeview parent
-                    _item = (TreeViewItem)_item.Parent;
-                _item = (TreeViewItem)((TreeView)_item.Parent).SelectedItem;
+              TreeView par=GetObjectParent(_item);
+             
+                _item = (TreeViewItem)par.SelectedItem;
                 if (_item.Tag != null && _item.Tag.ToString()!="Custom Folder")
                 {
                     var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
@@ -73,6 +73,14 @@ namespace WpfApp4
                 e.Handled = true;
                 sender = null;
             }
+        }
+
+
+        private TreeView GetObjectParent(TreeViewItem obj)
+        {
+            while (!(obj.Parent.GetType().Name is "TreeView")) //get to treeview parent
+                obj = (TreeViewItem)obj.Parent;
+            return (TreeView)obj.Parent;
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
@@ -144,7 +152,8 @@ namespace WpfApp4
         private void StartDrag(MouseEventArgs e)
         {
             _IsDragging = true;
-            object temp = this.CustomviewTree.SelectedItem;
+            TreeView par = GetObjectParent((TreeViewItem)e.Source);
+            object temp = par.SelectedItem;
             DataObject data = null;
 
             data = new DataObject("inadt", temp);
@@ -156,7 +165,7 @@ namespace WpfApp4
                 {
                     dde = DragDropEffects.All;
                 }
-                DragDropEffects de = DragDrop.DoDragDrop(this.CustomviewTree, data, dde);
+                DragDropEffects de = DragDrop.DoDragDrop(par, data, dde);
             }
             _IsDragging = false;
         }
@@ -167,18 +176,23 @@ namespace WpfApp4
 
         }
 
-
+        //Handle dropped files on listBox for tagging 
         private void files_Drop(object sender, DragEventArgs e)
         {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            var myOtherList = lb_tag.Items.Cast<String>().ToList();
+            var myOtherFilesList = lb_tag.Items.Cast<String>().ToList();
             //list.Add(lb_tag.Items);
+            if(files==null) //files are dragged from treeView
+            {
+                files=  new[] { (string)((TreeViewItem)(e.Data.GetData(e.Data.GetFormats()[0]))).Tag };
+            }
             foreach (string f in files)
             {
-                if (!myOtherList.Contains(f))
+                if (!myOtherFilesList.Contains(f))
                 lb_tag.Items.Add(f);
             }
         }
+
         private void removeTagsFromList(object sender, EventArgs e)
             {
             if (lb_tag.SelectedIndex >=0)
@@ -229,9 +243,7 @@ namespace WpfApp4
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string f in files)
                 {
-                    TreeViewItem newEntry = new TreeViewItem();
-                    newEntry.Header = f;
-                    // source.Items.Add(newEntry);
+                   
                     attr = File.GetAttributes(f);
 
                     if (attr.HasFlag(FileAttributes.Directory) || source.Tag.ToString() == "Custom Folder")
@@ -291,10 +303,6 @@ namespace WpfApp4
                     if(searchItem==null)
                     {
 
-                    
-                    TreeViewItem newEntry = new TreeViewItem();
-                    newEntry.Header = Path.GetFileName(f);
-                    newEntry.Tag = f;
                     // source.Items.Add(newEntry);
                     var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
                     if (!isFile)
@@ -694,14 +702,5 @@ namespace WpfApp4
             lb_tag.Items.Clear();
         }
 
-        private void updateSelected()
-        {
-
-        }
-
-        private void OnTabSelected(object sender, RoutedEventArgs e)
-        {
-            updateSelected();
-        }
     }
 }

@@ -88,7 +88,11 @@ namespace WpfApp4.Tags
                         if (ads.Name.Equals(streamName + ":$DATA"))
 
                         {
-                             NtfsAlternateStream.WriteAllText(this._path + streamName, tags);
+                            string currentTags = getFileTag();
+                        List<string> list = currentTags.Split(';').ToList();
+                        if(!list.Contains(tags))
+
+                        NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags+";"+tags);
                             
                         }
                 }

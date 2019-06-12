@@ -326,13 +326,49 @@ namespace WpfApp4.Tags
             return NodeList;
         }
 
+        public static IEnumerable<XElement> getNodesForView(string tag, string iscategory)
+        {
+            IEnumerable<XElement> NodeList=null;
+            string mainCat = null;
+            int i = -1;
+            i = tag.IndexOf('.');
+            if (i != -1)
+                mainCat = tag.Substring(0, i); ;
+            string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
+            switch(iscategory)
+            {
+                case "Main+SubCategory":
+                    NodeList = //bring all the tag block from the xml includes subtags
+               from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
+               where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
+               select el;
+                    break;
+
+                case "Main Category":
+                    NodeList = //bring all the tag block from the xml includes subtags
+               from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
+               where ((string)el.Attribute("name") == mainCat)
+               select el;
+                    break;
+
+                case "SubCategoy":
+                    NodeList = //bring all the tag block from the xml includes subtags
+                from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
+                where (string)el.Attribute("value") == subCat
+                select el;
+                    break;
+            }
+          
+            
+            return NodeList;
+        }
 
 
-        public static List<List<string>> getPathsByTag(string tag, bool getBySubCat)
+        public static List<List<string>> getPathsByTag(string tag, string isCategory)
         {
             List<List<string>> pathList = new List<List<string>>();
 
-            IEnumerable<XElement> listOftags = getNodeByTag(tag, getBySubCat);
+            IEnumerable<XElement> listOftags = getNodesForView(tag, isCategory);
             foreach (XElement tagNode in listOftags)
             {
                 List<string> innerPathList = new List<string>();

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using WpfApp4.Tags;
 
 namespace WpfApp4
 {
@@ -17,6 +18,8 @@ namespace WpfApp4
     {
         System.Windows.Point _startPoint;
         bool _IsDragging = false;
+        public ObservableCollection<tagsCategory> Categories { get;  set; } = new ObservableCollection<tagsCategory>();   //tag options 
+ 
 
         public MainWindow()
         {
@@ -36,6 +39,11 @@ namespace WpfApp4
             //a.getFileTag();
             //a.setFileTag(@"C:\Users\Yishai\Downloads\תרגיל 3 - גבולות.pdf", "trying set a tag");
 
+            this.Categories = TagManagment.LoadCategoriesListFromXML(); //get xml tag options - fetched from xml "tagCategories"
+            CatagorieslistView.ItemsSource = Categories;
+            //  CatagorieslistViewValues.ItemsSource = CatagorieslistView.SelectedItems;
+            CatagorieslistViewValues.ItemsSource = CatagorieslistView.SelectedItems;
+            
         }
 
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
@@ -346,12 +354,6 @@ namespace WpfApp4
 
 
                 }
-            
-        
-            
-         
-
-
 
         }
 
@@ -541,7 +543,9 @@ namespace WpfApp4
                 { Console.WriteLine(unauth.InnerException); }
 
             }
+
             TagsOutput.Content = Tags.TagManagment.getFileTag(temp.Tag.ToString());   //brings the ads on the textblock
+
 
 
 
@@ -565,7 +569,9 @@ namespace WpfApp4
 
         }
 
+
         private void saveTags(List<string> fileNames, string tag) //tag the file
+
         {
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
             //if (string.Compare(output, string.Empty) != 0)
@@ -574,6 +580,7 @@ namespace WpfApp4
               //  Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
 
         }
+
 
         private void getView(object sender, RoutedEventArgs e) //populate treeview with view
         {
@@ -701,6 +708,7 @@ namespace WpfApp4
 
             lb_tag.Items.Clear();
         }
+
 
     }
 }

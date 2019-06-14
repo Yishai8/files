@@ -74,7 +74,7 @@
                     <Label HorizontalAlignment="Left" Margin="155,43,0,0" VerticalAlignment="Top" Content="Drop files to tag"/>
                     <Label HorizontalAlignment="Left" Margin="43,328,0,0" VerticalAlignment="Top" Content="Main category"/>
                     <Label HorizontalAlignment="Left" Margin="327,328,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203"/>
-                    <ListBox x:Name="lb"  SelectionChanged="changeBinding"  HorizontalAlignment="Center" Margin="-1,371,809.4,386" RenderTransformOrigin="0.5,0.5" Width="186">
+                    <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="-1,371,809.4,386" RenderTransformOrigin="0.5,0.5" Width="186">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -84,7 +84,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" Margin="281,371,521.4,386" RenderTransformOrigin="0.5,0.5" Width="192">
+                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="281,371,521.4,386" RenderTransformOrigin="0.5,0.5" Width="192">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -107,7 +107,7 @@
                         <Button Height="19" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" Content="Create view"/>
 
                     </StackPanel>
-                    <ListBox x:Name="lb2" Margin="33,58,769.4,814" SelectionChanged="changeBinding" HorizontalAlignment="Center" Width="192">
+                    <ListBox x:Name="lb2" Margin="33,58,769.4,814" HorizontalAlignment="Center" Width="192">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -118,7 +118,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb3"   HorizontalAlignment="Center" Margin="281,58,521.4,814"  Width="192">
+                    <ListBox x:Name="lb3"   ItemsSource="{Binding ElementName=lb2, Path=SelectedItem.categoryOptions}" HorizontalAlignment="Center" Margin="281,58,521.4,814"  Width="192">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

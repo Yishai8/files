@@ -44,9 +44,12 @@ namespace WpfApp4
             //tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
-        private void ThumbnailsOpenFile(object sender, RoutedEventArgs e)
+        private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
         {
-             
+            if (e.ChangedButton == MouseButton.Left)    // Left button was double clicked
+            {
+                
+           
             if (sender is ListView)
             {
                 ListView _item = (ListView)sender;
@@ -72,6 +75,7 @@ namespace WpfApp4
                 }
                 e.Handled = true;
                 sender = null;
+            }
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,26 @@ namespace WpfApp4.Tags
         {
             foreach(string filename in filepaths)
             {
-                Tag newTag = new Tag(filename);
-                newTag.saveFileTags(tags);
-                Tags.XMLFile.AddTagNode(tags, filename);
+                List<string> itemsToTag = new List<string>() ;
+                var isFile = new Uri(filename).AbsolutePath.Split('/').Last().Contains('.');
+                if (!isFile)
+                {
+                    itemsToTag.AddRange(Directory.GetFiles(filename, "*.*", SearchOption.AllDirectories));
+                    itemsToTag.AddRange (Directory.GetDirectories(filename, "*.*", SearchOption.AllDirectories));
+                    if(!itemsToTag.Contains(filename))
+                    itemsToTag.Add(filename);
+                }
+                    
+                else
+                    itemsToTag.Add(filename);
+                foreach(string item in itemsToTag)
+                {
+                    Tag newTag = new Tag(filename);
+
+                    newTag.saveFileTags(tags);
+                    Tags.XMLFile.AddTagNode(tags, filename);
+                }
+                
 
             }
 

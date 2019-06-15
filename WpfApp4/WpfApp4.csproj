@@ -104,6 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\TagControl\TagDialog.cs" />
+    <Compile Include="Controls\TagControl\TagDialog.xaml.cs">
+      <DependentUpon>TagDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\List\ListDialog.cs" />
     <Compile Include="Controls\List\ListDialog.xaml.cs">
       <DependentUpon>ListDialog.xaml</DependentUpon>
@@ -120,6 +124,10 @@
     <Compile Include="Views\HandleViews.cs" />
     <Compile Include="Views\TreeNode.cs" />
     <Compile Include="Views\View.cs" />
+    <Page Include="Controls\TagControl\TagDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\List\ListDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

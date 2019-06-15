@@ -17,7 +17,8 @@ namespace WpfApp4.Controls.List
 
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            if (this.lblQuestion.SelectedItem != null)
+                this.DialogResult = true;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

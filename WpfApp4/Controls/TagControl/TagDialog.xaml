@@ -1,0 +1,51 @@
+﻿<Window x:Class="WpfApp4.Controls.TagControl.TagDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp4.Controls.TagControl"
+        mc:Ignorable="d"
+        Title="ListMessage" Height="477.6" Width="auto" SizeToContent= "Width">
+    <Grid Margin="15,15,15,60" Width="552">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Image  Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />
+
+
+        <Label HorizontalAlignment="Left" Margin="81,32,0,0" VerticalAlignment="Top" Content="Main category"/>
+        <Label HorizontalAlignment="Left" Margin="338,32,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203"/>
+        <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="11,60,791.6,389.8" RenderTransformOrigin="0.5,0.5" Width="215">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Name="txtname" Text="{Binding Path=categoryName}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="281,63,521.6,389.6" RenderTransformOrigin="0.5,0.5" Width="215">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="201,601,0,0" RenderTransformOrigin="0.597,-1.44">Add tag to files</Button>
+
+        <WrapPanel HorizontalAlignment="Right" Margin="0,282,731.6,296.6" Width="135">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
+            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
+    </Grid>
+</Window>

@@ -36,7 +36,7 @@ namespace WpfApp4.Tags
                     itemsToTag.Add(filename);
                 foreach(string item in itemsToTag)
                 {
-                    Tag newTag = new Tag(filename);
+                    Tag newTag = new Tag(item);
 
                     newTag.saveFileTags(tags);
                     Tags.XMLFile.AddTagNode(tags, filename);

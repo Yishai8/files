@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp4.Controls.List"
         mc:Ignorable="d"
-        Title="ListMessage" Height="150" Width="400">
+        Title="ListMessage" Height="auto" Width="400" SizeToContent= "Height">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

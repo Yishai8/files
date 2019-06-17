@@ -13,9 +13,16 @@
         <TreeView x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
 
             <TreeView.Resources>
+                
+                    <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Add Tag" Click="TagView" />
+                    </ContextMenu>
+                
                 <Style TargetType="{x:Type TreeViewItem}">
-                    <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="CustomviewTree_PreviewMouseMove" />
+                    <Setter Property="ContextMenu" Value="{StaticResource TVtemContextMenu}" />
+                    <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="Tree_PreviewMouseMove" />
                     <EventSetter Event="TreeViewItem.PreviewMouseLeftButtonDown" Handler="CustomviewTree_PreviewMouseLeftButtonDown" />
+                    <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="Tree_PreviewMouseRightButtonDown" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate>
@@ -134,7 +141,6 @@
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
-
                                 <Setter Property="HeaderTemplate">
                                     <Setter.Value>
                                         <DataTemplate>
@@ -182,10 +188,10 @@
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}" >
                                 <Setter Property="ContextMenu" Value="{StaticResource TVtemContextMenu}" />
-                                <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="CustomviewTree_PreviewMouseRightButtonDown" />
+                                <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="Tree_PreviewMouseRightButtonDown" />
                                 <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
                                 <Setter Property="TreeViewItem.AllowDrop" Value="True"/>
-                                <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="CustomviewTree_PreviewMouseMove" />
+                                <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="Tree_PreviewMouseMove" />
                                 <EventSetter Event="TreeViewItem.Drop" Handler="CustomviewTree_Drop" />
                                 <EventSetter Event="TreeViewItem.PreviewMouseLeftButtonDown" Handler="CustomviewTree_PreviewMouseLeftButtonDown" />
                                 

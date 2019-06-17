@@ -125,7 +125,7 @@ namespace WpfApp4
             }
         }
 
-        private void CustomviewTree_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void Tree_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && !_IsDragging)
 
@@ -173,7 +173,7 @@ namespace WpfApp4
             _startPoint = e.GetPosition(null);
         }
 
-        private void CustomviewTree_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void Tree_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
             TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);

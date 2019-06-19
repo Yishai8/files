@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <HeaderTag name="Music">
+  <HeaderTag name="Music" showOldValues="true">
     <ChildTag name="Classical &amp; Opera"/>
     <ChildTag name="Country &amp; Gospel"/>
     <ChildTag name="Instruments &amp; Performers"/>
@@ -10,7 +10,7 @@
     <ChildTag name="Urban"/>
   </HeaderTag>
 
-<HeaderTag name="Sports &amp; Recreation">
+<HeaderTag name="Sports &amp; Recreation" showOldValues="true">
   <ChildTag name="Aviation"/>
   <ChildTag name="Boats"/>
   <ChildTag name="Golf"/>
@@ -19,7 +19,7 @@
   <ChildTag name="Sports"/>
 </HeaderTag>
 
-  <HeaderTag name="Animals &amp; Pets">
+  <HeaderTag name="Animals &amp; Pets" showOldValues="true">
     <ChildTag name="Birds"/>
     <ChildTag name="Dogs &amp; Cats"/>
     <ChildTag name="Farming"/>
@@ -27,14 +27,19 @@
     <ChildTag name="Horses"/>
     <ChildTag name="Wildlife"/>
   </HeaderTag>
-  <HeaderTag name="Hobbies">
-    <ChildTag name="Arts &amp; Crafts"/>
+  <HeaderTag name="Hobbies" showOldValues="true">
+    <ChildTag name="Arts &amp; Crafts" showOldValues="true"/>
     <ChildTag name="Coin Collecting"/>
     <ChildTag name="Comics"/>
     <ChildTag name="Puzzles &amp; Games"/>
     <ChildTag name="Sci-Fi &amp; Mystery"/>
     <ChildTag name="Toys &amp; Collectibles"/>
     <ChildTag name="Woodworking &amp; Machining"/>
+  </HeaderTag>
+
+  <HeaderTag name="Locations" showOldValues="true">
+    <ChildTag name="Israel"/>
+    <ChildTag name="Austria"/>
   </HeaderTag>
 
 

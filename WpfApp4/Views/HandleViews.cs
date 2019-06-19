@@ -15,15 +15,6 @@ namespace WpfApp4.Views
     {
 
         // TreeNode<Views.singleView> root = new TreeNode<Views.singleView>();
-
-        public void getPathsForView(string tag)
-        {
-            singleView rt = new singleView(tag);
-            TreeNode<singleView> root = new TreeNode<singleView>(rt);
-            //SystemView.listOfViews.Add(root);
-        }
-
-
         public string saveCustomView(TreeView tree, string viewName, bool replace)
         {
             ItemCollection items = null;
@@ -169,10 +160,10 @@ namespace WpfApp4.Views
 
 
                 }
-               
 
-                    paths.Add(node.Tag.ToString());
-                
+
+                paths.Add(node.Tag.ToString());
+
             }
             return paths.Distinct().ToList();
         }
@@ -232,5 +223,65 @@ namespace WpfApp4.Views
 
             return children;
         }
+
+        public void getComplexTags(List<string> filterParams)
+        {
+            List<string> mutualPaths = new List<string>();
+            foreach (string param in filterParams)
+            {
+                var Tagslist = Tags.TagManagment.getPathsByTag(param, "Main+SubCategory");
+                Tagslist[0].RemoveRange(0, 2);
+                mutualPaths.AddRange(Tagslist[0]);
+            }
+            mutualPaths = mutualPaths.GroupBy(x => x)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+
+            MakeTreeFromPaths(mutualPaths);
+
+        }
+
+        public TreeViewItem MakeTreeFromPaths(List<string> paths, string rootNodeName = "", char separator = '/')
+        {
+
+
+            TreeViewItem root = new TreeViewItem();
+            TreeViewItem node = root;
+            //treeView1.Nodes.Add(root);
+
+            foreach (string filePath in paths) // myList is your list of paths
+            {
+                node = root;
+                foreach (string pathBits in filePath.Split('\\'))
+                {
+                    node = AddNode(node, pathBits);
+                }
+            }
+            return root;
+        }
+
+
+        private TreeViewItem AddNode(TreeViewItem node, string key)
+        {
+            TreeViewItem a = new TreeViewItem();
+            if (node.Items.Cast<TreeViewItem>().Any(item => item.Header.ToString() == key))
+
+            {
+                IEnumerable<TreeViewItem> names = from node1 in node.Items.OfType<TreeViewItem>().Where((x) => x.Header.ToString()== key)
+                                                  select node;
+
+                TreeViewItem a1 = new TreeViewItem(); //node.Items.Cast<TreeViewItem>().Where(item => item.Header.ToString() = key);
+            }
+            else
+            {
+                TreeViewItem newtvi = new TreeViewItem();
+                newtvi.Header = key;
+                 node.Items.Add(newtvi);
+                return node;
+            }
+            return a;
+        }
     }
+
 }

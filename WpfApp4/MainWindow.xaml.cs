@@ -24,11 +24,13 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
+            Tags.XMLFile.init();
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
-            //Views.tagsCategory b = new Views.tagsCategory();
+            Views.HandleViews b = new Views.HandleViews();
+            b.getComplexTags(new List<string>(new string[] { "Music.urban", "Hobbies.Comics" }));
             //b.LoadCategoryListFromXML();
-            Tags.XMLFile.init();
+            
 
         }
 

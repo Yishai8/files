@@ -104,6 +104,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\TagControl\andOrSelection.xaml.cs">
+      <DependentUpon>andOrSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TagControl\TagDialog.cs" />
     <Compile Include="Controls\TagControl\TagDialog.xaml.cs">
       <DependentUpon>TagDialog.xaml</DependentUpon>
@@ -124,6 +127,10 @@
     <Compile Include="Views\HandleViews.cs" />
     <Compile Include="Views\TreeNode.cs" />
     <Compile Include="Views\View.cs" />
+    <Page Include="Controls\TagControl\andOrSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\TagControl\TagDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

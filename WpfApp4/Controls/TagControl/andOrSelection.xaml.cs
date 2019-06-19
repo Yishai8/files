@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using WpfApp4.Tags;
+
+namespace WpfApp4.Controls.TagControl
+{
+    /// <summary>
+    /// Interaction logic for inputMessage.xaml
+    /// </summary>
+    public partial class andOrSelection : Window
+    {
+
+        public andOrSelection(ObservableCollection<tagsCategory> cats)
+        {
+            InitializeComponent();
+            lb.ItemsSource = cats;
+
+        }
+        private void btnDialogOk_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedCategoty = lb.SelectedValue as Tags.tagsCategory;
+            if (selectedCategoty == null)
+            {
+                MessageBox.Show("Main category was not selected");
+                return;
+            }
+            this.DialogResult = true;
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

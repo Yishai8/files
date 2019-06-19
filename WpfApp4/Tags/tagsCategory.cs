@@ -13,12 +13,14 @@ namespace WpfApp4.Tags
 
         public IList<string> categoryOptions { get; set; } //single category
 
-        public tagsCategory(string name, List<string> options)
+        public tagsCategory(string name, List<string> options,bool showOldValus)
         {
             this.categoryName = name;
             this.categoryOptions = options;
+            this.showOldValus = showOldValus;
         }
         public string categoryName { get; set; }
+        public bool showOldValus { get; set; }
     }
 
 

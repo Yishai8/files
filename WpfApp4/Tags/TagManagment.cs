@@ -71,6 +71,7 @@ namespace WpfApp4.Tags
             foreach (XElement el in listOfcategories)  //paths
             {
                 List<string> cat = new List<string>();
+                bool showOld = bool.TryParse(el.Attribute("showOldValues").Value, out showOld);
                 header = (string)el.Attribute("name").Value;
 
                 foreach (XElement child in el.Descendants())
@@ -78,7 +79,7 @@ namespace WpfApp4.Tags
 
                     cat.Add((string)child.Attribute("name").Value);
                 }
-                _Categories.Add(new tagsCategory ( header, cat ));
+                _Categories.Add(new tagsCategory ( header, cat, showOld));
 
             }
             return _Categories;

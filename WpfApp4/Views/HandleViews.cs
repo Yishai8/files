@@ -50,28 +50,13 @@ namespace WpfApp4.Views
         {
 
             var Tagslist = Tags.TagManagment.getPathsByTag(tag, iscategory);
-            List<List<string>> paths = new List<List<string>>();
-            foreach(List<Tags.TagFilter> l in Tagslist)
-            {
-                List<String> list = new List<string>();
-                int count = 0;
-                foreach (Tags.TagFilter singleList in l)
-                {
-                    if (count < 2)
-                        list.Add(singleList.FileTag);
-                    else
-                        list.Add(singleList.path);
-                }
-                paths.Add(list);
-                
-            }
-            Tags.XMLFile.AddViewNode(paths, tag);
+            Tags.XMLFile.AddViewNode(Tagslist, tag);
             t.Items.Clear();
             Populate(tag, null, t, null, true);
             TreeViewItem _item =
     (TreeViewItem)t.ItemContainerGenerator.Items[0];
             int nodeLocation = 0;
-            foreach (List<string> list in paths)
+            foreach (List<string> list in Tagslist)
             {
                 Populate(list[0] + "." + list[1], null, null, _item, true);
                 TreeViewItem _item1 = (TreeViewItem)_item.Items[nodeLocation];
@@ -242,19 +227,69 @@ namespace WpfApp4.Views
         public void getComplexTags(TreeView tv,List<string> filterParams)
         {
             List<string> mutualPaths = new List<string>();
+            List<Tags.TagFilter> list = new List<Tags.TagFilter>();
+            List<string> tags = new List<string>();
             foreach (string param in filterParams)
             {
                 var Tagslist = Tags.TagManagment.getPathsByTag(param, "Main+SubCategory");
+                string mainCat = Tagslist[0][0];
+                string subCat = Tagslist[0][1];
+                tags.Add(mainCat + "." + subCat);
                 Tagslist[0].RemoveRange(0, 2);
-                mutualPaths.AddRange(Tagslist[0]);
+                foreach(string path in Tagslist[0])
+                {
+                    list.Add(new Tags.TagFilter(path,mainCat+"."+subCat));
+                }
+                
             }
-            mutualPaths = mutualPaths.GroupBy(x => x)
-              .Where(g => g.Count() > 1)
-              .Select(y => y.Key)
-              .ToList();
+            var paths = (from listItem in list
+                     group listItem by listItem.path into g
+                     select Merge(g)
+        ).ToList();
+
+            if(tags.Count>1)
+            {
+                foreach(Tags.TagFilter path in paths)
+                {
+                    int exist = 0;
+                    foreach (string tag in tags)
+                    {
+                        if (path.FileTag.Contains(tag))
+                            exist++;
+                    }
+                    if (exist >= tags.Count-1&& exist>1)
+                        mutualPaths.Add(path.path);
+                }
+                
+            }
+            else
+            {
+                foreach (Tags.TagFilter path in paths)
+                {
+                   
+                        mutualPaths.Add(path.path);
+                }
+            }
+        
+
 
             MakeTreeFromPaths(tv,mutualPaths);
 
+        }
+
+        private Tags.TagFilter Merge(IEnumerable<Tags.TagFilter> paths)
+        {
+            Tags.TagFilter u = new Tags.TagFilter("","");
+            if (!paths.Any())
+            {
+                return u;
+            }
+            else
+            {
+                u.path = paths.First().path;
+                u.FileTag = string.Join("; ", paths.Select(x => x.FileTag));
+                return u;
+            }
         }
 
         public void MakeTreeFromPaths(TreeView tv,List<string> paths, string rootNodeName = "", char separator = '/')

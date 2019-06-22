@@ -48,7 +48,7 @@ namespace WpfApp4.Tags
 
         }
 
-        public static List<List<TagFilter>> getPathsByTag(string tag,string isCategory)
+        public static List<List<string>> getPathsByTag(string tag,string isCategory)
         {
             return Tags.XMLFile.getPathsByTag(tag, isCategory);
         }

@@ -224,7 +224,7 @@ namespace WpfApp4.Views
             return children;
         }
 
-        public void getComplexTags(List<string> filterParams)
+        public void getComplexTags(TreeView tv,List<string> filterParams)
         {
             List<string> mutualPaths = new List<string>();
             foreach (string param in filterParams)
@@ -238,50 +238,140 @@ namespace WpfApp4.Views
               .Select(y => y.Key)
               .ToList();
 
-            MakeTreeFromPaths(mutualPaths);
+            MakeTreeFromPaths(tv,mutualPaths);
 
         }
 
-        public TreeViewItem MakeTreeFromPaths(List<string> paths, string rootNodeName = "", char separator = '/')
+        public void MakeTreeFromPaths(TreeView tv,List<string> paths, string rootNodeName = "", char separator = '/')
         {
 
 
             TreeViewItem root = new TreeViewItem();
-            TreeViewItem node = root;
+            TreeViewItem node = new TreeViewItem();
+            TreeViewItem par = new TreeViewItem();
             //treeView1.Nodes.Add(root);
+           
+           
+
 
             foreach (string filePath in paths) // myList is your list of paths
             {
-                node = root;
+               
+                string tag = string.Empty;
+                TreeViewItem lastNode = null;
                 foreach (string pathBits in filePath.Split('\\'))
                 {
-                    node = AddNode(node, pathBits);
+                   
+                    //var used for finding existing node
+                    TreeViewItem existingNode = null;
+                    //new node to add to tree
+                    TreeViewItem newNode = new TreeViewItem();
+                    newNode.Header= pathBits;
+                    if (tag == string.Empty)
+                    {
+                        newNode.Tag = pathBits;
+                        tag = pathBits;
+                    }
+                        
+                    else
+                    {
+                        tag = tag + "\\" + pathBits;
+                        newNode.Tag = tag;
+
+                    }
+                        
+                    //collection of subnodes to search for node name (to check if node exists)
+                    //in first pass, that collection is collection of treeView's nodes (first level)
+                    ItemCollection nodesCollection = tv.Items;
+
+                    //with first pass, this will be null, but in every other, this will hold last added node.
+                    if (lastNode != null)
+                    {
+                        nodesCollection = lastNode.Items;
+                    }
+
+                    //look into collection if node is already there (method checks only first level of node collection)
+                    existingNode = FindNode(nodesCollection, pathBits);
+                    //node is found? In that case, skip it but mark it as last "added"
+                    if (existingNode != null)
+                    {
+                        lastNode = existingNode;
+                        continue;
+                    }
+                    else //not found so add it to collection and mark node as last added.
+                    {
+                        nodesCollection.Add(newNode);
+                        lastNode = newNode;
+                    }
+                 
                 }
             }
-            return root;
+            
+        }
+
+        private ItemCollection CheckChildExists(ItemCollection items, string tag,string parent)
+        {
+
+
+            ItemCollection newCol= null;
+            foreach (TreeViewItem i in items)
+            {
+                if (i.Tag.ToString() == tag)
+                {
+                    newCol = i.Items;
+                    break;
+
+                }
+                    
+            }
+            return newCol;
         }
 
 
-        private TreeViewItem AddNode(TreeViewItem node, string key)
+        private void AddNode(TreeViewItem node, string key,string parent,string tag)
         {
-            TreeViewItem a = new TreeViewItem();
             if (node.Items.Cast<TreeViewItem>().Any(item => item.Header.ToString() == key))
 
             {
-                IEnumerable<TreeViewItem> names = from node1 in node.Items.OfType<TreeViewItem>().Where((x) => x.Header.ToString()== key)
-                                                  select node;
-
-                TreeViewItem a1 = new TreeViewItem(); //node.Items.Cast<TreeViewItem>().Where(item => item.Header.ToString() = key);
+                IEnumerable<TreeViewItem> items = from node1 in node.Items.OfType<TreeViewItem>().Where((x) => x.Header.ToString()== key)
+                                                  select node1;
+                foreach(TreeViewItem item in items)
+                {
+                    node = item;
+                }
+                
+                //node.Items.Cast<TreeViewItem>().Where(item => item.Header.ToString() = key);
             }
             else
             {
-                TreeViewItem newtvi = new TreeViewItem();
-                newtvi.Header = key;
-                 node.Items.Add(newtvi);
-                return node;
+                if(node.Header==null)
+                {
+                    node.Header = key;
+                    node.Tag = tag;
+                }
+                else
+                {
+                    TreeViewItem newtvi = new TreeViewItem();
+                    newtvi.Header = key;
+                    node.Items.Add(newtvi);
+                    node = newtvi;
+
+                }
+
             }
-            return a;
+           
         }
+
+   
+
+        private TreeViewItem FindNode(ItemCollection nodeCollectionToSearch, string nodeText)
+        {
+            var nodesToSearch = nodeCollectionToSearch.Cast<TreeViewItem>();
+            var foundNode = nodesToSearch.FirstOrDefault(n => n.Header.ToString() == nodeText);
+            return foundNode;
+        }
+
+
     }
 
 }

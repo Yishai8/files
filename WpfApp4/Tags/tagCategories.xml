@@ -42,5 +42,28 @@
     <ChildTag name="Austria"/>
   </HeaderTag>
 
+  <HeaderTag name="CoursesName" showOldValues="true">
+    <ChildTag name="asembler" showOldValues="true"/>
+    <ChildTag name="c++"/>
+    <ChildTag name="graphics"/>
+    <ChildTag name="algebra"/>
+  </HeaderTag>
+
+  <HeaderTag name="CoursesFeatue" showOldValues="true">
+    <ChildTag name="ex" showOldValues="true"/>
+    <ChildTag name="material"/>
+    <ChildTag name="grades"/>
+  </HeaderTag>
+
+  <HeaderTag name="year" showOldValues="true">
+    <ChildTag name="2018" showOldValues="true"/>
+    <ChildTag name="2019"/>
+    <ChildTag name="2017"/>
+  </HeaderTag>
+  <HeaderTag name="School" showOldValues="true">
+    <ChildTag name="Courses" showOldValues="true"/>
+    <ChildTag name="articles"/>
+  </HeaderTag>
+  
 
   </root>

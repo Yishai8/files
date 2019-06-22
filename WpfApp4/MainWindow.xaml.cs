@@ -28,7 +28,8 @@ namespace WpfApp4
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
             Views.HandleViews b = new Views.HandleViews();
-            b.getComplexTags(new List<string>(new string[] { "Music.urban", "Hobbies.Comics" }));
+            viewTree.Items.Clear();
+            b.getComplexTags(viewTree,new List<string>(new string[] { "CoursesFeatue.material", "CoursesName.asembler", "CoursesName.graphics" }));
             //b.LoadCategoryListFromXML();
             
 

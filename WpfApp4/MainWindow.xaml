@@ -162,6 +162,7 @@
                             </Style>
                         </TreeView.ItemContainerStyle>
                     </TreeView>
+                    <Button Content="Button" HorizontalAlignment="Left" Margin="223,180,0,0" Click="open" VerticalAlignment="Top" Width="75"/>
 
                 </Grid>
             </TabItem>

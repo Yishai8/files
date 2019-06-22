@@ -29,9 +29,9 @@ namespace WpfApp4
             lb2.ItemsSource = Categories;
             Views.HandleViews b = new Views.HandleViews();
             viewTree.Items.Clear();
-            b.getComplexTags(viewTree,new List<string>(new string[] { "year.2018", "CoursesName.asembler" }));
+            b.getComplexTags(viewTree, new List<string>(new string[] { "year.2018", "CoursesName.asembler" }));
             //b.LoadCategoryListFromXML();
-            
+
 
         }
 
@@ -216,8 +216,8 @@ namespace WpfApp4
             {
                 var selectedCategoty = inputDialog.lb.SelectedValue as Tags.tagsCategory;
                 var selectedSubCategory = inputDialog.lb1.SelectedValue;
-                List<string> fileslist=b.getTaggedPaths(selected);
-                
+                List<string> fileslist = b.getTaggedPaths(selected);
+
                 if (selectedSubCategory != null)
                     saveTags(fileslist, selectedCategoty.categoryName + "." + selectedSubCategory);
                 else
@@ -744,9 +744,15 @@ namespace WpfApp4
             lb_tag.Items.Clear();
         }
 
+        private void open(object sender, RoutedEventArgs e)
+        {
 
+            Controls.TagControl.andOrSelection inputDialog = new Controls.TagControl.andOrSelection(Categories);
+            inputDialog.Title = "Save Custom View";
 
-
-
+            if (inputDialog.ShowDialog() == true)
+            {
+            }
+        }
     }
 }

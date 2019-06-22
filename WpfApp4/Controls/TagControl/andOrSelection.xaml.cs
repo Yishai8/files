@@ -25,18 +25,12 @@ namespace WpfApp4.Controls.TagControl
         public andOrSelection(ObservableCollection<tagsCategory> cats)
         {
             InitializeComponent();
-            lb.ItemsSource = cats;
+            x.ItemsSource = cats;
 
         }
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            var selectedCategoty = lb.SelectedValue as Tags.tagsCategory;
-            if (selectedCategoty == null)
-            {
-                MessageBox.Show("Main category was not selected");
-                return;
-            }
-            this.DialogResult = true;
+          
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

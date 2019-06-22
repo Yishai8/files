@@ -50,13 +50,28 @@ namespace WpfApp4.Views
         {
 
             var Tagslist = Tags.TagManagment.getPathsByTag(tag, iscategory);
-            Tags.XMLFile.AddViewNode(Tagslist, tag);
+            List<List<string>> paths = new List<List<string>>();
+            foreach(List<Tags.TagFilter> l in Tagslist)
+            {
+                List<String> list = new List<string>();
+                int count = 0;
+                foreach (Tags.TagFilter singleList in l)
+                {
+                    if (count < 2)
+                        list.Add(singleList.FileTag);
+                    else
+                        list.Add(singleList.path);
+                }
+                paths.Add(list);
+                
+            }
+            Tags.XMLFile.AddViewNode(paths, tag);
             t.Items.Clear();
             Populate(tag, null, t, null, true);
             TreeViewItem _item =
     (TreeViewItem)t.ItemContainerGenerator.Items[0];
             int nodeLocation = 0;
-            foreach (List<string> list in Tagslist)
+            foreach (List<string> list in paths)
             {
                 Populate(list[0] + "." + list[1], null, null, _item, true);
                 TreeViewItem _item1 = (TreeViewItem)_item.Items[nodeLocation];

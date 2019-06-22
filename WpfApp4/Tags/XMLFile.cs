@@ -368,19 +368,19 @@ namespace WpfApp4.Tags
         }
 
 
-        public static List<List<string>> getPathsByTag(string tag, string isCategory)
+        public static List<List<TagFilter>> getPathsByTag(string tag, string isCategory)
         {
-            List<List<string>> pathList = new List<List<string>>();
+            List<List<TagFilter>> pathList = new List<List<TagFilter>>();
 
             IEnumerable<XElement> listOftags = getNodesForView(tag, isCategory);
             foreach (XElement tagNode in listOftags)
             {
-                List<string> innerPathList = new List<string>();
-                innerPathList.Add(tagNode.Attribute("name").Value);
-                innerPathList.Add(tagNode.Attribute("value").Value);
+                List<TagFilter> innerPathList = new List<TagFilter>();
+                innerPathList.Add(new TagFilter ("", tagNode.Attribute("name").Value));
+                innerPathList.Add(new TagFilter("",tagNode.Attribute("value").Value));
                 foreach (XElement pathNode in tagNode.Descendants())
                 {
-                    innerPathList.Add(pathNode.Attribute("value").Value);
+                    innerPathList.Add(new TagFilter(pathNode.Attribute("value").Value,""));
                 }
                 pathList.Add(innerPathList);
 
@@ -388,6 +388,11 @@ namespace WpfApp4.Tags
 
 
             return pathList;
+        }
+
+        private static void setPathTags(XElement el, string path)
+        {
+
         }
 
 

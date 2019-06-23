@@ -30,12 +30,20 @@ namespace WpfApp4.Controls.TagControl
         }
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-          
+            this.DialogResult = true;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
 
+        }
+
+        private void addParamtoLV(object sender, RoutedEventArgs e)
+        {
+
+            string paramsSelection = x.SelectedValue.ToString() + "." + x1.SelectedValue.ToString();
+            if(!paramLV.Items.Contains(paramsSelection))
+            paramLV.Items.Add(paramsSelection);
         }
     }
 }

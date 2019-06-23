@@ -226,8 +226,10 @@ namespace WpfApp4.Views
 
         public void getComplexTags(TreeView tv,List<string> filterParams)
         {
+            IEnumerable<string> newList = filterParams.OrderBy(x => x);
             List<string> mutualPaths = new List<string>();
             List<Tags.TagFilter> list = new List<Tags.TagFilter>();
+            List<Tags.TagFilter> list1 = new List<Tags.TagFilter>();
             List<string> tags = new List<string>();
             foreach (string param in filterParams)
             {
@@ -240,13 +242,34 @@ namespace WpfApp4.Views
                 {
                     list.Add(new Tags.TagFilter(path,mainCat+"."+subCat));
                 }
-                
+                list1.Add(new Tags.TagFilter(mainCat, subCat));
+
             }
+
+            var tagsOrder = (from listItem in list1
+                         group listItem by listItem.path into g
+                         select Merge(g)
+      ).ToList();
+            //show all tags per path
             var paths = (from listItem in list
                      group listItem by listItem.path into g
                      select Merge(g)
         ).ToList();
+            List<string> l = new List<string>();
+            List<string> andList = new List<string>();
+            List<string> orList = new List<string>();
+            for (int i=0;i< tagsOrder.Count;i++)
+            {
+                l = tagsOrder[i].FileTag.Split(';').ToList();
+                if (l.Count() == 1)
+                    andList.AddRange
+                        else
+                {
 
+                }
+                
+
+            }
             if(tags.Count>1)
             {
                 foreach(Tags.TagFilter path in paths)

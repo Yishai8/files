@@ -4,46 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp4.Controls.TagControl"
-        xmlns:controls="clr-namespace:WpfApp4.Controls.ComboWithCheckboxes"
         mc:Ignorable="d"
-        Title="ListMessage" Height="477.6" Width="auto" SizeToContent= "Width">
-    <Grid Margin="15,15,15,60" Width="552">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        Title="ListMessage" Height="477.6" Width="auto" SizeToContent= "Width" ResizeMode="NoResize">
+    <Grid Margin="15,15,15,43" Width="552">
 
-        <Image  Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />
-        <StackPanel >
-        <ComboBox ItemsSource="{Binding Path=cats}"
-           Name="x" Margin="10,10,798.4,592.6" >
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding categoryName}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
+
+
+        <Canvas Grid.ColumnSpan="2" Margin="0,0,190,224.6" HorizontalAlignment="Center">
+            <ComboBox ItemsSource="{Binding Path=cats}" HorizontalAlignment="Left" HorizontalContentAlignment="Center"
+           Name="x" Canvas.Left="10" Canvas.Top="10" Width="251" SelectedValuePath="categoryName" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding categoryName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
-        </StackPanel>
-        <StackPanel>
-        <ComboBox  ItemsSource="{Binding ElementName=x, Path=SelectedItem.categoryOptions}"
-             Name="x1" Margin="65,10,743.8,592.6" >
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        </StackPanel>
-        <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="201,601,0,0" RenderTransformOrigin="0.597,-1.44">Add tag to files</Button>
 
-        <WrapPanel HorizontalAlignment="Left" Margin="0,282,691.8,296.6" Width="135">
-            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+            <ComboBox  ItemsSource="{Binding SelectedItem.categoryOptions, ElementName=x}" HorizontalAlignment="Left"
+             x:Name="x1" RenderTransformOrigin="11.229,2.559" Canvas.Left="10" Canvas.Top="63" Width="251" HorizontalContentAlignment="Center" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ListView Canvas.Top="212" Height="108" Width="251" Canvas.Left="10" Name="paramLV"/>
+            <TextBox Height="24" Canvas.Left="10" TextWrapping="Wrap" Text="" Canvas.Top="128" Width="251" IsEnabled="False"/>
+            <Button IsDefault="True" x:Name="add" Click="addParamtoLV" MinWidth="60" Content="add" Height="21" Canvas.Left="94" Canvas.Top="170"/>
+        </Canvas>
+
+        <WrapPanel HorizontalAlignment="Center" Margin="208,342,208,10" Width="136">
+            <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="_Ok" Height="29"/>
+            <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="29"/>
         </WrapPanel>
     </Grid>
 </Window>

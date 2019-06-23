@@ -27,9 +27,7 @@ namespace WpfApp4
             Tags.XMLFile.init();
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
-            Views.HandleViews b = new Views.HandleViews();
-            viewTree.Items.Clear();
-            b.getComplexTags(viewTree, new List<string>(new string[] { "year.2018", "CoursesName.asembler" }));
+          
             //b.LoadCategoryListFromXML();
 
 
@@ -748,10 +746,15 @@ namespace WpfApp4
         {
 
             Controls.TagControl.andOrSelection inputDialog = new Controls.TagControl.andOrSelection(Categories);
-            inputDialog.Title = "Save Custom View";
+            inputDialog.Title = "Set Custom View filters";
 
             if (inputDialog.ShowDialog() == true)
             {
+                Views.HandleViews b = new Views.HandleViews();
+                viewTree.Items.Clear();
+                List<string> filterParams = inputDialog.paramLV.Items.Cast<string>()
+                                 .Select(x => x.ToString()).ToList();
+                b.getComplexTags(viewTree, filterParams);
             }
         }
     }

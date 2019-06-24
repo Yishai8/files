@@ -354,7 +354,7 @@ namespace WpfApp4
                         // source.Items.Add(newEntry);
                         var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
                         if (!isFile)
-                            Populate(Path.GetFileName(f), f, source, null, false);
+                            Populate(f, f, source, null, false);
                         else
                             Populate(Path.GetFileName(f), f, source, null, true);
                     }

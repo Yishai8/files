@@ -228,12 +228,19 @@ namespace WpfApp4.Views
         {
             IEnumerable<string> newList = filterParams.OrderBy(x => x);
             List<string> mutualPaths = new List<string>();
+            List<string> orPaths = new List<string>();
             List<Tags.TagFilter> list = new List<Tags.TagFilter>();
             List<Tags.TagFilter> list1 = new List<Tags.TagFilter>();
             List<string> tags = new List<string>();
             foreach (string param in filterParams)
             {
                 var Tagslist = Tags.TagManagment.getPathsByTag(param, "Main+SubCategory");
+                if (Tagslist.Count == 0)
+                {
+                    list1.Add(new Tags.TagFilter(param.Substring(0,param.IndexOf('.')), param.Substring(param.IndexOf('.') + 1, param.Length - 1 - param.Substring(0, param.IndexOf('.')).Length)));
+                    continue;
+                }
+                    
                 string mainCat = Tagslist[0][0];
                 string subCat = Tagslist[0][1];
                 tags.Add(mainCat + "." + subCat);
@@ -262,38 +269,40 @@ namespace WpfApp4.Views
             {
                 l = tagsOrder[i].FileTag.Split(';').ToList();
                 if (l.Count() == 1)
-                    andList.AddRange
-                        else
                 {
+                    newList = from node in list
+                              where node.FileTag.Contains(tagsOrder[i].path + "." + l[0])
+                              select node.path;
+                    if (newList.Count() == 0)
+                        return;
+                    if (i == 0)
+                        mutualPaths.AddRange(newList);
+                    else
+                        mutualPaths = (mutualPaths.Intersect(newList.ToList())).ToList();
+                    if (mutualPaths.Count == 0)
+                        return;
 
                 }
-                
-
-            }
-            if(tags.Count>1)
-            {
-                foreach(Tags.TagFilter path in paths)
+              
+                else
                 {
-                    int exist = 0;
-                    foreach (string tag in tags)
+                    orPaths = new List<string>();
+                    foreach (string cat in l)
                     {
-                        if (path.FileTag.Contains(tag))
-                            exist++;
+                        newList = from node in list
+                                  where node.FileTag.Contains(tagsOrder[i].path + "." + cat)
+                                  select node.path;
+                         orPaths.AddRange(newList);
+                       
+                            
                     }
-                    if (exist >= tags.Count-1&& exist>1)
-                        mutualPaths.Add(path.path);
+                    mutualPaths = (mutualPaths.Intersect(orPaths)).ToList();
+                    if (mutualPaths.Count == 0)
+                        return; 
                 }
                 
+
             }
-            else
-            {
-                foreach (Tags.TagFilter path in paths)
-                {
-                   
-                        mutualPaths.Add(path.path);
-                }
-            }
-        
 
 
             MakeTreeFromPaths(tv,mutualPaths);
@@ -310,7 +319,7 @@ namespace WpfApp4.Views
             else
             {
                 u.path = paths.First().path;
-                u.FileTag = string.Join("; ", paths.Select(x => x.FileTag));
+                u.FileTag = string.Join(";", paths.Select(x => x.FileTag));
                 return u;
             }
         }

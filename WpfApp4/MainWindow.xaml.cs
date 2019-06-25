@@ -354,7 +354,17 @@ namespace WpfApp4
                         // source.Items.Add(newEntry);
                         var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
                         if (!isFile)
-                            Populate(f, f, source, null, false);
+                        {
+                             if (!(new DirectoryInfo(f).FullName == new DirectoryInfo(f).Root.FullName))
+                                Populate(Path.GetFileName(f), f, source, null, false);
+                             else
+                                Populate(f, f, source, null, false);
+
+                            // path is a directory.
+
+
+                        }
+                            
                         else
                             Populate(Path.GetFileName(f), f, source, null, true);
                     }

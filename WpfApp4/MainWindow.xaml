@@ -138,7 +138,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="0,235,295.4,10">
-                        <TreeView.ItemContainerStyle>
+                        <TreeView.Resources>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
                                 <Setter Property="HeaderTemplate">
@@ -160,7 +160,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </Style>
-                        </TreeView.ItemContainerStyle>
+                        </TreeView.Resources>
                     </TreeView>
                     <Button Content="Button" HorizontalAlignment="Left" Margin="223,180,0,0" Click="open" VerticalAlignment="Top" Width="75"/>
 
@@ -185,8 +185,7 @@
                             <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                 <MenuItem Header="Add Tag" Click="TagView" />
                             </ContextMenu>
-                        </TreeView.Resources>
-                        <TreeView.ItemContainerStyle>
+                        
                             <Style TargetType="{x:Type TreeViewItem}" >
                                 <Setter Property="ContextMenu" Value="{StaticResource TVtemContextMenu}" />
                                 <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="Tree_PreviewMouseRightButtonDown" />
@@ -195,10 +194,27 @@
                                 <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="Tree_PreviewMouseMove" />
                                 <EventSetter Event="TreeViewItem.Drop" Handler="CustomviewTree_Drop" />
                                 <EventSetter Event="TreeViewItem.PreviewMouseLeftButtonDown" Handler="CustomviewTree_PreviewMouseLeftButtonDown" />
-                                
+                                <Setter Property="HeaderTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Name="img"  Width="20" Height="20" Stretch="Fill" 
+                                       Source="{Binding
+                                       RelativeSource={RelativeSource 
+                                       Mode=FindAncestor, 
+                                       AncestorType={x:Type TreeViewItem}}, 
+                                       Path=Tag, 
+                                       Converter={x:Static local:HeaderToImageConverter.Instance}}"       
+                                       />
+                                                <TextBlock Text="{Binding}" Margin="5,0" />
+
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
 
-                        </TreeView.ItemContainerStyle>
+                        </TreeView.Resources>
                     </TreeView>
 
                 </Grid>

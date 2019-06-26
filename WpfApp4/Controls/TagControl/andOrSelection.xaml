@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp4.Controls.TagControl"
         mc:Ignorable="d"
-        Title="ListMessage" Height="477.6" Width="auto" SizeToContent= "Width" ResizeMode="NoResize">
+        Title="ListMessage" Height="477.6" Width="auto" SizeToContent= "Width" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="15,15,15,43" Width="552">
 
 

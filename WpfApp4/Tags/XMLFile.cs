@@ -272,18 +272,20 @@ namespace WpfApp4.Tags
 
         }
 
-
         public static void AddTagNode(string tag, string path)
         {
             List<string> parsedTags = parse_tags(tag);
-            foreach (string tagRes in parsedTags)
-            {
-                var i = tagRes.IndexOf('.');
-                string mainCat = tagRes.Substring(0, i); ;
-                string subCat = tagRes.Substring(i + 1, (tagRes.Length) - i - 1);
-
-                IEnumerable<XElement> categoriesToAdd = getNodeByTag(tagRes, false);
-                if (categoriesToAdd.Any())
+           
+                string mainCat =parsedTags[0] ;
+                string subCat = string.Empty;
+            if(parsedTags.Count>1)
+                 subCat = parsedTags[1];
+            IEnumerable<XElement> categoriesToAdd = null;
+            if (subCat!=string.Empty)
+                 categoriesToAdd = getNodeByTag(mainCat+"."+subCat, true);
+            else
+                categoriesToAdd = getNodeByTag(mainCat + ".", false);
+            if (categoriesToAdd.Any())
                 {
                     foreach (XElement el in categoriesToAdd)  //paths
                     {
@@ -297,8 +299,6 @@ namespace WpfApp4.Tags
                     addPathToNewNode(mainCat, subCat, path);
 
 
-
-            }
         }
 
         public static IEnumerable<XElement> getNodeByTag(string tag, bool getBySubCat)
@@ -312,10 +312,13 @@ namespace WpfApp4.Tags
             string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
             if (!getBySubCat)
             {
-                NodeList = //bring all the tag block from the xml includes subtags
+                
+                    NodeList = //bring all the tag block from the xml includes subtags
                 from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
                 where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
                 select el;
+                
+                
             }
             else
             {
@@ -425,7 +428,7 @@ namespace WpfApp4.Tags
         public static List<string> parse_tags(string tags)
         {
             List<string> parsedTags = new List<string>();
-            parsedTags = tags.Split(';').Select(t => t.Trim()).ToList();
+            parsedTags = tags.Split('.').Select(t => t.Trim()).ToList();
             return parsedTags;
         }
 

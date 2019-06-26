@@ -10,7 +10,7 @@ namespace WpfApp4.Views
 {
      class SystemView
     {
-        public static ICollection<TreeNode<singleView>> listOfViews { get; set; }
+        public static ICollection<TreeViewItem<singleView>> listOfViews { get; set; }
 
         private SystemView()
         {

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace WpfApp4.Views
 {
-    public class TreeNode<T> : IEnumerable<TreeNode<T>>
+    public class TreeViewItem<T> : IEnumerable<TreeViewItem<T>>
     {
        
 
         public T Data { get; set; }
-        public TreeNode<T> Parent { get; set; }
-        public ICollection<TreeNode<T>> Children { get; set; }
+        public TreeViewItem<T> Parent { get; set; }
+        public ICollection<TreeViewItem<T>> Children { get; set; }
 
         public Boolean IsRoot
         {
@@ -36,18 +36,18 @@ namespace WpfApp4.Views
         }
 
 
-        public TreeNode(T data)
+        public TreeViewItem(T data)
         {
             this.Data = data;
-            this.Children = new LinkedList<TreeNode<T>>();
+            this.Children = new LinkedList<TreeViewItem<T>>();
 
-            this.ElementsIndex = new LinkedList<TreeNode<T>>();
+            this.ElementsIndex = new LinkedList<TreeViewItem<T>>();
             this.ElementsIndex.Add(this);
         }
 
-        public TreeNode<T> AddChild(T child)
+        public TreeViewItem<T> AddChild(T child)
         {
-            TreeNode<T> childNode = new TreeNode<T>(child) { Parent = this };
+            TreeViewItem<T> childNode = new TreeViewItem<T>(child) { Parent = this };
             this.Children.Add(childNode);
 
             this.RegisterChildForSearch(childNode);
@@ -63,16 +63,16 @@ namespace WpfApp4.Views
 
         #region searching
 
-        private ICollection<TreeNode<T>> ElementsIndex { get; set; }
+        private ICollection<TreeViewItem<T>> ElementsIndex { get; set; }
 
-        private void RegisterChildForSearch(TreeNode<T> node)
+        private void RegisterChildForSearch(TreeViewItem<T> node)
         {
             ElementsIndex.Add(node);
             if (Parent != null)
                 Parent.RegisterChildForSearch(node);
         }
 
-        public TreeNode<T> FindTreeNode(Func<TreeNode<T>, bool> predicate)
+        public TreeViewItem<T> FindTreeNode(Func<TreeViewItem<T>, bool> predicate)
         {
             return this.ElementsIndex.FirstOrDefault(predicate);
         }
@@ -87,7 +87,7 @@ namespace WpfApp4.Views
             return GetEnumerator();
         }
 
-        public IEnumerator<TreeNode<T>> GetEnumerator()
+        public IEnumerator<TreeViewItem<T>> GetEnumerator()
         {
             yield return this;
             foreach (var directChild in this.Children)

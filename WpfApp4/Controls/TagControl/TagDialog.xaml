@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp4.Controls.TagControl"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Window.WindowStyle="None"
         Title="ListMessage" Height="477.6" Width="auto" SizeToContent= "Width">
     <Grid Margin="15,15,15,60" Width="552">
         <Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
         </ListBox>
         <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="201,601,0,0" RenderTransformOrigin="0.597,-1.44">Add tag to files</Button>
 
-        <WrapPanel HorizontalAlignment="Right" Margin="0,282,731.6,296.6" Width="135">
+        <WrapPanel HorizontalAlignment="Right" Margin="0,369,691.6,209.6" Width="135">
             <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
             <Button IsCancel="True" MinWidth="60">_Cancel</Button>
         </WrapPanel>

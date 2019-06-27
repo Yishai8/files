@@ -57,19 +57,23 @@ namespace WpfApp4
                 else
                 {
 
-
-                    TreeViewItem _item = (TreeViewItem)sender;
-                    TreeView par = GetObjectParent(_item);
-
-                    _item = (TreeViewItem)par.SelectedItem;
-                    if (_item.Tag != null && _item.Tag.ToString() != "Custom Folder")
+                    if (((TreeViewItem)e.Source).Header.ToString() == ((TextBlock)e.OriginalSource).DataContext.ToString())
                     {
-                        var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
-                        if (isFile)
-                            System.Diagnostics.Process.Start(_item.Tag.ToString());
+                        TreeViewItem _item = (TreeViewItem)sender;
+                        TreeView par = GetObjectParent(_item);
+
+                        _item = (TreeViewItem)par.SelectedItem;
+                        if (_item.Tag != null && _item.Tag.ToString() != "Custom Folder")
+                        {
+                            var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
+                            if (isFile)
+                                System.Diagnostics.Process.Start(_item.Tag.ToString());
+                        }
+                        e.Handled = true;
+                        sender = null;
                     }
-                    e.Handled = true;
-                    sender = null;
+
+
                 }
             }
         }
@@ -764,7 +768,12 @@ namespace WpfApp4
                 viewTree.Items.Clear();
                 List<string> filterParams = inputDialog.paramLV.Items.Cast<string>()
                                  .Select(x => x.ToString()).ToList();
+                if (filterParams.Count == 0)
+                    return;
                 b.getComplexTags(viewTree, filterParams);
+                if (viewTree.Items.Count == 0)
+                    MessageBox.Show("No results were found for your selection");
+
             }
         }
     }

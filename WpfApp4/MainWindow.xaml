@@ -153,6 +153,7 @@
                                        Path=Tag, 
                                        Converter={x:Static local:HeaderToImageConverter.Instance}}"       
                                        />
+                                                
                                                 <TextBlock Text="{Binding}" Margin="5,0" />
 
                                             </StackPanel>
@@ -162,7 +163,7 @@
                             </Style>
                         </TreeView.Resources>
                     </TreeView>
-                    <Button Content="Button" HorizontalAlignment="Left" Margin="223,180,0,0" Click="open" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Create Filtered View" HorizontalAlignment="Left" Margin="203,180,0,0" Click="open" VerticalAlignment="Top" Width="112"/>
 
                 </Grid>
             </TabItem>

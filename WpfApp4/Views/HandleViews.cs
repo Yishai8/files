@@ -179,7 +179,7 @@ namespace WpfApp4.Views
 
                 if (node.Header != null)
                 {
-                    FileAttributes attr = FileAttributes.Directory; //default
+                    
                     if (node.Tag.ToString() != "Custom Folder") //item dropped on is not custom folder
                         paths.Add(node.Tag.ToString());
 

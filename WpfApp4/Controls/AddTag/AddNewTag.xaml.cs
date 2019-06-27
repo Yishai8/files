@@ -25,7 +25,7 @@ namespace WpfApp4.Controls.AddTag
         public AddNewTag(ObservableCollection<tagsCategory> cats)
         {
             InitializeComponent();
-            cbCats.ItemsSource = cats;
+            cbCats.MyItemsSource = cats;
         }
 
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)

@@ -33,7 +33,7 @@
             <Button IsDefault="True" x:Name="add" Click="addParamtoLV" MinWidth="60" Content="add" Height="21" Canvas.Left="94" Canvas.Top="170"/>
         </Canvas>
 
-        <WrapPanel HorizontalAlignment="Center" Margin="208,342,208,10" Width="136">
+        <WrapPanel HorizontalAlignment="Center" Margin="236,342,180,10" Width="136">
             <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="_Ok" Height="29"/>
             <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="29"/>
         </WrapPanel>

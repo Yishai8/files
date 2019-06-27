@@ -8,12 +8,13 @@ namespace WpfApp4.Controls.TagControl
 {
     public partial class TagDialog : Window
     {
-        
 
+        ObservableCollection<tagsCategory> categories;
         public TagDialog(ObservableCollection<tagsCategory> cats)
         {
             InitializeComponent();
-            lb.ItemsSource = cats;
+            categories = cats;
+            lb.ItemsSource = categories;
             
         }
 
@@ -33,6 +34,18 @@ namespace WpfApp4.Controls.TagControl
            
         }
 
-        
+        private void AddNewTagGroup(object sender, RoutedEventArgs e)
+        {
+
+            Controls.AddTag.AddNewTag inputDialog = new Controls.AddTag.AddNewTag(categories);
+            inputDialog.Title = "Add New Tag Group";
+
+            if (inputDialog.ShowDialog() == true)
+            {
+
+            }
+        }
+
+
     }
 }

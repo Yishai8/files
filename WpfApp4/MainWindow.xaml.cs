@@ -77,7 +77,7 @@ namespace WpfApp4
 
         private TreeView GetObjectParent(TreeViewItem obj)
         {
-            while (!(obj.Parent.GetType().Name is "TreeView")) //get to treeview parent
+            while (!(obj.Parent.GetType().Name == "TreeView")) //get to treeview parent
                 obj = (TreeViewItem)obj.Parent;
             return (TreeView)obj.Parent;
         }

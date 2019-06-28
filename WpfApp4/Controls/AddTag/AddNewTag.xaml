@@ -18,18 +18,15 @@
             <RowDefinition Height="Auto" MinHeight="8" />
         </Grid.RowDefinitions>
 
-
-
-
         <Canvas Margin="139,132,413,89.6" HorizontalAlignment="Center" Width="0">
             <cntrls:CustomComboBox HorizontalAlignment="Left"
                                MyItemsSource="{Binding cats}"
                               x:Name="cbCats" MyText="categoryName" Canvas.Left="10" Canvas.Top="10" Width="251" SelectedValuePath="categoryName"
                                DefaultText="Select an option..."/>
            
-            <TextBox Height="24" Canvas.Left="10"  IsEnabled="{Binding IsChecked, ElementName=Existing}" TextWrapping="Wrap" Text="" Canvas.Top="64" Width="251" />
-            <TextBox  TextAlignment="Center" TextWrapping="Wrap" IsEnabled="{Binding IsChecked, ElementName=New}" Text="" Canvas.Left="10" Canvas.Top="165" Width="107"/>
-            <TextBox  TextAlignment="Center" TextWrapping="Wrap" IsEnabled="{Binding IsChecked, ElementName=New}" Text="" Canvas.Left="154" Canvas.Top="165" Width="106"/>
+            <TextBox Name="newOption" Height="24" Canvas.Left="10"  IsEnabled="{Binding IsChecked, ElementName=Existing}" TextWrapping="Wrap" Text="" Canvas.Top="64" Width="251" />
+            <TextBox Name="mainCat"  TextAlignment="Center" TextWrapping="Wrap" IsEnabled="{Binding IsChecked, ElementName=New}" Text="" Canvas.Left="10" Canvas.Top="165" Width="107"/>
+            <TextBox Name="subCat"  TextAlignment="Center" TextWrapping="Wrap" IsEnabled="{Binding IsChecked, ElementName=New}" Text="" Canvas.Left="154" Canvas.Top="165" Width="106"/>
         </Canvas>
 
         <WrapPanel HorizontalAlignment="Center" Margin="192,369,224,-6" Width="136" Grid.RowSpan="3">
@@ -37,10 +34,8 @@
             <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="19.2"/>
         </WrapPanel>
         <TextBlock HorizontalAlignment="Left" Margin="153,258,0,0" TextWrapping="Wrap" Text="Add Tag To:" VerticalAlignment="Top" Height="16" Width="62"/>
-        <RadioButton Name="Existing" GroupName="tagGroup" Content="Existing" HorizontalAlignment="Left" Margin="227,259,0,0" VerticalAlignment="Top" Height="15" Width="60"/>
-        <RadioButton Name="New" GroupName="tagGroup" Content="New" HorizontalAlignment="Left" Margin="309,259,0,0" VerticalAlignment="Top" Height="15" Width="43"/>
+        <RadioButton Name="Existing" Checked="radioButton_Checked" GroupName="tagGroup" Content="Existing" HorizontalAlignment="Left" Margin="227,259,0,0" VerticalAlignment="Top" Height="15" Width="60"/>
+        <RadioButton Name="New" Checked="radioButton_Checked" GroupName="tagGroup" Content="New" HorizontalAlignment="Left" Margin="309,259,0,0" VerticalAlignment="Top" Height="15" Width="43"/>
         <Label Content="Add New Tag Group" HorizontalAlignment="Left" Margin="192,58,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontSize="16"/>
-
-
     </Grid>
 </Window>

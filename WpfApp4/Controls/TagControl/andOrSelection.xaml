@@ -10,9 +10,9 @@
 
 
 
-        <Canvas Grid.ColumnSpan="2" Margin="0,0,190,224.6" HorizontalAlignment="Center">
+        <Canvas Margin="219,0,333,225" HorizontalAlignment="Center">
             <ComboBox ItemsSource="{Binding Path=cats}" HorizontalAlignment="Left" HorizontalContentAlignment="Center"
-           Name="x" Canvas.Left="10" Canvas.Top="10" Width="251" SelectedValuePath="categoryName" >
+           Name="x" Canvas.Left="-130" Canvas.Top="10" Width="391" SelectedValuePath="categoryName" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding categoryName}"/>
@@ -21,21 +21,20 @@
             </ComboBox>
 
             <ComboBox  ItemsSource="{Binding SelectedItem.categoryOptions, ElementName=x}" HorizontalAlignment="Left"
-             x:Name="x1" RenderTransformOrigin="11.229,2.559" Canvas.Left="10" Canvas.Top="63" Width="251" HorizontalContentAlignment="Center" >
+             x:Name="x1" RenderTransformOrigin="11.229,2.559" Canvas.Left="-130" Canvas.Top="63" Width="391" HorizontalContentAlignment="Center" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ListView Canvas.Top="212" Height="108" Width="251" Canvas.Left="10" Name="paramLV"/>
-            <TextBox Height="24" Canvas.Left="10" TextWrapping="Wrap" Text="" Canvas.Top="128" Width="251" IsEnabled="False"/>
-            <Button IsDefault="True" x:Name="add" Click="addParamtoLV" MinWidth="60" Content="add" Height="21" Canvas.Left="94" Canvas.Top="170"/>
+            <ListView Canvas.Top="212" Height="108" Width="391" Canvas.Left="-130" Name="paramLV" ItemsSource="{Binding LVFilterTags}"/>
+            <TextBlock Height="46" Canvas.Left="-130" TextWrapping="Wrap" Text="" Canvas.Top="106" Width="391" Name="paramsText"/>
+            <Button IsDefault="True" x:Name="add" Click="addParamtoLV" MinWidth="60" Content="add" Height="21" Canvas.Left="22" Canvas.Top="170"/>
         </Canvas>
-
-        <WrapPanel HorizontalAlignment="Center" Margin="236,342,180,10" Width="136">
-            <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="_Ok" Height="29"/>
-            <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="29"/>
-        </WrapPanel>
+            <WrapPanel HorizontalAlignment="Center" Margin="200,342,180,10" Width="136">
+                <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="_Ok" Height="29"/>
+                <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="29"/>
+            </WrapPanel>
     </Grid>
 </Window>

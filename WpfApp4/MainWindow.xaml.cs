@@ -563,7 +563,7 @@ namespace WpfApp4
 
             TreeView tree = (TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
-            Thumbnails.Items.Clear();
+           
 
 
             //expend only a folder
@@ -579,7 +579,7 @@ namespace WpfApp4
                             ListViewItem item = new ListViewItem { Content = dir };
                             item.Tag = dir;
 
-                            Thumbnails.Items.Add(item);
+                           
                         }
                     }
                     foreach (string file in Directory.GetFiles(temp.Tag.ToString()))
@@ -590,7 +590,7 @@ namespace WpfApp4
                             ListViewItem item = new ListViewItem { Content = file };
                             item.Tag = file;
 
-                            Thumbnails.Items.Add(item);
+                            
                         }
                     }
                 }

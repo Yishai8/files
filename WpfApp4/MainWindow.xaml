@@ -3,21 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WpfApp4"
      
-    Title="Window1" Height="1479.13" Width="840" Loaded="Window_Loaded" WindowState="Maximized" >
+    Title="Window1" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={local:RatioConverter}, ConverterParameter='0.9' }" 
+      Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth }, Converter={local:RatioConverter}, ConverterParameter='0.9' }"   Loaded="Window_Loaded" WindowState="Maximized" >
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="345*"/>
+            <RowDefinition Height="14*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <TreeView x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
+        <TreeView FontWeight="Bold" x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged"  Background="#dce4f5" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
 
             <TreeView.Resources>
-                
-                    <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="Add Tag" Click="TagView" />
-                    </ContextMenu>
-                
+
+                <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <MenuItem Header="Add Tag" Click="TagView" />
+                </ContextMenu>
+
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="ContextMenu" Value="{StaticResource TVtemContextMenu}" />
                     <EventSetter Event="TreeViewItem.PreviewMouseMove" Handler="Tree_PreviewMouseMove" />
@@ -49,26 +55,17 @@
         </TreeView>
 
 
-        <TabControl   HorizontalAlignment="Left" Height="1000" Margin="0.4,0,0,0" VerticalAlignment="Top" Width="1000" Grid.Column="1">
-            <TabItem Header="Files Control" Margin="-2,-2,-2.4,0">
-                <Grid Background="White">
-                    <StackPanel>
-                        <ListView Name="Thumbnails" MouseDoubleClick="ThumbnailsOpenFile" Grid.Column="1" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="False">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding}" Height="30" Width="30" Margin="5"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
-                </Grid>
+        <TabControl Name="tc"   HorizontalAlignment="Left"   
+      Width="1116"  Margin="0,0,-75.2,-1" VerticalAlignment="Top"  Grid.Column="1" Grid.RowSpan="2">
 
-
-
-            </TabItem>
             <TabItem Header="Tag Control">
                 <Grid Background="White">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="451*"/>
+                        <ColumnDefinition Width="104*"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Background="AliceBlue" Grid.Column="1"></DockPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="30" Grid.ColumnSpan="2" Margin="0,0,-0.4,0">
 
                         <Label Width="60" Height="100" HorizontalAlignment="Left" >File Tags:</Label>
                         <Label Name="TagsOutput" Height="30" Width="441" HorizontalAlignment="Left" Margin="0,0,0,0.4"/>
@@ -78,14 +75,14 @@
 
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="removeTagsFromList" Margin="10,43,0,0">remove file</Button>
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="clearTagsFromList" Margin="80,43,0,0">clear List</Button>
-                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="-1,73,520.4,692" RenderTransformOrigin="0.5,0.5" Width="475">
+                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="57,73,369.733,619.8" RenderTransformOrigin="0.5,0.5" Width="475">
 
 
                     </ListBox>
                     <Label HorizontalAlignment="Left" Margin="155,43,0,0" VerticalAlignment="Top" Content="Drop files to tag"/>
                     <Label HorizontalAlignment="Left" Margin="43,328,0,0" VerticalAlignment="Top" Content="Main category"/>
                     <Label HorizontalAlignment="Left" Margin="327,328,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203"/>
-                    <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="-1,371,809.4,386" RenderTransformOrigin="0.5,0.5" Width="186">
+                    <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="57,371,658.733,321.8" RenderTransformOrigin="0.5,0.5" Width="186">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -95,7 +92,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="281,371,521.4,386" RenderTransformOrigin="0.5,0.5" Width="192">
+                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="339,371,370.733,321.8" RenderTransformOrigin="0.5,0.5" Width="192">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -153,7 +150,7 @@
                                        Path=Tag, 
                                        Converter={x:Static local:HeaderToImageConverter.Instance}}"       
                                        />
-                                                
+
                                                 <TextBlock Text="{Binding}" Margin="5,0" />
 
                                             </StackPanel>
@@ -186,7 +183,7 @@
                             <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                 <MenuItem Header="Add Tag" Click="TagView" />
                             </ContextMenu>
-                        
+
                             <Style TargetType="{x:Type TreeViewItem}" >
                                 <Setter Property="ContextMenu" Value="{StaticResource TVtemContextMenu}" />
                                 <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="Tree_PreviewMouseRightButtonDown" />

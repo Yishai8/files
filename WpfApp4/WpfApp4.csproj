@@ -149,6 +149,7 @@
       <DependentUpon>inputMessage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SystemClasses\NativeMethods.cs" />
+    <Compile Include="SystemClasses\RatioConverter.cs" />
     <Compile Include="SystemClasses\SysIcon.cs" />
     <Compile Include="Tags\Tag.cs" />
     <Compile Include="Tags\TagFilter.cs" />

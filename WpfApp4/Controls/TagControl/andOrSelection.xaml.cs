@@ -23,6 +23,7 @@ namespace WpfApp4.Controls.TagControl
     public partial class andOrSelection : Window
     {
         ObservableCollection<string> LVFilterTags = new ObservableCollection<string>() ;
+        List<string> tags = new List<string>();
         string mainCatText = "CategoryName=";
         string subCatText = "Value=";
 
@@ -36,6 +37,7 @@ namespace WpfApp4.Controls.TagControl
         }
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
+            paramLV.ItemsSource = tags;
             this.DialogResult = true;
         }
 
@@ -49,7 +51,11 @@ namespace WpfApp4.Controls.TagControl
             
             string paramsSelection = mainCatText + x.SelectedValue.ToString() +","+ subCatText + x1.SelectedValue.ToString();
             if(!LVFilterTags.Contains(paramsSelection))
+            {
                 LVFilterTags.Add(paramsSelection);
+                tags.Add(x.SelectedValue.ToString() + "."+ x1.SelectedValue.ToString());
+            }
+                
         }
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

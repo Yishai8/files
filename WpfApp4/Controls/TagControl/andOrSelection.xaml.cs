@@ -48,12 +48,33 @@ namespace WpfApp4.Controls.TagControl
 
         private void addParamtoLV(object sender, RoutedEventArgs e)
         {
-            
-            string paramsSelection = mainCatText + x.SelectedValue.ToString() +","+ subCatText + x1.SelectedValue.ToString();
-            if (!LVFilterTags.Contains(paramsSelection))
+            string paramsSelection = string.Empty;
+            if (x.SelectedValue == null)
+                ErrorCat.Content = "No Main Category was selected";
+            else
             {
-                LVFilterTags.Add(paramsSelection);
-                tags.Add(x.SelectedValue.ToString() + "." + x1.SelectedValue.ToString());
+                ErrorCat.Content = string.Empty;
+                if(x1.SelectedValue==null)
+                {
+                    paramsSelection = mainCatText + x.SelectedValue.ToString() + "," + subCatText + "All";
+                    if (!LVFilterTags.Contains(paramsSelection))
+                    {
+                        LVFilterTags.Add(paramsSelection);
+                        tags.Add(x.SelectedValue.ToString() + "." +string.Empty);
+                    }
+                }
+                    
+                else
+                {
+                    paramsSelection = mainCatText + x.SelectedValue.ToString() + "," + subCatText + x1.SelectedValue.ToString();
+                    if (!LVFilterTags.Contains(paramsSelection))
+                    {
+                        LVFilterTags.Add(paramsSelection);
+                        tags.Add(x.SelectedValue.ToString() + "." + x1.SelectedValue.ToString());
+                    }
+                }
+
+                 
             }
         }
 

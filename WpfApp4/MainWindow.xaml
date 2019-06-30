@@ -2,7 +2,7 @@
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WpfApp4"
-     
+     xmlns:CrossButton="clr-namespace:WpfApp4.Controls.CrossButton"
     Title="Window1" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={local:RatioConverter}, ConverterParameter='0.9' }" 
       Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth }, Converter={local:RatioConverter}, ConverterParameter='0.9' }"   Loaded="Window_Loaded" WindowState="Maximized" >
 
@@ -60,6 +60,9 @@
 
             <TabItem Header="Tag Control">
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
+                    <CrossButton:CrossButton Content="test">
+                        
+                    </CrossButton:CrossButton>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30">
 
                         <Label Width="60" Height="100" HorizontalAlignment="Left" >File Tags:</Label>

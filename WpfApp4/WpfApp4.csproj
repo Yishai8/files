@@ -130,6 +130,9 @@
     <Compile Include="Controls\AddTag\AddNewTag.xaml.cs">
       <DependentUpon>AddNewTag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CrossButton\CrossButton.xaml.cs">
+      <DependentUpon>CrossButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomComboBox\CustomComboBox.xaml.cs">
       <DependentUpon>CustomComboBox.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
     <Compile Include="Views\TreeNode.cs" />
     <Compile Include="Views\View.cs" />
     <Page Include="Controls\AddTag\AddNewTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CrossButton\CrossButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -260,5 +267,6 @@
     <Content Include="External\x64\CodeFluent.Runtime.Compression.dll" />
     <Content Include="External\x86\CodeFluent.Runtime.Compression.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

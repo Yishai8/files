@@ -8,6 +8,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using WpfApp4.Tags;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace WpfApp4
 {
@@ -266,26 +268,35 @@ namespace WpfApp4
                 //treeviewitem moving
                 if (_IsDragging)
                 {
-                    //destination is not a folder
-                    if (!attr.HasFlag(FileAttributes.Directory))
-                        return;
+                    TreeView from = GetObjectParent((TreeViewItem)e.Source) as TreeView;
+                    var List = from.Items.Cast<TreeViewItem>().ToList();
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
-                    var List = source.Items.Cast<TreeViewItem>().ToList();
                     TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
                     if (searchItem == null)
                     {
-                        if ((dest.Parent as TreeViewItem) != null)
+                        if ((GetObjectParent(dest)).Name == "foldersItem")
                         {
-                            (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            ((TreeViewItem)e.Source).Items.Add(Clone<TreeViewItem>(dest));
+                        }
+                        else
+                        {
+                            if ((dest.Parent as TreeViewItem) != null)
+                            {
+                                (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            }
+
+                            else if ((dest.Parent as TreeView) != null)
+                            {
+                                (dest.Parent as TreeView).Items.Remove(dest);
+                            }
+                            from.Items.Remove(dest);
+                            from.Items.Insert(0, dest);
                         }
 
-                        else if ((dest.Parent as TreeView) != null)
-                        {
-                            (dest.Parent as TreeView).Items.Remove(dest);
-                        }
-                        source.Items.Remove(dest);
-                        source.Items.Insert(0, dest);
                     }
+
+
+
                     else
                         MessageBox.Show("Item with the same name exists in destination - Copy failed");
                     e.Handled = true;
@@ -328,24 +339,38 @@ namespace WpfApp4
                     TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
                     if (searchItem == null)
                     {
-                        if ((dest.Parent as TreeViewItem) != null)
+                        if ((GetObjectParent(dest)).Name == "foldersItem")
                         {
-                            (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            from.Items.Add(Clone<TreeViewItem>(dest));
                         }
+                        else
+                        {
+                            if ((dest.Parent as TreeViewItem) != null)
+                            {
+                                (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            }
 
-                        else if ((dest.Parent as TreeView) != null)
-                        {
-                            (dest.Parent as TreeView).Items.Remove(dest);
+                            else if ((dest.Parent as TreeView) != null)
+                            {
+                                (dest.Parent as TreeView).Items.Remove(dest);
+                            }
+                            from.Items.Remove(dest);
+                            from.Items.Insert(0, dest);
                         }
-                        from.Items.Remove(dest);
-                        from.Items.Insert(0, dest);
+                        
                     }
+
+
+
                     else
                         MessageBox.Show("Item with the same name exists in destination - Copy failed");
                     e.Handled = true;
                     _IsDragging = false;
                     return;
                 }
+
+
+
 
                 //files drop
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -360,23 +385,39 @@ namespace WpfApp4
                         var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
                         if (!isFile)
                         {
-                             if (!(new DirectoryInfo(f).FullName == new DirectoryInfo(f).Root.FullName))
+                            if (!(new DirectoryInfo(f).FullName == new DirectoryInfo(f).Root.FullName))
                                 Populate(Path.GetFileName(f), f, source, null, false);
-                             else
+                            else
                                 Populate(f, f, source, null, false);
 
                             // path is a directory.
 
 
                         }
-                            
+
                         else
                             Populate(Path.GetFileName(f), f, source, null, true);
                     }
                 }
             }
+        }
+
+        public static T Clone<T>(T from)
+
+        {
+
+            string objStr = XamlWriter.Save(from);
+
+            StringReader stringReader = new StringReader(objStr);
+
+            XmlReader xmlReader = XmlReader.Create(stringReader);
+
+            object clone = XamlReader.Load(xmlReader);
+
+            return (T)clone;
 
         }
+
         private void addNode(object sender, RoutedEventArgs e)
         {
 

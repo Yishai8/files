@@ -22,17 +22,17 @@
 
         <Label HorizontalAlignment="Left" Margin="81,32,0,0" VerticalAlignment="Top" Content="Main category"/>
         <Label HorizontalAlignment="Left" Margin="338,32,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203"/>
-        <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="11,60,791.6,389.8" RenderTransformOrigin="0.5,0.5" Width="215">
+        <ListBox x:Name="lb" MaxHeight="190" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="11,60,791.6,389.8" RenderTransformOrigin="0.5,0.5" Width="215" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <DockPanel >
                         <TextBlock Name="txtname" Text="{Binding Path=categoryName}"></TextBlock>
-                    </StackPanel>
+                    </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="281,63,521.6,389.6" RenderTransformOrigin="0.5,0.5" Width="215">
+        <ListBox x:Name="lb1"  MaxHeight="190" HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="281,63,521.6,389.6" RenderTransformOrigin="0.5,0.5" Width="215">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

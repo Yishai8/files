@@ -263,6 +263,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icons\minusSign.png" />
+    <Resource Include="Icons\plusSign.png" />
     <Resource Include="External\Readme.txt" />
     <Content Include="External\x64\CodeFluent.Runtime.Compression.dll" />
     <Content Include="External\x86\CodeFluent.Runtime.Compression.dll" />

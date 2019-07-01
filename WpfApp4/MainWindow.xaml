@@ -54,7 +54,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="24.5*"/>
             <RowDefinition Height="345*"/>
             <RowDefinition Height="14*"/>
         </Grid.RowDefinitions>
@@ -101,40 +101,49 @@
         </TreeView>
 
 
-        <TabControl Name="tc"   HorizontalAlignment="Left"   
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="1" Background="LightGray"/>
+        <StackPanel  Grid.Row="0" Grid.RowSpan="1" Grid.Column="1"  Background="#005189"/>
+
+        <TabControl Name="tc"   HorizontalAlignment="Left" 
       Width="1116"  Margin="0,0,-75.2,-1" VerticalAlignment="Top"  Grid.Column="1" Grid.RowSpan="2">
 
-            <TabItem   Width="200" Margin="204,0,-204,0">
-                <TabItem.Header>
+            <TabItem    Width="200" Margin="204,0,-204,0">
+                <TabItem.Header >
                     <StackPanel Orientation="Horizontal">
                         <Image Height="16" Source="/Icons/PlusSign.png" Margin="0,0,15,0" />
-                        <TextBlock Text="Tag Control" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
+                        <TextBlock Text="Tag Control" Foreground="White" FontSize="18" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30">
+                    <Grid.ColumnDefinitions>
+                      
+                        <ColumnDefinition Width="339*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Grid.Column="1" Margin="212.2,0,305,0">
 
                         <Label Width="60" Height="100" HorizontalAlignment="Left" >File Tags:</Label>
                         <Label Name="TagsOutput" Height="30" Width="441" HorizontalAlignment="Left" Margin="0,0,0,0.4"/>
 
 
                     </StackPanel>
-                    <Button Height="30" Background="Transparent" Width="30" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Button Height="30" Background="Transparent" Width="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="1" Margin="447.2,0,540,0">
 
                         <Image Source="Icons/plusSign.png" Height="30" Width="30" RenderTransformOrigin="4.767,3.467" />
 
                     </Button>
-                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="removeTagsFromList" Margin="257,43,0,0" Width="105">remove file</Button>
-                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="clearTagsFromList" Margin="375,43,0,0" Width="84">clear List</Button>
-                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="148,74,239,438" RenderTransformOrigin="0.664,0.606" Width="723">
+                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="removeTagsFromList" Margin="164.2,43,0,0" Width="105" Grid.Column="1">remove file</Button>
+                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="clearTagsFromList" Margin="282.2,43,0,0" Width="84" Grid.Column="1">clear List</Button>
+                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="55.2,74,239,438.2" RenderTransformOrigin="0.664,0.606" Width="723" Grid.Column="1">
 
 
                     </ListBox>
-                    <Label HorizontalAlignment="Left" Margin="501,43,0,0" VerticalAlignment="Top" Content="Drop files to tag" Width="162"/>
-                    <Label HorizontalAlignment="Left" Margin="231,407,0,0" VerticalAlignment="Top" Content="Main category" Width="146"/>
-                    <Label HorizontalAlignment="Left" Margin="711,407,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134"/>
-                    <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="176,450,747.6,67" RenderTransformOrigin="0.5,0.5" Width="186">
+                    <Label HorizontalAlignment="Left" Margin="408.2,43,0,0" VerticalAlignment="Top" Content="Drop files to tag" Width="162" Grid.Column="1"/>
+                    <Label HorizontalAlignment="Left" Margin="138.2,407,0,0" VerticalAlignment="Top" Content="Main category" Width="146" Grid.Column="1"/>
+                    <Label HorizontalAlignment="Left" Margin="618.2,407,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134" Grid.Column="1"/>
+                    <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="83.2,450,748,67.2" RenderTransformOrigin="0.5,0.5" Width="186" Grid.Column="1">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -144,7 +153,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="653,450,264.6,67" RenderTransformOrigin="0.5,0.5" Width="192">
+                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="560.2,450,265,67.2" RenderTransformOrigin="0.5,0.5" Width="192" Grid.Column="1">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -153,7 +162,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="447,696,0,-1" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
+                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="354.2,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143" Grid.Column="1">Add tag to files</Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Views"  Width="200" Margin="204,0,-204,0">
@@ -270,5 +279,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
+
     </Grid>
 </Window>

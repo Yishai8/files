@@ -107,7 +107,7 @@
             <TabItem   Width="200" Margin="204,0,-204,0">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Height="16" Source="C:\Users\yishai.neeman\Source\Repos\Yishai8\files\WpfApp4\Icons\plusSign.png" Margin="0,0,15,0" />
+                        <Image Height="16" Source="/Icons/PlusSign.png" Margin="0,0,15,0" />
                         <TextBlock Text="Tag Control" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
                     </StackPanel>
                 </TabItem.Header>

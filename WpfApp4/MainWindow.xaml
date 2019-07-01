@@ -5,7 +5,53 @@
      xmlns:CrossButton="clr-namespace:WpfApp4.Controls.CrossButton"
     Title="Window1" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={local:RatioConverter}, ConverterParameter='0.9' }" 
       Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth }, Converter={local:RatioConverter}, ConverterParameter='0.9' }"   Loaded="Window_Loaded" WindowState="Maximized" >
+    <Window.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" Background="Transparent" BorderBrush="Transparent"  BorderThickness="0"  Margin="0,0,0,13" CornerRadius="5" >
 
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Top"  HorizontalAlignment="Center" ContentSource="Header" Margin="1"/>
+
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter TargetName="Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FFF9F7FD" Offset="0.432" />
+                                            <GradientStop Color="#FFECF7FD" Offset="0.433" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="ContentSite" Property="Margin" Value="9,12,9,9" />
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TabItemText" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False">
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"/>
@@ -58,7 +104,13 @@
         <TabControl Name="tc"   HorizontalAlignment="Left"   
       Width="1116"  Margin="0,0,-75.2,-1" VerticalAlignment="Top"  Grid.Column="1" Grid.RowSpan="2">
 
-            <TabItem Header="Tag Control">
+            <TabItem   Width="200" Margin="204,0,-204,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="16" Source="C:\Users\yishai.neeman\Source\Repos\Yishai8\files\WpfApp4\Icons\plusSign.png" Margin="0,0,15,0" />
+                        <TextBlock Text="Tag Control" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30">
@@ -104,7 +156,7 @@
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="447,696,0,-1" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
                 </Grid>
             </TabItem>
-            <TabItem Header="Views">
+            <TabItem Header="Views"  Width="200" Margin="204,0,-204,0">
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
                     <StackPanel Name="Radio" Orientation="Horizontal" VerticalAlignment="Top">
                         <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" />
@@ -165,7 +217,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Custom view" >
+            <TabItem Header="Custom view" Width="200" Margin="204,0,-204,0" >
                 <Grid Background="White" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Height="{Binding ElementName=tc,Path=ActualHeight}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view"/>

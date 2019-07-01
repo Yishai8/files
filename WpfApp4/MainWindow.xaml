@@ -33,6 +33,7 @@
                             </Trigger>
 
                             <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Foreground" Value="White"/>
                                 <Setter TargetName="Border" Property="Background" Value="Transparent" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -47,12 +48,12 @@
                     <Setter Property="Foreground" Value="Black"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False">
-                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Background="#005189">
         <Grid.RowDefinitions>
             <RowDefinition Height="24.5*"/>
             <RowDefinition Height="345*"/>
@@ -60,9 +61,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
-        <TreeView FontWeight="Bold" x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged"  Background="#dce4f5" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
+        <TreeView FontWeight="Bold" x:Name="foldersItem" PreviewMouseRightButtonDown="foldersItem_PreviewMouseRightButtonDown" SelectedItemChanged="foldersItem_SelectedItemChanged"  Background="#e6e6e6" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
 
             <TreeView.Resources>
 
@@ -101,8 +102,9 @@
         </TreeView>
 
 
-        <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="1" Background="LightGray"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="1" Background="#e6e6e6"/>
         <StackPanel  Grid.Row="0" Grid.RowSpan="1" Grid.Column="1"  Background="#005189"/>
+        <StackPanel  Grid.Row="2" Grid.Column="0"   Background="#e6e6e6"/>
 
         <TabControl Name="tc"   HorizontalAlignment="Left" 
       Width="1116"  Margin="0,0,-75.2,-1" VerticalAlignment="Top"  Grid.Column="1" Grid.RowSpan="2">
@@ -111,7 +113,7 @@
                 <TabItem.Header >
                     <StackPanel Orientation="Horizontal">
                         <Image Height="16" Source="/Icons/PlusSign.png" Margin="0,0,15,0" />
-                        <TextBlock Text="Tag Control" Foreground="White" FontSize="18" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
+                        <TextBlock Text="Tag Control"  FontSize="18" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
@@ -129,11 +131,6 @@
 
 
                     </StackPanel>
-                    <Button Height="30" Background="Transparent" Width="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="1" Margin="447.2,0,540,0">
-
-                        <Image Source="Icons/plusSign.png" Height="30" Width="30" RenderTransformOrigin="4.767,3.467" />
-
-                    </Button>
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="removeTagsFromList" Margin="164.2,43,0,0" Width="105" Grid.Column="1">remove file</Button>
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="clearTagsFromList" Margin="282.2,43,0,0" Width="84" Grid.Column="1">clear List</Button>
                     <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="55.2,74,239,438.2" RenderTransformOrigin="0.664,0.606" Width="723" Grid.Column="1">
@@ -165,7 +162,13 @@
                     <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="354.2,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143" Grid.Column="1">Add tag to files</Button>
                 </Grid>
             </TabItem>
-            <TabItem Header="Views"  Width="200" Margin="204,0,-204,0">
+            <TabItem Width="200" Margin="204,0,-204,0">
+                  <TabItem.Header >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="16" Source="/Icons/PlusSign.png" Margin="0,0,15,0" />
+                        <TextBlock Text="Views"  FontSize="18" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
                     <StackPanel Name="Radio" Orientation="Horizontal" VerticalAlignment="Top">
                         <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" />
@@ -174,6 +177,8 @@
                         <RadioButton GroupName="tagsWay" Content="SubCategoy" Margin="10" Height="16" FontSize="11" />
                         <Button Height="19" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" Content="Create view"/>
 
+                        
+                        
                     </StackPanel>
                     <ListBox x:Name="lb2" Margin="33,58,769.4,814" HorizontalAlignment="Center" Width="192">
 
@@ -226,7 +231,13 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Custom view" Width="200" Margin="204,0,-204,0" >
+            <TabItem Width="200" Margin="204,0,-204,0" >
+                <TabItem.Header >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="16" Source="/Icons/PlusSign.png" Margin="0,0,15,0" />
+                        <TextBlock Text="Custom view" FontSize="18" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Background="White" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Height="{Binding ElementName=tc,Path=ActualHeight}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view"/>

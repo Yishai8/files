@@ -58,24 +58,30 @@ namespace WpfApp4
                 }
                 else
                 {
-
-                    if (((TreeViewItem)e.Source).Header.ToString() == ((TextBlock)e.OriginalSource).DataContext.ToString())
+                    try
                     {
-                        TreeViewItem _item = (TreeViewItem)sender;
-                        TreeView par = GetObjectParent(_item);
-
-                        _item = (TreeViewItem)par.SelectedItem;
-                        if (_item.Tag != null && _item.Tag.ToString() != "Custom Folder")
+                        if (((TreeViewItem)e.Source).Header.ToString() == ((TextBlock)e.OriginalSource).DataContext.ToString())
                         {
-                            var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
-                            if (isFile)
-                                System.Diagnostics.Process.Start(_item.Tag.ToString());
+                            TreeViewItem _item = (TreeViewItem)sender;
+                            TreeView par = GetObjectParent(_item);
+
+                            _item = (TreeViewItem)par.SelectedItem;
+                            if (_item.Tag != null && _item.Tag.ToString() != "Custom Folder")
+                            {
+                                var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
+                                if (isFile)
+                                    System.Diagnostics.Process.Start(_item.Tag.ToString());
+                            }
+                            e.Handled = true;
+                            sender = null;
                         }
-                        e.Handled = true;
-                        sender = null;
+
+
                     }
-
-
+                    catch (Exception ex)
+                    {
+                        return;
+                    }
                 }
             }
         }

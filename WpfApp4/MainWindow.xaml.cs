@@ -274,7 +274,7 @@ namespace WpfApp4
                 //treeviewitem moving
                 if (_IsDragging)
                 {
-                    TreeView from = GetObjectParent((TreeViewItem)e.Source) as TreeView;
+                    TreeViewItem from = (TreeViewItem)e.Source;
                     var List = from.Items.Cast<TreeViewItem>().ToList();
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
                     TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));

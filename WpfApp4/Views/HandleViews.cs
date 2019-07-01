@@ -240,16 +240,19 @@ namespace WpfApp4.Views
                     list1.Add(new Tags.TagFilter(param.Substring(0,param.IndexOf('.')), param.Substring(param.IndexOf('.') + 1, param.Length - 1 - param.Substring(0, param.IndexOf('.')).Length)));
                     continue;
                 }
-                    
-                string mainCat = Tagslist[0][0];
-                string subCat = Tagslist[0][1];
-                tags.Add(mainCat + "." + subCat);
-                Tagslist[0].RemoveRange(0, 2);
-                foreach(string path in Tagslist[0])
+                    for(int i=0;i<Tagslist.Count;i++)
                 {
-                    list.Add(new Tags.TagFilter(path,mainCat+"."+subCat));
+                    string mainCat = Tagslist[i][0];
+                    string subCat = Tagslist[i][1];
+                    tags.Add(mainCat + "." + subCat);
+                    Tagslist[i].RemoveRange(0, 2);
+                    foreach (string path in Tagslist[i])
+                    {
+                        list.Add(new Tags.TagFilter(path, mainCat + "." + subCat));
+                    }
+                    list1.Add(new Tags.TagFilter(mainCat, subCat));
+
                 }
-                list1.Add(new Tags.TagFilter(mainCat, subCat));
 
             }
 
@@ -296,6 +299,8 @@ namespace WpfApp4.Views
                        
                             
                     }
+                    if (mutualPaths.Count == 0)
+                        mutualPaths.AddRange(orPaths);
                     mutualPaths = (mutualPaths.Intersect(orPaths)).ToList();
                     if (mutualPaths.Count == 0)
                         return; 

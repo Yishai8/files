@@ -339,7 +339,9 @@ namespace WpfApp4.Tags
             if (i != -1)
                 mainCat = tag.Substring(0, i); ;
             string subCat = tag.Substring(i + 1, (tag.Length) - i - 1);
-            switch(iscategory)
+            if (subCat == string.Empty)
+                iscategory = "Main Category";
+            switch (iscategory)
             {
                 case "Main+SubCategory":
                     NodeList = //bring all the tag block from the xml includes subtags

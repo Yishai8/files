@@ -119,7 +119,7 @@
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
 
                     <Grid.ColumnDefinitions>
-                      
+
                         <ColumnDefinition Width="339*"/>
                     </Grid.ColumnDefinitions>
 
@@ -163,7 +163,7 @@
                 </Grid>
             </TabItem>
             <TabItem Width="200" Margin="204,0,-204,0">
-                  <TabItem.Header >
+                <TabItem.Header >
                     <StackPanel Orientation="Horizontal">
                         <Image Height="16" Source="/Icons/PlusSign.png" Margin="0,0,15,0" />
                         <TextBlock Text="Views"  FontSize="18" Margin="0,0,0,0" VerticalAlignment="Center" Style="{StaticResource TabItemText}" />
@@ -177,10 +177,10 @@
                         <RadioButton GroupName="tagsWay" Content="SubCategoy" Margin="10" Height="16" FontSize="11" />
                         <Button Height="19" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" Content="Create view"/>
 
-                        
-                        
+
+
                     </StackPanel>
-                    <ListBox x:Name="lb2" Margin="33,58,769.4,814" HorizontalAlignment="Center" Width="192">
+                    <ListBox x:Name="lb2" Margin="315,58,603,471" HorizontalAlignment="Center" Width="192">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -191,7 +191,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb3"   ItemsSource="{Binding ElementName=lb2, Path=SelectedItem.categoryOptions}" HorizontalAlignment="Center" Margin="281,58,521.4,814"  Width="192">
+                    <ListBox x:Name="lb3"   ItemsSource="{Binding ElementName=lb2, Path=SelectedItem.categoryOptions}" HorizontalAlignment="Center" Margin="563,58,355,471"  Width="192">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -200,7 +200,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="0,235,295.4,10">
+                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="120,311,175,142">
                         <TreeView.Resources>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
@@ -226,7 +226,7 @@
                             </Style>
                         </TreeView.Resources>
                     </TreeView>
-                    <Button Content="Create Filtered View" HorizontalAlignment="Left" Margin="203,180,0,0" Click="open" VerticalAlignment="Top" Width="112"/>
+                    <Button Content="Create Filtered View" HorizontalAlignment="Left" Margin="473,325,0,0" Click="open" VerticalAlignment="Top" Width="112"/>
 
                 </Grid>
             </TabItem>

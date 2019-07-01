@@ -16,9 +16,15 @@
   <ChildTag name="Golf"/>
   <ChildTag name="Hunting &amp; Fishing"/>
   <ChildTag name="Snow &amp; Water"/>
-  <ChildTag name="Sports"/>
+  <ChildTag name="Ski"/>
 </HeaderTag>
-
+  
+<HeaderTag name="Friends" showOldValues="true">
+  <ChildTag name="Moshe"/>
+  <ChildTag name="Dan"/>
+  <ChildTag name="David"/>
+</HeaderTag>
+  
   <HeaderTag name="Animals &amp; Pets" showOldValues="true">
     <ChildTag name="Birds"/>
     <ChildTag name="Dogs &amp; Cats"/>

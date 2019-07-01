@@ -42,6 +42,62 @@
             </Setter>
         </Style>
 
+        <Style x:Key="DialogButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="GelBackground" Opacity="1" RadiusX="9" RadiusY="9"
+                                   Fill="{TemplateBinding Background}" StrokeThickness="0.35">
+                                <Rectangle.Stroke>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FF6495ED" Offset="0" />
+                                        <GradientStop Color="#FF6495ED" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Stroke>
+                            </Rectangle>
+                            <Rectangle x:Name="GelShine" Margin="2,2,2,0" VerticalAlignment="Top" RadiusX="6" RadiusY="6"
+                                   Opacity="1" Stroke="Transparent" Height="15px">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FF6495ED" Offset="0"/>
+                                        <GradientStop Color="Transparent" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Brown">
+
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="GelBackground">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="Blue" Offset="0"/>
+                                            <GradientStop Color="Blue" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Fill" TargetName="GelBackground" Value="LightGray">
+
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#FF4169E1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="55"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+
         <Style x:Key="TabItemText" TargetType="{x:Type TextBlock}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True">
@@ -104,7 +160,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="1" Background="#e6e6e6"/>
         <StackPanel  Grid.Row="0" Grid.RowSpan="1" Grid.Column="1"  Background="#005189"/>
-       
+
 
         <TabControl Name="tc"   HorizontalAlignment="Left" 
       Width="1116"  Margin="0,0,-75.2,-1" VerticalAlignment="Top"  Grid.Column="1" Grid.RowSpan="2">
@@ -126,7 +182,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Grid.Column="1" Margin="212.2,0,305,0">
 
-                        <Label Width="60" Height="100" HorizontalAlignment="Left" >File Tags:</Label>
+                        <Label Width="60" Height="100" HorizontalAlignment="Left" Margin="0,0,0,-70" >File Tags:</Label>
                         <Label Name="TagsOutput" Height="30" Width="441" HorizontalAlignment="Left" Margin="0,0,0,0.4"/>
 
 
@@ -143,31 +199,28 @@
                                 <ContentPresenter Content="{TemplateBinding Content}"/>
                             </ControlTemplate>
                         </Button.Template>
-                        <Image Name="Button1_Image" Source="/Icons/Trash.png" RenderTransformOrigin="1.508,-2.14" Margin="555,358,508,358.2"/>
+                        <Image Name="Button1_Image" Source="/Icons/Trash.png" RenderTransformOrigin="1.508,-2.14" Margin="627,358,436,358"/>
                     </Button>
                     <Button Name="Button2"
                             Cursor="Hand"
             Background="Transparent" BorderBrush="Transparent"
            Click="removeTagsFromList"
-            Margin="316,-155,-316,155.2" RenderTransformOrigin="0.518,0.398">
+            Margin="313,-155,-313,155" RenderTransformOrigin="0.518,0.398">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <ContentPresenter Content="{TemplateBinding Content}"/>
                             </ControlTemplate>
                         </Button.Template>
 
-                            <Image Name="Button2_Image" Source="/Icons/minusSign.png" RenderTransformOrigin="1.508,-2.14" Margin="558,286,511,427.2" Height="42"/>
+                        <Image Name="Button2_Image" Source="/Icons/minusSign.png" RenderTransformOrigin="1.508,-2.14" Margin="633,286,436,420"/>
 
                     </Button>
 
-                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="55.2,74,239,438.2" RenderTransformOrigin="0.664,0.606" Width="723" Grid.Column="1">
-
-
-                    </ListBox>
-                    <Label HorizontalAlignment="Left" Margin="408.2,43,0,0" VerticalAlignment="Top" Content="Drop files to tag" Width="162" Grid.Column="1"/>
-                    <Label HorizontalAlignment="Left" Margin="138.2,407,0,0" VerticalAlignment="Top" Content="Main category" Width="146" Grid.Column="1"/>
-                    <Label HorizontalAlignment="Left" Margin="618.2,407,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134" Grid.Column="1"/>
-                    <ListBox x:Name="lb" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="83.2,450,748,67.2" RenderTransformOrigin="0.5,0.5" Width="186" Grid.Column="1">
+                    <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="177,74,210,438" RenderTransformOrigin="0.664,0.606" Width="723"/>
+                    <Label HorizontalAlignment="Left" Margin="483,43,0,0" VerticalAlignment="Top" Content="Drop files to tag" Width="162"/>
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="210,407,0,0" VerticalAlignment="Top" Content="Main category" Width="146"/>
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="726,407,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134"/>
+                    <ListBox x:Name="lb" HorizontalContentAlignment="Center" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="177,450,719,94" RenderTransformOrigin="0.5,0.5" Width="214">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -177,7 +230,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb1"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="560.2,450,265,67.2" RenderTransformOrigin="0.5,0.5" Width="192" Grid.Column="1">
+                    <ListBox x:Name="lb1" HorizontalContentAlignment="Center"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="682,450,210,94" RenderTransformOrigin="0.5,0.5" Width="218">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -186,7 +239,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="354.2,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143" Grid.Column="1">Add tag to files</Button>
+                    <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="458,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
                 </Grid>
             </TabItem>
             <TabItem Width="200" Margin="204,0,-204,0">
@@ -202,12 +255,14 @@
                         <RadioButton GroupName="tagsWay" Content="Main+SubCategory" IsChecked="True" Margin="10" Height="16" FontSize="11"/>
                         <RadioButton GroupName="tagsWay" Content="Main Category" Margin="10" Height="16" FontSize="11" />
                         <RadioButton GroupName="tagsWay" Content="SubCategoy" Margin="10" Height="16" FontSize="11" />
-                        <Button Height="19" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" Content="Create view"/>
+                        <Button Style="{StaticResource DialogButtonStyle}" Content="Create view" Height="19" Width="100"  HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" >
+
+                        </Button>
 
 
 
                     </StackPanel>
-                    <ListBox x:Name="lb2" Margin="315,58,603,471" HorizontalAlignment="Center" Width="192">
+                    <ListBox x:Name="lb2" Margin="249,58,669,471" HorizontalAlignment="Center" Width="192">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -227,7 +282,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="120,311,175,142">
+                    <TreeView x:Name="viewTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="120,350,175,142">
                         <TreeView.Resources>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <EventSetter Event="MouseDoubleClick" Handler="ThumbnailsOpenFile" />
@@ -253,7 +308,7 @@
                             </Style>
                         </TreeView.Resources>
                     </TreeView>
-                    <Button Content="Create Filtered View" HorizontalAlignment="Left" Margin="473,325,0,0" Click="open" VerticalAlignment="Top" Width="112"/>
+                    <Button Content="Create Filtered View" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" Margin="452,353,0,0" Click="open" VerticalAlignment="Top" Width="112"/>
 
                 </Grid>
             </TabItem>
@@ -267,17 +322,17 @@
                 </TabItem.Header>
                 <Grid Background="White" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Height="{Binding ElementName=tc,Path=ActualHeight}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view"/>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode" Content="Add node"/>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode" Content="Add root node"/>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="removeNode" Content="Remove"/>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="saveView" Content="Save"/>
-                        <Button Height="20" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="LoadView" Content="Load view"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view" Width="105"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode" Content="Add node" Width="76"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode" Content="Add root node" Width="97"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="removeNode" Content="Remove" Width="78"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="saveView" Content="Save" Width="65"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="LoadView" Content="Load view" Width="76"/>
                         <TextBlock Name="viewName"  Visibility="Hidden"></TextBlock>
                         <Label Name="msgTxt"></Label>
                     </StackPanel>
 
-                    <TreeView x:Name="CustomviewTree" Width="Auto" Background="#FFFFFFFF" AllowDrop="True" Drop="CustomTree_Drop" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Grid.ColumnSpan="2" Margin="0,27,295.6,0.4">
+                    <TreeView x:Name="CustomviewTree" Width="Auto" Background="#FFFFFFFF" AllowDrop="True" Drop="CustomTree_Drop" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="0,50,296,0">
                         <TreeView.Resources>
                             <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                 <MenuItem Header="Add Tag" Click="TagView" />

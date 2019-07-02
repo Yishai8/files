@@ -250,19 +250,19 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
-                    <StackPanel Name="Radio" Orientation="Horizontal" VerticalAlignment="Top">
-                        <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" />
-                        <RadioButton GroupName="tagsWay" Content="Main+SubCategory" IsChecked="True" Margin="10" Height="16" FontSize="11"/>
-                        <RadioButton GroupName="tagsWay" Content="Main Category" Margin="10" Height="16" FontSize="11" />
-                        <RadioButton GroupName="tagsWay" Content="SubCategoy" Margin="10" Height="16" FontSize="11" />
-                        <Button Style="{StaticResource DialogButtonStyle}" Content="Create view" Height="19" Width="100"  HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Click="getView" >
+                    <Grid Name="Radio"  VerticalAlignment="Top">
+                        <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" Margin="174,4,0,0" />
+                        <RadioButton GroupName="tagsWay" Content="Main+SubCategory" IsChecked="True" Margin="262,12,-242,11" Height="16" FontSize="11"/>
+                        <RadioButton GroupName="tagsWay" Content="Main Category" Margin="384,12,-364,11" Height="16" FontSize="11" />
+                        <RadioButton GroupName="tagsWay" Content="SubCategoy" Margin="490,12,-470,11" Height="16" FontSize="11" />
+                        <Button Style="{StaticResource DialogButtonStyle}" Content="Create view" Height="29" Width="103"  HorizontalAlignment="Left" Margin="593,4,0,0" VerticalAlignment="Top" Click="getView" >
 
                         </Button>
 
 
 
-                    </StackPanel>
-                    <ListBox x:Name="lb2" Margin="249,58,669,471" HorizontalAlignment="Center" Width="192">
+                    </Grid>
+                    <ListBox HorizontalContentAlignment="Center" x:Name="lb2" Margin="249,58,669,471" HorizontalAlignment="Center" Width="192">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -273,7 +273,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb3"   ItemsSource="{Binding ElementName=lb2, Path=SelectedItem.categoryOptions}" HorizontalAlignment="Center" Margin="563,58,355,471"  Width="192">
+                    <ListBox x:Name="lb3"   HorizontalContentAlignment="Center" ItemsSource="{Binding ElementName=lb2, Path=SelectedItem.categoryOptions}" HorizontalAlignment="Center" Margin="563,58,355,471"  Width="192">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -308,7 +308,7 @@
                             </Style>
                         </TreeView.Resources>
                     </TreeView>
-                    <Button Content="Create Filtered View" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" Margin="452,353,0,0" Click="open" VerticalAlignment="Top" Width="112"/>
+                    <Button Content="Create Filtered View" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" Margin="719,4,0,0" Click="open" VerticalAlignment="Top" Width="122" Height="29"/>
 
                 </Grid>
             </TabItem>
@@ -322,9 +322,9 @@
                 </TabItem.Header>
                 <Grid Background="White" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Height="{Binding ElementName=tc,Path=ActualHeight}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Create new view" Width="105"/>
-                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode" Content="Add node" Width="76"/>
-                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode" Content="Add root node" Width="97"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="createNewTree"  Content="Clear current view" Width="105"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addRootNode" Content="Add root folder" Width="90"/>
+                        <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addNode" Content="Add folder" Width="97"/>
                         <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="removeNode" Content="Remove" Width="78"/>
                         <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="saveView" Content="Save" Width="65"/>
                         <Button Height="32" Style="{StaticResource DialogButtonStyle}" Margin="4,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="LoadView" Content="Load view" Width="76"/>

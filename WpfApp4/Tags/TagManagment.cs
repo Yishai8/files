@@ -18,6 +18,7 @@ namespace WpfApp4.Tags
             return newTag.getFileTag();
         }
 
+        //save tags to tags XML file
         public static void saveFileTags(List<string> filepaths, string tags)
         {
             foreach(string filename in filepaths)
@@ -39,7 +40,7 @@ namespace WpfApp4.Tags
                     Tag newTag = new Tag(item);
 
                     newTag.saveFileTags(tags);
-                    Tags.XMLFile.AddTagNode(tags, filename);
+                    Tags.tagsXMLfunc.AddTagNode(tags, filename);
                 }
                 
 
@@ -48,9 +49,10 @@ namespace WpfApp4.Tags
 
         }
 
+        //get file paths related to a tag
         public static List<List<string>> getPathsByTag(string tag,string isCategory)
         {
-            return Tags.XMLFile.getPathsByTag(tag, isCategory);
+            return Tags.tagsXMLfunc.getPathsByTag(tag, isCategory);
         }
 
         public static void DeleteFileTags(string filepath)

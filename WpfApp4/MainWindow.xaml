@@ -239,7 +239,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="458,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
+                    <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="addTags" Margin="458,654,0,-175" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
                 </Grid>
             </TabItem>
             <TabItem Width="200" Margin="204,0,-204,0">

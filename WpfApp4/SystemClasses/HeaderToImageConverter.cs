@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace WpfApp4
 {
+    //setting file/folder icon from windows
     #region HeaderToImageConverter
 
     [ValueConversion(typeof(string), typeof(bool))]

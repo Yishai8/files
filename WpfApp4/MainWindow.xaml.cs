@@ -25,22 +25,21 @@ namespace WpfApp4
 
         public MainWindow()
         {
+            //data sources init
             InitializeComponent();
-            Tags.XMLFile.init();
+            Views.viewsXMLfunc.init();
+            Tags.tagsXMLfunc.init();
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
-          
-            //b.LoadCategoryListFromXML();
-
 
         }
 
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
         {
             TreeView tv = sender as TreeView;
-            //tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
+        //open the selected file from files tree or views
         private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)    // Left button was double clicked
@@ -94,6 +93,7 @@ namespace WpfApp4
                 obj = (TreeViewItem)obj.Parent;
             return (TreeView)obj.Parent;
         }
+        //populate files tree
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
             try
@@ -117,6 +117,7 @@ namespace WpfApp4
             { Console.WriteLine(unauth.InnerException); }
         }
 
+        //populate files tree
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -139,6 +140,7 @@ namespace WpfApp4
             }
         }
 
+        //calculate dragging location
         private void Tree_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && !_IsDragging)
@@ -161,6 +163,7 @@ namespace WpfApp4
             }
         }
 
+        //track dragging location
         private void StartDrag(MouseEventArgs e)
         {
             _IsDragging = true;
@@ -198,7 +201,7 @@ namespace WpfApp4
                 e.Handled = true;
             }
         }
-
+        //find dragging source
         static TreeViewItem VisualUpwardSearch(DependencyObject source)
         {
             while (source != null && !(source is TreeViewItem))
@@ -207,6 +210,7 @@ namespace WpfApp4
             return source as TreeViewItem;
         }
 
+        //tag selected view
         private void TagView(object sender, RoutedEventArgs e)
         {
             Views.HandleViews b = new Views.HandleViews();
@@ -423,7 +427,7 @@ namespace WpfApp4
             return (T)clone;
 
         }
-
+        //create new visual custom folder
         private void addNode(object sender, RoutedEventArgs e)
         {
 
@@ -458,7 +462,7 @@ namespace WpfApp4
             }
 
         }
-
+        //add root node to custom view
         private void addRootNode(object sender, RoutedEventArgs e)
         {
             TreeViewItem newRoot = new TreeViewItem();
@@ -493,11 +497,7 @@ namespace WpfApp4
 
         }
 
-        private void checkDistinct(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        //delete custom folder
         private void removeNode(object sender, RoutedEventArgs e)
         {
 
@@ -564,6 +564,8 @@ namespace WpfApp4
             viewName.Text = string.Empty;
 
         }
+
+        //expend files tree item
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem _item = (TreeViewItem)sender;
@@ -601,10 +603,9 @@ namespace WpfApp4
         void _driitem_Selected(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
-            //you can access item properties eg item.Header etc. 
-            //your logic here 
         }
 
+        //mark selected item as selcted (visually)
         private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)   //files on right side of the tree view
         {
 
@@ -660,17 +661,14 @@ namespace WpfApp4
 
         {
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
-            //if (string.Compare(output, string.Empty) != 0)
             Tags.TagManagment.saveFileTags(fileNames, tag);
-            //else
-            //  Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
 
         }
 
 
         private void getView(object sender, RoutedEventArgs e) //populate treeview with view
         {
-            Views.HandleViews b = new Views.HandleViews();
+            Views.HandleViews view = new Views.HandleViews();
             var selectedCategoryLB = lb2.SelectedValue as Tags.tagsCategory;
             var selectedSubCategory = lb3.SelectedValue;
             if (selectedCategoryLB != null)
@@ -704,7 +702,7 @@ namespace WpfApp4
 
 
 
-                b.createViewByTag(rbTarget.Content.ToString(), selectedCategory + "." + selectedSubCategory, viewTree);
+                view.createViewByTag(rbTarget.Content.ToString(), selectedCategory + "." + selectedSubCategory, viewTree);
             }
             else
                 MessageBox.Show("main category was not selected");
@@ -713,7 +711,7 @@ namespace WpfApp4
 
         }
 
-        private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
+        private void saveView(object sender, RoutedEventArgs e) //save newview
         {
             Views.HandleViews b = new Views.HandleViews();
             //save existing view
@@ -749,7 +747,7 @@ namespace WpfApp4
 
         }
 
-        private void LoadView(object sender, RoutedEventArgs e) //populate treeview with view
+        private void LoadView(object sender, RoutedEventArgs e) //load view
         {
             Views.HandleViews b = new Views.HandleViews();
             List<string> NamesList = b.getCustomViewsList();
@@ -804,6 +802,7 @@ namespace WpfApp4
             lb_tag.Items.Clear();
         }
 
+        //open tag filtering screen
         private void open(object sender, RoutedEventArgs e)
         {
 

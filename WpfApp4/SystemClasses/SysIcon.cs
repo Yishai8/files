@@ -69,7 +69,11 @@ namespace WpfApp4
         {
             Icon clone;
             SHGFI_Flag flags;
+            if (filepath == "Custom Folder")
+                filepath = "C:\\Program Files";
             SHFILEINFO shinfo = new SHFILEINFO();
+            if (filepath == "Custom Folder")
+                filepath = "C:\\Program Files";
             byte[] bytes = Encoding.Default.GetBytes(filepath);
             //filepath = Encoding.UTF8.GetString(bytes);
             if (small)

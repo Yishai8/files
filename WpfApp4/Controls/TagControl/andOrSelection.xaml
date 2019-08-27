@@ -36,5 +36,6 @@
                 <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="_Ok" Height="29"/>
                 <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="29"/>
             </WrapPanel>
+        <Label Name="ErrorCat" Content="" HorizontalAlignment="Left" Margin="218,90,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

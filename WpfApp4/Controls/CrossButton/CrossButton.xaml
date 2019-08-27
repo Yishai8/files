@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="WpfApp4.Controls.CrossButton.CrossButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp4.Controls.CrossButton"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid>
+      
+        <Button ToolTip="remove" x:Name="CodeViewDelete" Height="Auto" Margin="0,212,688,216.6">
+            <Button.Style>
+                <Style  TargetType="{x:Type Button}">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="#FFBCBCBC"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Height" Value="16"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Viewbox>
+                                    <Canvas x:Name="delete" HorizontalAlignment="Left" Height="16" UseLayoutRounding="False" 
+
+VerticalAlignment="Top" Width="16">
+                                        <Canvas x:Name="delete1" Height="7.112" Canvas.Left="4.684" Canvas.Top="4.344" Width="7.112">
+                                            <Path Data="M4.6841,4.3437L11.7961,11.4557" Height="9.112" Canvas.Left="-1" 
+
+StrokeStartLineCap="Flat" Stretch="Fill" StrokeEndLineCap="Flat" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" 
+
+StrokeMiterLimit="10" StrokeLineJoin="Miter" Canvas.Top="-1" Width="9.112"/>
+                                            <Path Data="M11.7964,4.3437L4.6844,11.4557" Height="9.112" Canvas.Left="-1" 
+
+StrokeStartLineCap="Flat" Stretch="Fill" StrokeEndLineCap="Flat" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" 
+
+StrokeMiterLimit="10" StrokeLineJoin="Miter" Canvas.Top="-1" Width="9.112"/>
+                                        </Canvas>
+                                    </Canvas>
+                                </Viewbox>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                        <Setter TargetName="delete1" Property="Background" Value="Transparent"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+            
+        </Button>
+
+    </Grid>
+</UserControl>

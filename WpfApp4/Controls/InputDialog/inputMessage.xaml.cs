@@ -5,6 +5,7 @@ namespace WpfApp4.Controls.InputDialog
 {
     public partial class inputMessage : Window
     {
+        //add view name
         public inputMessage(string question, string defaultAnswer = "")
         {
             InitializeComponent();

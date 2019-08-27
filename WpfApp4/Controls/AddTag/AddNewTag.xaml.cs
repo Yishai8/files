@@ -15,10 +15,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp4.Tags;
 
+
 namespace WpfApp4.Controls.AddTag
 {
     /// <summary>
-    /// Interaction logic for AddNewTag.xaml
+    /// add new tag category to categories list
     /// </summary>
     public partial class AddNewTag : Window
     {
@@ -43,6 +44,7 @@ namespace WpfApp4.Controls.AddTag
 
         }
 
+        //check if the added category should be added to main or sub category
         private void CheckRadioButton()
         {
             if(quickReportCalendarCheckedRadioButton.Content.ToString()=="New")
@@ -60,6 +62,7 @@ namespace WpfApp4.Controls.AddTag
         private void radioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton ck = sender as RadioButton;
+            //disable irrelevant selection options
             if (ck.IsChecked.Value)
                 quickReportCalendarCheckedRadioButton = ck;
         }

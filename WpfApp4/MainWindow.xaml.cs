@@ -8,6 +8,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using WpfApp4.Tags;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace WpfApp4
 {
@@ -23,22 +25,21 @@ namespace WpfApp4
 
         public MainWindow()
         {
+            //data sources init
             InitializeComponent();
-            Tags.XMLFile.init();
+            Views.viewsXMLfunc.init();
+            Tags.tagsXMLfunc.init();
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
-          
-            //b.LoadCategoryListFromXML();
-
 
         }
 
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
         {
             TreeView tv = sender as TreeView;
-            //tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
+        //open the selected file from files tree or views
         private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)    // Left button was double clicked
@@ -56,24 +57,30 @@ namespace WpfApp4
                 }
                 else
                 {
-
-                    if (((TreeViewItem)e.Source).Header.ToString() == ((TextBlock)e.OriginalSource).DataContext.ToString())
+                    try
                     {
-                        TreeViewItem _item = (TreeViewItem)sender;
-                        TreeView par = GetObjectParent(_item);
-
-                        _item = (TreeViewItem)par.SelectedItem;
-                        if (_item.Tag != null && _item.Tag.ToString() != "Custom Folder")
+                        if (((TreeViewItem)e.Source).Header.ToString() == ((TextBlock)e.OriginalSource).DataContext.ToString())
                         {
-                            var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
-                            if (isFile)
-                                System.Diagnostics.Process.Start(_item.Tag.ToString());
+                            TreeViewItem _item = (TreeViewItem)sender;
+                            TreeView par = GetObjectParent(_item);
+
+                            _item = (TreeViewItem)par.SelectedItem;
+                            if (_item.Tag != null && _item.Tag.ToString() != "Custom Folder")
+                            {
+                                var isFile = new Uri(_item.Tag.ToString()).AbsolutePath.Split('/').Last().Contains('.');
+                                if (isFile)
+                                    System.Diagnostics.Process.Start(_item.Tag.ToString());
+                            }
+                            e.Handled = true;
+                            sender = null;
                         }
-                        e.Handled = true;
-                        sender = null;
+
+
                     }
-
-
+                    catch (Exception ex)
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -86,6 +93,7 @@ namespace WpfApp4
                 obj = (TreeViewItem)obj.Parent;
             return (TreeView)obj.Parent;
         }
+        //populate files tree
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
             try
@@ -109,6 +117,7 @@ namespace WpfApp4
             { Console.WriteLine(unauth.InnerException); }
         }
 
+        //populate files tree
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -131,6 +140,7 @@ namespace WpfApp4
             }
         }
 
+        //calculate dragging location
         private void Tree_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && !_IsDragging)
@@ -153,6 +163,7 @@ namespace WpfApp4
             }
         }
 
+        //track dragging location
         private void StartDrag(MouseEventArgs e)
         {
             _IsDragging = true;
@@ -190,7 +201,7 @@ namespace WpfApp4
                 e.Handled = true;
             }
         }
-
+        //find dragging source
         static TreeViewItem VisualUpwardSearch(DependencyObject source)
         {
             while (source != null && !(source is TreeViewItem))
@@ -199,6 +210,7 @@ namespace WpfApp4
             return source as TreeViewItem;
         }
 
+        //tag selected view
         private void TagView(object sender, RoutedEventArgs e)
         {
             Views.HandleViews b = new Views.HandleViews();
@@ -266,26 +278,35 @@ namespace WpfApp4
                 //treeviewitem moving
                 if (_IsDragging)
                 {
-                    //destination is not a folder
-                    if (!attr.HasFlag(FileAttributes.Directory))
-                        return;
+                    TreeViewItem from = (TreeViewItem)e.Source;
+                    var List = from.Items.Cast<TreeViewItem>().ToList();
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
-                    var List = source.Items.Cast<TreeViewItem>().ToList();
                     TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
                     if (searchItem == null)
                     {
-                        if ((dest.Parent as TreeViewItem) != null)
+                        if ((GetObjectParent(dest)).Name == "foldersItem")
                         {
-                            (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            ((TreeViewItem)e.Source).Items.Add(Clone<TreeViewItem>(dest));
+                        }
+                        else
+                        {
+                            if ((dest.Parent as TreeViewItem) != null)
+                            {
+                                (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            }
+
+                            else if ((dest.Parent as TreeView) != null)
+                            {
+                                (dest.Parent as TreeView).Items.Remove(dest);
+                            }
+                            from.Items.Remove(dest);
+                            from.Items.Insert(0, dest);
                         }
 
-                        else if ((dest.Parent as TreeView) != null)
-                        {
-                            (dest.Parent as TreeView).Items.Remove(dest);
-                        }
-                        source.Items.Remove(dest);
-                        source.Items.Insert(0, dest);
                     }
+
+
+
                     else
                         MessageBox.Show("Item with the same name exists in destination - Copy failed");
                     e.Handled = true;
@@ -328,24 +349,38 @@ namespace WpfApp4
                     TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
                     if (searchItem == null)
                     {
-                        if ((dest.Parent as TreeViewItem) != null)
+                        if ((GetObjectParent(dest)).Name == "foldersItem")
                         {
-                            (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            from.Items.Add(Clone<TreeViewItem>(dest));
                         }
+                        else
+                        {
+                            if ((dest.Parent as TreeViewItem) != null)
+                            {
+                                (dest.Parent as TreeViewItem).Items.Remove(dest);
+                            }
 
-                        else if ((dest.Parent as TreeView) != null)
-                        {
-                            (dest.Parent as TreeView).Items.Remove(dest);
+                            else if ((dest.Parent as TreeView) != null)
+                            {
+                                (dest.Parent as TreeView).Items.Remove(dest);
+                            }
+                            from.Items.Remove(dest);
+                            from.Items.Insert(0, dest);
                         }
-                        from.Items.Remove(dest);
-                        from.Items.Insert(0, dest);
+                        
                     }
+
+
+
                     else
                         MessageBox.Show("Item with the same name exists in destination - Copy failed");
                     e.Handled = true;
                     _IsDragging = false;
                     return;
                 }
+
+
+
 
                 //files drop
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -360,23 +395,39 @@ namespace WpfApp4
                         var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
                         if (!isFile)
                         {
-                             if (!(new DirectoryInfo(f).FullName == new DirectoryInfo(f).Root.FullName))
+                            if (!(new DirectoryInfo(f).FullName == new DirectoryInfo(f).Root.FullName))
                                 Populate(Path.GetFileName(f), f, source, null, false);
-                             else
+                            else
                                 Populate(f, f, source, null, false);
 
                             // path is a directory.
 
 
                         }
-                            
+
                         else
                             Populate(Path.GetFileName(f), f, source, null, true);
                     }
                 }
             }
+        }
+
+        public static T Clone<T>(T from)
+
+        {
+
+            string objStr = XamlWriter.Save(from);
+
+            StringReader stringReader = new StringReader(objStr);
+
+            XmlReader xmlReader = XmlReader.Create(stringReader);
+
+            object clone = XamlReader.Load(xmlReader);
+
+            return (T)clone;
 
         }
+        //create new visual custom folder
         private void addNode(object sender, RoutedEventArgs e)
         {
 
@@ -411,7 +462,7 @@ namespace WpfApp4
             }
 
         }
-
+        //add root node to custom view
         private void addRootNode(object sender, RoutedEventArgs e)
         {
             TreeViewItem newRoot = new TreeViewItem();
@@ -446,11 +497,7 @@ namespace WpfApp4
 
         }
 
-        private void checkDistinct(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        //delete custom folder
         private void removeNode(object sender, RoutedEventArgs e)
         {
 
@@ -517,6 +564,8 @@ namespace WpfApp4
             viewName.Text = string.Empty;
 
         }
+
+        //expend files tree item
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem _item = (TreeViewItem)sender;
@@ -554,16 +603,15 @@ namespace WpfApp4
         void _driitem_Selected(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
-            //you can access item properties eg item.Header etc. 
-            //your logic here 
         }
 
+        //mark selected item as selcted (visually)
         private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)   //files on right side of the tree view
         {
 
             TreeView tree = (TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
-            Thumbnails.Items.Clear();
+           
 
 
             //expend only a folder
@@ -579,7 +627,7 @@ namespace WpfApp4
                             ListViewItem item = new ListViewItem { Content = dir };
                             item.Tag = dir;
 
-                            Thumbnails.Items.Add(item);
+                           
                         }
                     }
                     foreach (string file in Directory.GetFiles(temp.Tag.ToString()))
@@ -590,7 +638,7 @@ namespace WpfApp4
                             ListViewItem item = new ListViewItem { Content = file };
                             item.Tag = file;
 
-                            Thumbnails.Items.Add(item);
+                            
                         }
                     }
                 }
@@ -613,17 +661,14 @@ namespace WpfApp4
 
         {
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
-            //if (string.Compare(output, string.Empty) != 0)
             Tags.TagManagment.saveFileTags(fileNames, tag);
-            //else
-            //  Tags.TagManagment.DeleteFileTags(_item.Tag.ToString());
 
         }
 
 
         private void getView(object sender, RoutedEventArgs e) //populate treeview with view
         {
-            Views.HandleViews b = new Views.HandleViews();
+            Views.HandleViews view = new Views.HandleViews();
             var selectedCategoryLB = lb2.SelectedValue as Tags.tagsCategory;
             var selectedSubCategory = lb3.SelectedValue;
             if (selectedCategoryLB != null)
@@ -657,7 +702,7 @@ namespace WpfApp4
 
 
 
-                b.createViewByTag(rbTarget.Content.ToString(), selectedCategory + "." + selectedSubCategory, viewTree);
+                view.createViewByTag(rbTarget.Content.ToString(), selectedCategory + "." + selectedSubCategory, viewTree);
             }
             else
                 MessageBox.Show("main category was not selected");
@@ -666,7 +711,7 @@ namespace WpfApp4
 
         }
 
-        private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
+        private void saveView(object sender, RoutedEventArgs e) //save newview
         {
             Views.HandleViews b = new Views.HandleViews();
             //save existing view
@@ -702,7 +747,7 @@ namespace WpfApp4
 
         }
 
-        private void LoadView(object sender, RoutedEventArgs e) //populate treeview with view
+        private void LoadView(object sender, RoutedEventArgs e) //load view
         {
             Views.HandleViews b = new Views.HandleViews();
             List<string> NamesList = b.getCustomViewsList();
@@ -757,6 +802,7 @@ namespace WpfApp4
             lb_tag.Items.Clear();
         }
 
+        //open tag filtering screen
         private void open(object sender, RoutedEventArgs e)
         {
 

@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 namespace WpfApp4.Controls.CustomComboBox
 {
     /// <summary>
-    /// Interaction logic for CustomComboBox.xaml
+    /// custom combobox with default "select an option" text and dependant properties
     /// </summary>
     public partial class CustomComboBox : UserControl
     {

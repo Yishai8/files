@@ -18,7 +18,7 @@ using WpfApp4.Tags;
 namespace WpfApp4.Controls.TagControl
 {
     /// <summary>
-    /// Interaction logic for inputMessage.xaml
+    /// and/or filtering
     /// </summary>
     public partial class andOrSelection : Window
     {
@@ -48,12 +48,36 @@ namespace WpfApp4.Controls.TagControl
 
         private void addParamtoLV(object sender, RoutedEventArgs e)
         {
-            
-            string paramsSelection = mainCatText + x.SelectedValue.ToString() +","+ subCatText + x1.SelectedValue.ToString();
-            if (!LVFilterTags.Contains(paramsSelection))
+            string paramsSelection = string.Empty;
+            if (x.SelectedValue == null)
+                ErrorCat.Content = "No Main Category was selected";
+            else
             {
-                LVFilterTags.Add(paramsSelection);
-                tags.Add(x.SelectedValue.ToString() + "." + x1.SelectedValue.ToString());
+                ErrorCat.Content = string.Empty;
+                if(x1.SelectedValue==null) //subcategory=all
+                {
+                    paramsSelection = mainCatText + x.SelectedValue.ToString() + "," + subCatText + "All";
+                    if (!LVFilterTags.Contains(paramsSelection))
+                    {
+                        //add to filters list
+                        LVFilterTags.Add(paramsSelection);
+                        tags.Add(x.SelectedValue.ToString() + "." +string.Empty);
+                    }
+                }
+                    
+                else
+                {
+                    //subcategory selected
+                    paramsSelection = mainCatText + x.SelectedValue.ToString() + "," + subCatText + x1.SelectedValue.ToString();
+                    if (!LVFilterTags.Contains(paramsSelection))
+                    {
+                        //add to filters list
+                        LVFilterTags.Add(paramsSelection);
+                        tags.Add(x.SelectedValue.ToString() + "." + x1.SelectedValue.ToString());
+                    }
+                }
+
+                 
             }
         }
 
@@ -76,6 +100,7 @@ namespace WpfApp4.Controls.TagControl
 
             string andOrLabel=string.Empty;
             bool isFirst = true;
+            //decide and/or by tags count, and when tag count=1
             foreach(TagFilter tf in tagsOrder)
             {
                 var l = tf.FileTag.Split(';').ToList();
@@ -111,6 +136,7 @@ namespace WpfApp4.Controls.TagControl
 
         }
 
+        //merge paths by similar tags
         private Tags.TagFilter Merge( IEnumerable<Tags.TagFilter> paths)
         {
             Tags.TagFilter u = new Tags.TagFilter("", "");

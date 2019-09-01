@@ -10,6 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+//
+using System.Drawing;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Collections.ObjectModel;
+using WpfApp4.Tags;
+using System.Windows.Markup;
+using System.Xml;
+using System.Xml.Linq;
+
+
+
 
 namespace WpfApp4.Tags
 {
@@ -22,24 +34,7 @@ namespace WpfApp4.Tags
         {
             _path = pathName;
         }
-       /* public void setFileTag(string path, string tag)  //get path and text tag
-        {
-            //FileTag.Add(tag);
-            
-            // path is a file.
-            if (File.Exists(path))
-
-            {
-
-                string filePath = System.IO.Path.GetFullPath(path);
-                var file = ShellFile.FromFilePath(filePath);
-
-                //file.Properties.System.Size.Value = 123;
-
-
-            }
-
-        }*/
+          
 
         private bool checkTagFileExists(string path)
         {
@@ -73,57 +68,7 @@ namespace WpfApp4.Tags
 
 
         }
-
-
-        public void saveFileTags(string tags)   //write text to ads
-        {
-            string streamName = ":fileTags";
-
-                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
-                stream.Close();
-                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
-                foreach (NtfsAlternateStream ads in fileStream)
-                {
-                    if (ads.StreamType.ToString().Equals("AlternateData"))
-                        if (ads.Name.Equals(streamName + ":$DATA"))
-
-                        {
-                            string currentTags = getFileTag();
-                        List<string> list = currentTags.Split(';').ToList();
-                        if(!list.Contains(tags))
-
-                        NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags+";"+tags);
-                            
-                        }
-                }
-            
-
-        }
-
-        public void DeleteFileTags() //delete all ads from file
-        {
-            string streamName = ":fileTags";
-            if (checkTagFileExists(this._path))
-            {
-
-
-                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
-                stream.Close();
-                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
-                foreach (NtfsAlternateStream ads in fileStream)
-                {
-                    if (ads.StreamType.ToString().Equals("AlternateData"))
-                        if (ads.Name.Equals(streamName + ":$DATA"))
-
-                        {
-                            NtfsAlternateStream.Delete(this._path + streamName);
-
-                        }
-                }
-            }
-
-        }
-        public string getFileTag()
+		 public string getFileTag()
         {
             //Create a stream supporting ADS syntax
             string fileName = this._path;
@@ -148,6 +93,164 @@ namespace WpfApp4.Tags
            
         }
 
+		
+        public void saveFileTags(string tags)   //write text to ads for adding tags
+        {
+            string streamName = ":fileTags";
+
+                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                stream.Close();
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
+                foreach (NtfsAlternateStream ads in fileStream)
+                {
+                    if (ads.StreamType.ToString().Equals("AlternateData"))
+                        if (ads.Name.Equals(streamName + ":$DATA"))
+
+                        {
+                            string currentTags = getFileTag();
+                        List<string> list = currentTags.Split(';').ToList();
+                        if(!list.Contains(tags))
+
+                        NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags+";"+tags);
+                            
+                        }
+                }
+            
+
+        }
+
+ 
+       
+
+        public void DeleteFileTags() //delete all ads from file
+        {
+            string streamName = ":fileTags";
+            if (checkTagFileExists(this._path))
+            {
+
+
+                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                stream.Close();
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
+                foreach (NtfsAlternateStream ads in fileStream)
+                {
+                    if (ads.StreamType.ToString().Equals("AlternateData"))
+                        if (ads.Name.Equals(streamName + ":$DATA"))
+
+                        {
+                            NtfsAlternateStream.Delete(this._path + streamName);
+
+                        }
+                }
+            }
+
+        }
+		
+		
+		// arrange the new remained tags  after  deleting tags from files
+		 public void saveFileTags1(string tags)   //write text to ads  for deleting tags
+        {    
+            string streamName = ":fileTags";
+
+            string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
+		    XDocument xmlDocument = XDocument.Load(docFilePath);
+			
+		    XDocument doc;
+			
+		    doc = XDocument.Load(docFilePath);   
+			string file1=this._path;
+			var ind_1=0 ;
+			var ind1=0 ;			  
+			string cat = tags;
+			string subCat = "";
+			
+			 var ind = tags.IndexOf('.');
+			
+			if (ind != -1) 
+			
+			{
+			  
+			  ind_1 = ind-1;
+			  ind1  = ind+1;
+			  
+			   cat = tags.Substring(0,(ind));
+			   subCat = tags.Substring((ind1));
+			}
+			
+			string cc = getFileTag();
+			
+                FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
+                stream.Close();
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
+                foreach (NtfsAlternateStream ads in fileStream)
+                {   
+                    if (ads.StreamType.ToString().Equals("AlternateData"))
+                        if (ads.Name.Equals(streamName + ":$DATA"))
+
+                        {   
+                        string currentTags = getFileTag();
+                        List<string> list = currentTags.Split(';').ToList();
+                       
+						   if(list.Contains(tags))
+						   {  
+					      
+							var currentTagsLength = currentTags.Length;  
+							var tagsLength = tags.Length;  
+							for (var i=1;i< currentTagsLength ;i++)
+							{   
+								
+								if (currentTags.Substring(i,tagsLength) == tags)
+								{  
+							        
+							        currentTags=currentTags.Remove(i-1,tagsLength+1);
+									
+									if (currentTags == "")
+										NtfsAlternateStream.WriteAllText(this._path,currentTags );  //haviva
+									else
+
+									NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags);
+									
+									
+									if (ind == -1)
+									{
+									  doc.Element("root").Elements("tag").Elements("path").Where(x => x.Parent.Attribute("name").Value == cat && x.Attribute("value").Value == file1).Remove();	
+										
+									}
+									else
+									{
+                                     doc.Element("root").Elements("tag").Elements("path").Where(x => x.Parent.Attribute("name").Value == cat && x.Parent.Attribute("value").Value == subCat && x.Attribute("value").Value == file1).Remove();
+                                    
+				                  	}
+									 doc.Save(docFilePath);
+									 return;
+				
+			                    }	 
+
+							}   
+								
+						}   
+				  }  	
+				         
+						    
+            }   
+      }   
+            
+
+        
+       
+
+ public string getFileTag1()
+        {
+            //Create a stream supporting ADS syntax for delete
+            
+			string fileName = this._path;
+            
+                string fileTags = getFileStream(fileName);  //brings the tags by the filename
+       
+                return fileTags;
+            
+           
+        }
         public void windowsSearchForTag()   //search on index tags on file made by windows , systemindex is all the indexed files the query can search only indexed files - is windows search
         {
             var connection = new OleDbConnection(@"Provider=Search.CollatorDSO;Extended Properties=""Application=Windows""; Data Source=(local);"); //windows files properties db
@@ -199,65 +302,8 @@ namespace WpfApp4.Tags
             return tagsList;
         }
 
-        /*static void WalkDirectoryTree(System.IO.DirectoryInfo root,List<string> tagslist,string tag)    //not used 
-        {
-            System.IO.FileInfo[] files = null;
-            System.IO.DirectoryInfo[] subDirs = null;
-            IEnumerable<FileInfo> afiles = null;
-            IEnumerable<DirectoryInfo> afolders = null;
-            // First, process all the files directly under this folder
-            try
-            {
-                files = root.GetFiles("*.*");
-                afiles = files.Where(f => !f.Attributes.HasFlag(FileAttributes.System));
-            }
-            // This is thrown if even one of the files requires permissions greater
-            // than the application provides.
-            catch (UnauthorizedAccessException e)
-            {
-                // This code just writes out the message and continues to recurse.
-                // You may decide to do something different here. For example, you
-                // can try to elevate your privileges and access the file again.
-               
-            }
-
-            catch (System.IO.DirectoryNotFoundException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-            if (afiles != null)
-            {
-                foreach (System.IO.FileInfo fi in afiles)
-                {
-                    // In this example, we only access the existing FileInfo object. If we
-                    // want to open, delete or modify the file, then
-                    // a try-catch block is required here to handle the case
-                    // where the file has been deleted since the call to TraverseTree().
-                   
-                    var a = ShellFile.FromFilePath(fi.FullName);
-
-                    try
-                    {
-                        if(a.Properties.System.Keywords.Value[0] ==tag)
-                        { tagslist.Add(fi.FullName); }
-                    }
-                    catch(Exception ex)
-                    { Console.WriteLine(fi.FullName + ex); }
-                    
-                }
-
-                // Now find all the subdirectories under this directory.
-                subDirs = root.GetDirectories();
-                afolders = subDirs.Where(f => !f.Attributes.HasFlag(FileAttributes.System));
-                foreach (System.IO.DirectoryInfo dirInfo in afolders)
-                {
-                    // Resursive call for each subdirectory.
-                    WalkDirectoryTree(dirInfo,tagslist,tag);
-                }
-            }
-        }*/
+      
 
 
-        }
+      }
 }

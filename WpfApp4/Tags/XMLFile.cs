@@ -8,23 +8,28 @@ using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Linq;
 
+using System.Windows;
+
 namespace WpfApp4.Tags
 {
     static class XMLFile
     {
-        static readonly string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
-        static readonly string viewFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Views.xml";//create xml on desktop
-        static XDocument tagDoc = null;    //load the xml file to object
-        static XDocument viewDoc = null;    //load the xml file to object
-
-
+     
+       static  string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
+	   static readonly string viewFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Views.xml";//create xml on desktop
+       static XDocument tagDoc = null;    //load the xml file to object
+     
+		
+		static XDocument viewDoc = null;    //load the xml file to object
+		
+	
         public static string SaveView(ItemCollection treeItems, string viewName, bool replace)
         {
             XElement XMLElements = XMLFile.viewDoc.Element("root");
             IEnumerable<XElement> isViewExist = XMLElements.Elements("CustomView")
 
-.Where(v => (string)v.Attribute("name") == viewName);  
-                if (!replace && isViewExist.Any())
+            .Where(v => (string)v.Attribute("name") == viewName);  
+            if (!replace && isViewExist.Any())
                     return "name already exists";
            
             XElement CustomViewNode = new XElement("CustomView");
@@ -81,7 +86,7 @@ namespace WpfApp4.Tags
             XElement XMLElements = XMLFile.viewDoc.Element("root");
             IEnumerable<XElement> isViewExist = XMLElements.Elements("CustomView")
 
-.Where(v => (string)v.Attribute("name") == viewName);
+            .Where(v => (string)v.Attribute("name") == viewName);
             foreach (XElement el in isViewExist)
             {
                 el.Remove();
@@ -121,7 +126,7 @@ namespace WpfApp4.Tags
             XElement Choosen = null;
             IEnumerable<XElement> view = XMLFile.viewDoc.Element("root").Elements("CustomView")
 
-.Where(v => (string)v.Attribute("name") == ViewName);
+            .Where(v => (string)v.Attribute("name") == ViewName);
             foreach (XElement el in view)
                 Choosen = el;
             TreeViewItem treeNode = new TreeViewItem
@@ -205,6 +210,8 @@ namespace WpfApp4.Tags
 
         }
 
+
+
         static List<TreeViewItem> GetChildren(TreeViewItem parent)
         {
             List<TreeViewItem> children = new List<TreeViewItem>();
@@ -259,7 +266,7 @@ namespace WpfApp4.Tags
             XElement XMLBody = XMLFile.viewDoc.Element("root");
             IEnumerable<XElement> isViewExist = XMLBody.Elements("view")
 
-.Where(v => (string)v.Attribute("name") == tag);
+            .Where(v => (string)v.Attribute("name") == tag);
             foreach (XElement v in isViewExist)
             {
                 if (XNode.DeepEquals(v, viewNode))
@@ -274,10 +281,18 @@ namespace WpfApp4.Tags
 
         public static void AddTagNode(string tag, string path)
         {
+			string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
+			XDocument xmlDocument = XDocument.Load(docFilePath);
+			
+			XDocument doc;
+			
+			doc = XDocument.Load(docFilePath);
+			XMLFile.tagDoc = LoadFile(docFilePath);
+			 
             List<string> parsedTags = parse_tags(tag);
-           
-                string mainCat =parsedTags[0] ;
-                string subCat = string.Empty;
+          
+            string mainCat =parsedTags[0] ;
+            string subCat = string.Empty;
             if(parsedTags.Count>1)
                  subCat = parsedTags[1];
             IEnumerable<XElement> categoriesToAdd = null;
@@ -289,7 +304,7 @@ namespace WpfApp4.Tags
                 {
                     foreach (XElement el in categoriesToAdd)  //paths
                     {
-
+                         
                         addPathToExistingNode(el, path);
 
                     }
@@ -326,12 +341,19 @@ namespace WpfApp4.Tags
                 from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
                 where (string)el.Attribute("value") == subCat
                 select el;
+				
             }
             return NodeList;
         }
 
         public static IEnumerable<XElement> getNodesForView(string tag, string iscategory)
         {
+			string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
+			XDocument xmlDocument = XDocument.Load(docFilePath);
+			
+			XDocument doc;
+			
+			doc = XDocument.Load(docFilePath);
             IEnumerable<XElement> NodeList=null;
             string mainCat = null;
             int i = -1;
@@ -344,28 +366,27 @@ namespace WpfApp4.Tags
             switch (iscategory)
             {
                 case "Main+SubCategory":
-                    NodeList = //bring all the tag block from the xml includes subtags
-               from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
-               where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
-               select el;
+                    NodeList = 
+              		  from el in doc.Element("root").Elements("tag")
+                      where ((string)el.Attribute("name") == mainCat && (string)el.Attribute("value") == subCat)
+                      select el;
                     break;
 
                 case "Main Category":
                     NodeList = //bring all the tag block from the xml includes subtags
-               from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
-               where ((string)el.Attribute("name") == mainCat)
-               select el;
-                    break;
+                    from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
+                    where ((string)el.Attribute("name") == mainCat)
+                    select el;
+                   break;
 
                 case "SubCategoy":
                     NodeList = //bring all the tag block from the xml includes subtags
-                from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
-                where (string)el.Attribute("value") == subCat
-                select el;
-                    break;
+                    from el in XMLFile.tagDoc.Descendants("root").Elements("tag")
+                    where (string)el.Attribute("value") == subCat
+                    select el;
+                   break;
             }
           
-            
             return NodeList;
         }
 
@@ -396,6 +417,12 @@ namespace WpfApp4.Tags
         //tag+subtag exist
         private static void addPathToExistingNode(XElement el, string path)
         {
+			
+			string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
+			XDocument xmlDocument = XDocument.Load(docFilePath);
+			
+			XDocument doc=xmlDocument;
+			
             var isPathExistInNode = from p in el.Elements("path")
                                     where (string)p.Attribute("value") == path
                                     select p;

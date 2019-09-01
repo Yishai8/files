@@ -71,6 +71,7 @@ namespace WpfApp4.Controls.CustomComboBox
             get { return GetValue(MySelectedItemProperty); }
             set { SetValue(MySelectedItemProperty, value); }
         }
+		
     }
 
     

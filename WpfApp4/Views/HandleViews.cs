@@ -15,13 +15,15 @@ namespace WpfApp4.Views
     {
 
         // TreeNode<Views.singleView> root = new TreeNode<Views.singleView>();
-        public string saveCustomView(TreeView tree, string viewName, bool replace)
+       
+	   public string saveCustomView(TreeView tree, string viewName, bool replace)
         {
             ItemCollection items = null;
             if (!replace)
                 items = tree.Items;
             else
             {
+				  
                 TreeViewItem item = (TreeViewItem)tree.Items[0];
                 items = item.Items; //without the root item=tree name
             }
@@ -29,16 +31,19 @@ namespace WpfApp4.Views
             return Tags.XMLFile.SaveView(items, viewName, replace);
         }
 
+
         public void deleteCustomView(string viewName)
         {
 
             Tags.XMLFile.deleteView(viewName);
         }
 
+
         public List<string> getCustomViewsList()
         {
             return Tags.XMLFile.getViewList();
         }
+
 
         public void LoadCustomView(TreeView t, string ViewName)
         {
@@ -54,7 +59,7 @@ namespace WpfApp4.Views
             t.Items.Clear();
             Populate(tag, null, t, null, true);
             TreeViewItem _item =
-    (TreeViewItem)t.ItemContainerGenerator.Items[0];
+               (TreeViewItem)t.ItemContainerGenerator.Items[0];
             int nodeLocation = 0;
             foreach (List<string> list in Tagslist)
             {
@@ -98,6 +103,8 @@ namespace WpfApp4.Views
             { Console.WriteLine(unauth.InnerException); }
         }
 
+
+
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem _item = (TreeViewItem)sender;
@@ -131,6 +138,8 @@ namespace WpfApp4.Views
             }
 
         }
+
+
 
         public List<string> getTaggedPaths(TreeViewItem item)
         {
@@ -168,6 +177,8 @@ namespace WpfApp4.Views
             return paths.Distinct().ToList();
         }
 
+
+
         public void processTree(TreeViewItem treeItems, List<string> paths)
         {
 
@@ -202,6 +213,8 @@ namespace WpfApp4.Views
 
         }
 
+
+
         static List<TreeViewItem> GetChildren(TreeViewItem parent)
         {
             List<TreeViewItem> children = new List<TreeViewItem>();
@@ -223,6 +236,8 @@ namespace WpfApp4.Views
 
             return children;
         }
+
+
 
         public void getComplexTags(TreeView tv,List<string> filterParams)
         {
@@ -257,14 +272,15 @@ namespace WpfApp4.Views
             }
 
             var tagsOrder = (from listItem in list1
-                         group listItem by listItem.path into g
-                         select Merge(g)
-      ).ToList();
+                group listItem by listItem.path into g
+                select Merge(g)
+                ).ToList();
+				
             //show all tags per path
             var paths = (from listItem in list
-                     group listItem by listItem.path into g
-                     select Merge(g)
-        ).ToList();
+                group listItem by listItem.path into g
+                select Merge(g)
+                ).ToList();
             List<string> l = new List<string>();
             List<string> andList = new List<string>();
             List<string> orList = new List<string>();
@@ -314,6 +330,8 @@ namespace WpfApp4.Views
 
         }
 
+
+
         private Tags.TagFilter Merge(IEnumerable<Tags.TagFilter> paths)
         {
             Tags.TagFilter u = new Tags.TagFilter("","");
@@ -329,6 +347,8 @@ namespace WpfApp4.Views
             }
         }
 
+
+
         public void MakeTreeFromPaths(TreeView tv,List<string> paths, string rootNodeName = "", char separator = '/')
         {
 
@@ -336,14 +356,9 @@ namespace WpfApp4.Views
             TreeViewItem root = new TreeViewItem();
             TreeViewItem node = new TreeViewItem();
             TreeViewItem par = new TreeViewItem();
-            //treeView1.Nodes.Add(root);
            
-           
-
-
             foreach (string filePath in paths) // myList is your list of paths
             {
-               
                 string tag = string.Empty;
                 TreeViewItem lastNode = null;
                 foreach (string pathBits in filePath.Split('\\'))
@@ -396,9 +411,10 @@ namespace WpfApp4.Views
             
         }
 
+
+
         private ItemCollection CheckChildExists(ItemCollection items, string tag,string parent)
         {
-
 
             ItemCollection newCol= null;
             foreach (TreeViewItem i in items)

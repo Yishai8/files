@@ -86,7 +86,6 @@
   <ItemGroup>
     <Reference Include="CodeFluent.Runtime.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1bb6d7cccf1045ec, processorArchitecture=MSIL">
       <HintPath>..\packages\CodeFluentRuntimeClient.1.0.0.844\lib\CodeFluent.Runtime.Client.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>

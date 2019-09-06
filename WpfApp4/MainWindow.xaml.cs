@@ -92,8 +92,7 @@ namespace WpfApp4
                     catch (Exception ex)
                     {
 						Console.WriteLine(ex.Message);
-						//h0109 MessageBox.Show("ERROR : "+ex.Message); //hh 3108
-                        return;
+						return;
                     }
                 }
             }
@@ -125,9 +124,9 @@ namespace WpfApp4
                 else { _child.Items.Add(_driitem); }
             }
             catch (System.NullReferenceException ex)
-            { Console.WriteLine(ex.InnerException);  }//hh 3108  hh0109 
+            { Console.WriteLine(ex.InnerException);  }
             catch (System.UnauthorizedAccessException unauth)
-            { Console.WriteLine(unauth.InnerException);  }//hh 3108  hh0109
+            { Console.WriteLine(unauth.InnerException);  }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -145,7 +144,7 @@ namespace WpfApp4
                     }
                 }
                 catch (System.NullReferenceException ex)
-                { Console.WriteLine(ex.InnerException);  } //hh 3108  hh0109
+                { Console.WriteLine(ex.InnerException);  } 
                 catch (System.UnauthorizedAccessException unauth)
                 { Console.WriteLine(unauth.InnerException); }
 
@@ -201,7 +200,7 @@ namespace WpfApp4
 			 {
                 Console.WriteLine(ex.InnerException);
 				MessageBox.Show("you have not dragged well ,drag again");
-				 _IsDragging =  false;  //hh3108
+				 _IsDragging =  false;  
 				
             }
 		}
@@ -281,14 +280,14 @@ namespace WpfApp4
             }
 			if ((files[0].ToString()).IndexOf('.')>-1)   
 					{
-						//===============================================h3108
+						
 					 string streamName = ":fileTags";
                      try 
 			          {
                        FileStream stream = NtfsAlternateStream.Open(files[0] + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
 			           stream.Close();
 			          }
-			          catch (UnauthorizedAccessException ex)  //hh308
+			          catch (UnauthorizedAccessException ex)  
                       {
                          Console.WriteLine(ex.InnerException);
 			             MessageBox.Show("you have not authority to the file "+files[0]);
@@ -296,15 +295,15 @@ namespace WpfApp4
                       }
 						//=================================================
 						if (!myOtherFilesList.Contains(files[0]))
-						{   //h3108 
+						{   
                         lb_tag.Items.Add(files[0]); 
 						return;
-						} //return 
-						else {//hh3108
+						}  
+						else {
 						MessageBox.Show("The file you dragged already exsist in the dropped file list"); return;}
 					}
-			String[] allfiles = Directory.GetFiles(files[0], "*", SearchOption.AllDirectories);  //haviva
-			if (allfiles.Length==0)  //h3108)
+			String[] allfiles = Directory.GetFiles(files[0], "*", SearchOption.AllDirectories);  
+			if (allfiles.Length==0)  
 			{
 				MessageBox.Show("The folder you want to drag has no files, drag ignored");
 				return;
@@ -317,8 +316,8 @@ namespace WpfApp4
 			 {
 				if (!myOtherFilesList.Contains(allfiles[i]))
                     lb_tag.Items.Add(allfiles[i]); 
-				else //hh3108
-				{  // hh3108
+				else 
+				{  
 				MessageBox.Show("The files of the folder you dragged ,already exsist in the dropped file list"); return;}
 			 }
 		}
@@ -357,7 +356,7 @@ namespace WpfApp4
 					
 					if ((from.Header.ToString()).IndexOf('.')>-1)  
 					{
-						MessageBox.Show("you can't drag file into file only into folder");  //hh0109
+						MessageBox.Show("you can't drag file into file only into folder");  
 						 e.Handled = true;
                         _IsDragging = false;
 						return;
@@ -365,7 +364,7 @@ namespace WpfApp4
 				 
 				if ((from.Header).Equals(dest.Header)) 
 				{
-					 MessageBox.Show("file exsist");
+					 MessageBox.Show("folder already exsist in the folder you try to drag into");
 					  e.Handled = true;
                     _IsDragging = false;
                        return;
@@ -379,7 +378,7 @@ namespace WpfApp4
 					    if ((t.Header).Equals(dest.Header)) 
 					       
 					     {
-                            MessageBox.Show("file exsist");
+                            MessageBox.Show("file/folder you try to drag, already exsist in the destination folder , drag denied");
 					        e.Handled = true;
                            _IsDragging = false;
                             return;
@@ -543,7 +542,7 @@ namespace WpfApp4
 
 
             else
-                    MessageBox.Show("Item with the same name exists in destination - Copy failed");
+                    MessageBox.Show("Item with the same name exists in destination - Drag failed");
                     e.Handled = true;
                     _IsDragging = false;
                      return;
@@ -603,7 +602,7 @@ namespace WpfApp4
 						
 					   if ((DestToAdd.Header.ToString()).IndexOf('.')>-1)  //hh
 					   {
-						MessageBox.Show("you add folder  into  file, you can drag folder only into folder  "); //hh0109
+						MessageBox.Show("you add folder  into  file, you can drag folder only into folder  "); 
 						
 						 return;   
 					    }      
@@ -745,11 +744,10 @@ namespace WpfApp4
                     }
 
                 }
-               // catch (System.UnauthorizedAccessException unauth)
-               // { Console.WriteLine(unauth.InnerException); }
+              
                catch (Exception ex)
                  { Console.WriteLine(ex.InnerException);}
-                    //hh0109 MessageBox.Show("Error : "+ex.InnerException);}   //hh3108
+                   
 
             }
 
@@ -1127,10 +1125,10 @@ namespace WpfApp4
 				  MessageBox.Show("To clear the view ,press the 'Create Filter View' button  and than  press ok");
 				
 				   string filters = "";
-				   foreach (string param in filterParams)  //hh
+				   foreach (string param in filterParams)   
                    {
 				     
-				       filters = filters  + " ( " + param  + " )   ";  //hh
+				       filters = filters  + " ( " + param  + " )   ";   
 				   }
 				    
 				      MessageBox.Show("View filter is:  " +filters);

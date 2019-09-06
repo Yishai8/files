@@ -8,8 +8,9 @@ namespace WpfApp4.Controls.TagControl
 {
     public partial class TagDialog : Window
     {
-
+        
         ObservableCollection<tagsCategory> categories;
+        //add tag to file
         public TagDialog(ObservableCollection<tagsCategory> cats)
         {
             InitializeComponent();

@@ -697,9 +697,27 @@ namespace WpfApp4
                     var itemIndex = par.Items.IndexOf(selected);
 
                     par.Items.Remove(selected);
+                    if (par.Items.Count == 0)     //hh0609
+                    {
+                        MessageBox.Show("View has no folders/files ,view will be deleted");  //hh0609
+                        string messageBoxText = "Are you sure you want to delete view " + viewName.Text + "?";
+                        MessageBoxButton button = MessageBoxButton.YesNo;
+                        MessageBoxImage icon = MessageBoxImage.Warning;
+                        if (MessageBox.Show(messageBoxText, null, button, icon) == MessageBoxResult.No)
+                            return;
+                        else
+                        {
+                            Views.HandleViews b = new Views.HandleViews();
+                            b.deleteCustomView(viewName.Text);
+                            MessageBox.Show("View deleted");
+                            CustomviewTree.Items.Clear();
+                            return;
 
+                        }
+                    }
 
-                }
+                        //hh 0609
+                    }
                 else
                 {
 
@@ -711,7 +729,7 @@ namespace WpfApp4
             catch (NullReferenceException ex)
             {
                 Console.WriteLine(ex.InnerException);
-                MessageBox.Show("ERROR : " + ex.InnerException); //hh3108
+                MessageBox.Show("you didn't chose the folder/file to remove " ); //hh3108
             }
 
         }

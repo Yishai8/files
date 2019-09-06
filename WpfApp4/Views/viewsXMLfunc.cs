@@ -124,13 +124,23 @@ namespace WpfApp4.Tags
         public static List<string> getViewList()
         {
             List<string> ListOfViews = new List<string>();
+            try
+            {
 
-            var XMLElements = XMLFile.viewDoc.Element("root").Descendants("CustomView").Attributes("name").Select(x => x.Value);
+                var XMLElements = XMLFile.viewDoc.Element("root").Descendants("CustomView").Attributes("name").Select(x => x.Value);
 
+
+           
             foreach (var el in XMLElements)
                 ListOfViews.Add(el);
+          
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+                MessageBox.Show("views list is empty");
+            }
             return ListOfViews;
-
         }
 
 

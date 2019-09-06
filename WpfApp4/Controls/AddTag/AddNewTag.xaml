@@ -33,9 +33,11 @@
             <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="_Ok" Height="19.2"/>
             <Button IsCancel="True" MinWidth="60" Content="_Cancel" Height="19.2"/>
         </WrapPanel>
-        <TextBlock HorizontalAlignment="Left" Margin="153,258,0,0" TextWrapping="Wrap" Text="Add Tag To:" VerticalAlignment="Top" Height="16" Width="62"/>
-        <RadioButton Name="Existing" Checked="radioButton_Checked" GroupName="tagGroup" Content="Existing" HorizontalAlignment="Left" Margin="227,259,0,0" VerticalAlignment="Top" Height="15" Width="60"/>
-        <RadioButton Name="New" Checked="radioButton_Checked" GroupName="tagGroup" Content="New" HorizontalAlignment="Left" Margin="309,259,0,0" VerticalAlignment="Top" Height="15" Width="43"/>
-        <Label Content="Add New Tag Group" HorizontalAlignment="Left" Margin="192,58,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontSize="16"/>
+        
+        <RadioButton Name="NewCat" Checked="radioButton_Checked" GroupName="tagGroup" Content="Add new category  "  IsChecked="True" Foreground ="Blue"  HorizontalAlignment="Left" Margin="35,259,0,0" VerticalAlignment="Top" Height="15" Width="200"/>
+		<RadioButton Name="delete" Checked="radioButton_Checked" GroupName="tagGroup" Content="Delete category"   HorizontalAlignment="Left" Foreground ="Magenta"  Margin="175,259,0,0" VerticalAlignment="Top" Height="15" Width="160"/>
+        <RadioButton Name="Newsub" Checked="radioButton_Checked" GroupName="tagGroup" Content="Add New subCategory to existing category"  HorizontalAlignment="Left" Margin="295,259,0,0" Foreground ="OrangeRed"  VerticalAlignment="Top" Height="15" Width="300"/>
+	
+        <Label Content="Update the group of  Tags " HorizontalAlignment="Left" Margin="192,58,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontSize="16"/>
     </Grid>
 </Window>

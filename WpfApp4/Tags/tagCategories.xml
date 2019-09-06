@@ -1,15 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <HeaderTag name="Music" showOldValues="true">
-    <ChildTag name="Classical &amp; Opera"/>
-    <ChildTag name="Country &amp; Gospel"/>
-    <ChildTag name="Instruments &amp; Performers"/>
-    <ChildTag name="Jazz &amp; Blues"/>
-    <ChildTag name="Music News"/>
-    <ChildTag name="Rock, Hard Rock &amp; Heavy Metal"/>
-    <ChildTag name="Urban"/>
+    <ChildTag name="Classical &amp; Opera" />
+    <ChildTag name="Pop" />
+    <ChildTag name="Country &amp; Gospel" />
+    <ChildTag name="Instruments &amp; Performers" />
+    <ChildTag name="Jazz &amp; Blues" />
+    <ChildTag name="Music News" />
+    <ChildTag name="Rock, Hard Rock &amp; Heavy Metal" />
+    <ChildTag name="Urban" />
   </HeaderTag>
-
+  <HeaderTag name="Sports &amp; Recreation" showOldValues="true">
+    <ChildTag name="Aviation" />
+    <ChildTag name="Boats" />
+    <ChildTag name="Golf" />
+    <ChildTag name="Hunting &amp; Fishing" />
+    <ChildTag name="Snow &amp; Water" />
+    <ChildTag name="Ski" />
+  </HeaderTag>
+  <HeaderTag name="Friends" showOldValues="true">
+    <ChildTag name="Moshe" />
+    <ChildTag name="Dan" />
+    <ChildTag name="David" />
+  </HeaderTag>
 <HeaderTag name="Sports &amp; Recreation" showOldValues="true">
   <ChildTag name="Aviation"/>
   <ChildTag name="Boats"/>
@@ -18,58 +31,45 @@
   <ChildTag name="Snow &amp; Water"/>
   <ChildTag name="Ski"/>
 </HeaderTag>
-  
-<HeaderTag name="Friends" showOldValues="true">
-  <ChildTag name="Moshe"/>
-  <ChildTag name="Dan"/>
-  <ChildTag name="David"/>
-</HeaderTag>
-  
   <HeaderTag name="Animals &amp; Pets" showOldValues="true">
-    <ChildTag name="Birds"/>
-    <ChildTag name="Dogs &amp; Cats"/>
-    <ChildTag name="Farming"/>
-    <ChildTag name="Fish &amp; Reptiles"/>
-    <ChildTag name="Horses"/>
-    <ChildTag name="Wildlife"/>
+    <ChildTag name="Birds" />
+    <ChildTag name="Dogs &amp; Cats" />
+    <ChildTag name="Farming" />
+    <ChildTag name="Fish &amp; Reptiles" />
+    <ChildTag name="Horses" />
+    <ChildTag name="Wildlife" />
   </HeaderTag>
   <HeaderTag name="Hobbies" showOldValues="true">
-    <ChildTag name="Arts &amp; Crafts" showOldValues="true"/>
-    <ChildTag name="Coin Collecting"/>
-    <ChildTag name="Comics"/>
-    <ChildTag name="Puzzles &amp; Games"/>
-    <ChildTag name="Sci-Fi &amp; Mystery"/>
-    <ChildTag name="Toys &amp; Collectibles"/>
-    <ChildTag name="Woodworking &amp; Machining"/>
+    <ChildTag name="Arts &amp; Crafts" showOldValues="true" />
+    <ChildTag name="Coin Collecting" />
+    <ChildTag name="Comics" />
+    <ChildTag name="Puzzles &amp; Games" />
+    <ChildTag name="Sci-Fi &amp; Mystery" />
+    <ChildTag name="Toys &amp; Collectibles" />
+    <ChildTag name="Woodworking &amp; Machining" />
   </HeaderTag>
-
   <HeaderTag name="Locations" showOldValues="true">
-    <ChildTag name="Israel"/>
-    <ChildTag name="Austria"/>
+    <ChildTag name="Israel" />
+    <ChildTag name="Austria" />
   </HeaderTag>
-
   <HeaderTag name="CoursesName" showOldValues="true">
-    <ChildTag name="asembler" showOldValues="true"/>
-    <ChildTag name="c++"/>
-    <ChildTag name="graphics"/>
-    <ChildTag name="algebra"/>
+    <ChildTag name="asembler" showOldValues="true" />
+    <ChildTag name="c++" />
+    <ChildTag name="graphics" />
+    <ChildTag name="algebra" />
   </HeaderTag>
-
   <HeaderTag name="CoursesFeatue" showOldValues="true">
-    <ChildTag name="ex" showOldValues="true"/>
-    <ChildTag name="material"/>
-    <ChildTag name="grades"/>
+    <ChildTag name="ex" showOldValues="true" />
+    <ChildTag name="material" />
+    <ChildTag name="grades" />
   </HeaderTag>
-
   <HeaderTag name="year" showOldValues="true">
-    <ChildTag name="2018" showOldValues="true"/>
-    <ChildTag name="2019"/>
-    <ChildTag name="2017"/>
+    <ChildTag name="2018" showOldValues="true" />
+    <ChildTag name="2019" />
+    <ChildTag name="2017" />
   </HeaderTag>
   <HeaderTag name="School" showOldValues="true">
-    <ChildTag name="Courses" showOldValues="true"/>
-    <ChildTag name="articles"/>
+    <ChildTag name="Courses" showOldValues="true" />
+    <ChildTag name="articles" />
   </HeaderTag>
-  
-
-  </root>
+</root>

@@ -27,35 +27,38 @@ namespace WpfApp4.Views
                 TreeViewItem item = (TreeViewItem)tree.Items[0];
                 items = item.Items; //without the root item=tree name
             }
-
-            return Views.viewsXMLfunc.SaveView(items, viewName, replace);
+            return Tags.XMLFile.SaveView(items, viewName, replace);
+            // return Views.viewsXMLfunc.SaveView(items, viewName, replace);
         }
 
 
         public void deleteCustomView(string viewName)
         {
-
-            Views.viewsXMLfunc.deleteView(viewName);
+            Tags.XMLFile.deleteView(viewName);
+            //Views.viewsXMLfunc.deleteView(viewName);
         }
 
 
         public List<string> getCustomViewsList()
         {
-            return Views.viewsXMLfunc.getViewList();
+            return Tags.XMLFile.getViewList();
+            //return Views.viewsXMLfunc.getViewList();
         }
 
 
         public void LoadCustomView(TreeView t, string ViewName)
         {
             t.Items.Clear();
-            Views.viewsXMLfunc.BuildTree(t, ViewName);
+            Tags.XMLFile.BuildTree(t, ViewName);
+           // Views.viewsXMLfunc.BuildTree(t, ViewName);
         }
 
         public void createViewByTag(string iscategory, string tag, TreeView t)
         {
 
             var Tagslist = Tags.TagManagment.getPathsByTag(tag, iscategory);
-            Views.viewsXMLfunc.AddViewNode(Tagslist, tag);
+            Tags.XMLFile.AddViewNode(Tagslist, tag);
+            //   Views.viewsXMLfunc.AddViewNode(Tagslist, tag);
             t.Items.Clear();
             Populate(tag, null, t, null, true);
             TreeViewItem _item =

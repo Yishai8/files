@@ -38,7 +38,6 @@ namespace WpfApp4
         {
             //data sources init
             InitializeComponent();
-            Views.viewsXMLfunc.init();
             Tags.tagsXMLfunc.init();
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
@@ -563,8 +562,9 @@ namespace WpfApp4
             }
         }
 
+        public static T Clone<T>(T from)
 
-
+        {
 
             string objStr = XamlWriter.Save(from);
 
@@ -577,6 +577,11 @@ namespace WpfApp4
             return (T)clone;
 
         }
+
+
+
+
+     
 
 
 

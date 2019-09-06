@@ -169,9 +169,8 @@
     <Compile Include="Tags\Tag.cs" />
     <Compile Include="Tags\TagFilter.cs" />
     <Compile Include="Tags\TagManagment.cs" />
-    <Compile Include="Views\viewsXMLfunc.cs" />
-    <Compile Include="Tags\tagsXMLfunc.cs" />
     <Compile Include="Tags\tagsCategory.cs" />
+    <Compile Include="Tags\XMLFile.cs" />
     <Compile Include="Views\HandleViews.cs" />
     <Compile Include="Views\TreeNode.cs" />
     <Compile Include="Views\View.cs" />

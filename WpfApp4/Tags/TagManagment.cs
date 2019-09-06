@@ -12,115 +12,112 @@ using System.Xml.Linq;
 namespace WpfApp4.Tags
 {
     //tags management class - centrelized place for all tags related classes
-   
 
-// Bring the file's tags in order to add additiona tags according the the user's selection
 
-   static class TagManagment
+    // Bring the file's tags in order to add additiona tags according the the user's selection
+
+    static class TagManagment
     {
-         public static string getFileTag(string filepath)  
+        public static string getFileTag(string filepath)
         {
-			
+
             Tag newTag = new Tag(filepath);
-			
+
             return newTag.getFileTag();
         }
-		
-		// add the tags to all selected files according to the user selection
 
-        //save tags to tags XML file
+        // add the tags to all selected files according to the user selection
+
         public static void saveFileTags(List<string> filepaths, string tags)
         {
-			
-            foreach(string filename in filepaths)
+
+            foreach (string filename in filepaths)
             {
-			
-                List<string> itemsToTag = new List<string>() ;
+
+                List<string> itemsToTag = new List<string>();
                 var isFile = new Uri(filename).AbsolutePath.Split('/').Last().Contains('.');
-			
+
                 if (!isFile)
                 {
-				
+
                     itemsToTag.AddRange(Directory.GetFiles(filename, "*.*", SearchOption.AllDirectories));
-                    itemsToTag.AddRange (Directory.GetDirectories(filename, "*.*", SearchOption.AllDirectories));
-                    if(!itemsToTag.Contains(filename))
-					   itemsToTag.Add(filename);
-					
+                    itemsToTag.AddRange(Directory.GetDirectories(filename, "*.*", SearchOption.AllDirectories));
+                    if (!itemsToTag.Contains(filename))
+                        itemsToTag.Add(filename);
+
                 }
-                    
+
                 else
                     itemsToTag.Add(filename);
-				 
-                foreach(string item in itemsToTag)
+
+                foreach (string item in itemsToTag)
                 {
-				     
+
                     Tag newTag = new Tag(item);
 
                     newTag.saveFileTags(tags);
-                    Tags.tagsXMLfunc.AddTagNode(tags, filename);
+                    Tags.XMLFile.AddTagNode(tags, filename);
                 }
-                
+
 
             }
 
 
         }
-//================delete the tags to each selected file ===========================
+        //================delete the tags to each selected file ===========================
 
 
-
-   public static void saveFileTags1(List<string> filepaths, string tags)
+        public static void saveFileTags1(List<string> filepaths, string tags)
         {
-						
-            foreach(string filename in filepaths)
+
+            foreach (string filename in filepaths)
             {
-			
-                List<string> itemsToTag = new List<string>() ;
+
+                List<string> itemsToTag = new List<string>();
                 var isFile = new Uri(filename).AbsolutePath.Split('/').Last().Contains('.');
-			
+
                 if (!isFile)
                 {
-				  
+
                     itemsToTag.AddRange(Directory.GetFiles(filename, "*.*", SearchOption.AllDirectories));
-                    itemsToTag.AddRange (Directory.GetDirectories(filename, "*.*", SearchOption.AllDirectories));
-                    if(!itemsToTag.Contains(filename))
-					   itemsToTag.Add(filename);
-					
+                    itemsToTag.AddRange(Directory.GetDirectories(filename, "*.*", SearchOption.AllDirectories));
+                    if (!itemsToTag.Contains(filename))
+                        itemsToTag.Add(filename);
+
                 }
-                    
+
                 else
                     itemsToTag.Add(filename);
-                foreach(string item in itemsToTag)
+                foreach (string item in itemsToTag)
                 {
-				
+
                     Tag newTag = new Tag(item);
 
                     newTag.saveFileTags1(tags);
-                    
+
                 }
-                
+
 
             }
 
 
         }
-		
-//==== ==bring the existing  tags of the file =in order to delete the tags the user selected ==============================
-  
-   public static string getFileTag1(string filepath)
-      
-	  {
-			
-            Tag newTag = new Tag(filepath);
-			
-            return newTag.getFileTag();
-      }
 
- //get file paths related to a tag
+        //==== ==bring the existing  tags of the file =in order to delete the tags the user selected ==============================
 
-        public static List<List<string>> getPathsByTag(string tag,string isCategory)
+        public static string getFileTag1(string filepath)
+
         {
-            return Tags.tagsXMLfunc.getPathsByTag(tag, isCategory);
+
+            Tag newTag = new Tag(filepath);
+
+            return newTag.getFileTag();
+        }
+
+
+        public static List<List<string>> getPathsByTag(string tag, string isCategory)
+        {
+            return Tags.XMLFile.getPathsByTag(tag, isCategory);
         }
 
 
@@ -137,7 +134,7 @@ namespace WpfApp4.Tags
         {
             ObservableCollection<tagsCategory> _Categories = new ObservableCollection<tagsCategory>(); //collection of categories
             XDocument doc = XDocument.Load(@"Tags/tagCategories.xml");
-            
+
             string header;
             IEnumerable<XElement> listOfcategories = //bring all the categories and sub categories from XML
             from el in doc.Descendants("root").Elements("HeaderTag")
@@ -153,7 +150,7 @@ namespace WpfApp4.Tags
 
                     cat.Add((string)child.Attribute("name").Value);
                 }
-                _Categories.Add(new tagsCategory ( header, cat, showOld));
+                _Categories.Add(new tagsCategory(header, cat, showOld));
 
             }
             return _Categories;

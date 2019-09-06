@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Linq;
 
+
 using System.Windows;
 
 namespace WpfApp4.Tags
@@ -37,16 +38,19 @@ namespace WpfApp4.Tags
 
             //add value for it
 
+
             for (int i = 0; i < treeItems.Count; i++)
             {
                 XElement itemToAdd = null;
                 TreeViewItem node = (TreeViewItem)treeItems[i];
                 FileAttributes attr = FileAttributes.Directory; //default
                 if (node.Tag.ToString() != "Custom Folder") //item dropped on is not custom folder
+
                  attr = File.GetAttributes(node.Tag.ToString());
 
                 if (attr.HasFlag(FileAttributes.Directory))
                 { 
+
                     itemToAdd = new XElement("folder");
                     itemToAdd.Add(new XAttribute("name", node.Header));
                     itemToAdd.Add(new XAttribute("osLocation", node.Tag));
@@ -59,15 +63,17 @@ namespace WpfApp4.Tags
                     itemToAdd.Add(new XAttribute("name", node.Header));
                     itemToAdd.Add(new XAttribute("osLocation", node.Tag));
                 }
-               
+
                 CustomViewNode.Add(itemToAdd);
 
 
             }
+
             XElement XMLBody = XMLFile.viewDoc.Element("root");
             if(replace)
             {
                 if(!checkDifferenceInNodes(CustomViewNode, isViewExist))
+
                     return "success";
             }
             foreach (XElement el in isViewExist)
@@ -76,10 +82,13 @@ namespace WpfApp4.Tags
             }
 
             XMLBody.Add(CustomViewNode);
+
             XMLFile.viewDoc.Save(XMLFile.viewFilePath);
+
             return "success";
 
         }
+
 
         public static void deleteView(string viewName)
         {
@@ -106,6 +115,7 @@ namespace WpfApp4.Tags
             return true;
         }
 
+
         public static string replaceCustomView(ItemCollection treeItems, string viewName)
         {
             return "x";
@@ -114,12 +124,15 @@ namespace WpfApp4.Tags
         public static List<string> getViewList()
         {
             List<string> ListOfViews = new List<string>();
+
             var XMLElements = XMLFile.viewDoc.Element("root").Descendants("CustomView").Attributes("name").Select(x => x.Value);
+
             foreach (var el in XMLElements)
                 ListOfViews.Add(el);
             return ListOfViews;
 
         }
+
 
         public static void BuildTree(TreeView treeView, string ViewName)
         {
@@ -127,6 +140,7 @@ namespace WpfApp4.Tags
             IEnumerable<XElement> view = XMLFile.viewDoc.Element("root").Elements("CustomView")
 
             .Where(v => (string)v.Attribute("name") == ViewName);
+
             foreach (XElement el in view)
                 Choosen = el;
             TreeViewItem treeNode = new TreeViewItem
@@ -151,7 +165,9 @@ namespace WpfApp4.Tags
                         {
                             //Get First attribute where it is equal to value
                             Header = childElement.Attributes().First(s => s.Name == "name").Value,
+
                             Tag= childElement.Attributes().First(s => s.Name == "osLocation").Value,
+
                             //Automatically expand elements
                             IsExpanded = true
                         };
@@ -211,7 +227,6 @@ namespace WpfApp4.Tags
         }
 
 
-
         static List<TreeViewItem> GetChildren(TreeViewItem parent)
         {
             List<TreeViewItem> children = new List<TreeViewItem>();
@@ -250,7 +265,7 @@ namespace WpfApp4.Tags
                 CategoryNode.Add(new XAttribute("value", l[0] + "." + l[1]));
                 for (int i = 2; i < l.Count; i++)
                 {
-                    
+
                     XElement PathNode = new XElement("path");
                     PathNode.Add(new XAttribute("name", Path.GetFileName(l[i])));
                     PathNode.Add(new XAttribute("osLocation", l[i]));
@@ -263,10 +278,12 @@ namespace WpfApp4.Tags
 
 
             //add value for it
+
             XElement XMLBody = XMLFile.viewDoc.Element("root");
             IEnumerable<XElement> isViewExist = XMLBody.Elements("view")
 
             .Where(v => (string)v.Attribute("name") == tag);
+
             foreach (XElement v in isViewExist)
             {
                 if (XNode.DeepEquals(v, viewNode))
@@ -274,6 +291,7 @@ namespace WpfApp4.Tags
             }
 
             XMLBody.Add(viewNode);
+
             XMLFile.viewDoc.Save(XMLFile.viewFilePath);
 
 
@@ -466,15 +484,18 @@ namespace WpfApp4.Tags
 
         }
 
+
         private static bool CheckFileExsists(string path)  //if the xml exsist
         {
             return File.Exists(path);
         }
 
+
         private static void CreateTagFile() //create nodes to the xml which creates tag
         {
 
         }
+
 
         private static XDocument LoadFile(string filePath) //load the xml file
         {
@@ -482,6 +503,7 @@ namespace WpfApp4.Tags
         }
         static public void init()
         {
+
             if (!CheckFileExsists(docFilePath))
                 new XDocument(
                      new XElement("root")).Save(docFilePath);
@@ -490,6 +512,7 @@ namespace WpfApp4.Tags
                      new XElement("root")).Save(viewFilePath);
             XMLFile.tagDoc = LoadFile(docFilePath);
             XMLFile.viewDoc = LoadFile(viewFilePath);
+
 
 
 

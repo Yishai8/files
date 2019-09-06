@@ -109,7 +109,7 @@ namespace WpfApp4.Tags
                         {
                             string currentTags = getFileTag();
                         List<string> list = currentTags.Split(';').ToList();
-                        if(!list.Contains(tags))
+                        if(!list.Contains(tags)) //check if tag exists already
 
                         NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags+";"+tags);
                             
@@ -145,6 +145,7 @@ namespace WpfApp4.Tags
             }
 
         }
+
 		
 		
 		// arrange the new remained tags  after  deleting tags from files
@@ -247,10 +248,12 @@ namespace WpfApp4.Tags
             
                 string fileTags = getFileStream(fileName);  //brings the tags by the filename
        
+
                 return fileTags;
             
            
         }
+
         public void windowsSearchForTag()   //search on index tags on file made by windows , systemindex is all the indexed files the query can search only indexed files - is windows search
         {
             var connection = new OleDbConnection(@"Provider=Search.CollatorDSO;Extended Properties=""Application=Windows""; Data Source=(local);"); //windows files properties db
@@ -306,4 +309,5 @@ namespace WpfApp4.Tags
 
 
       }
+
 }

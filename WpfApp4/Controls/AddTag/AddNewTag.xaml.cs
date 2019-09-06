@@ -23,10 +23,11 @@ using System.IO;
 
 using System.Xml.Linq;
 
+
 namespace WpfApp4.Controls.AddTag
 {
     /// <summary>
-    /// Interaction logic for AddNewTag.xaml
+    /// add new tag category to categories list
     /// </summary>
     public partial class AddNewTag : Window
     {
@@ -52,9 +53,13 @@ namespace WpfApp4.Controls.AddTag
         }
 
 
+
 //  check the selection of the user about which update he wants to do in the categories 
 //  update , delete or add and handles according the the selection 
 // and announce the user if there is any problem and ask him to fix it and to do the right action.
+//check if the added category should be added to main or sub category
+
+   
 
         private void CheckRadioButton()
         {	
@@ -270,6 +275,7 @@ namespace WpfApp4.Controls.AddTag
         private void radioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton ck = sender as RadioButton;
+            //disable irrelevant selection options
             if (ck.IsChecked.Value)
                 quickReportCalendarCheckedRadioButton = ck;
         }

@@ -28,34 +28,34 @@ namespace WpfApp4.Views
                 items = item.Items; //without the root item=tree name
             }
 
-            return Tags.XMLFile.SaveView(items, viewName, replace);
+            return Views.viewsXMLfunc.SaveView(items, viewName, replace);
         }
 
 
         public void deleteCustomView(string viewName)
         {
 
-            Tags.XMLFile.deleteView(viewName);
+            Views.viewsXMLfunc.deleteView(viewName);
         }
 
 
         public List<string> getCustomViewsList()
         {
-            return Tags.XMLFile.getViewList();
+            return Views.viewsXMLfunc.getViewList();
         }
 
 
         public void LoadCustomView(TreeView t, string ViewName)
         {
             t.Items.Clear();
-            Tags.XMLFile.BuildTree(t, ViewName);
+            Views.viewsXMLfunc.BuildTree(t, ViewName);
         }
 
         public void createViewByTag(string iscategory, string tag, TreeView t)
         {
 
             var Tagslist = Tags.TagManagment.getPathsByTag(tag, iscategory);
-            Tags.XMLFile.AddViewNode(Tagslist, tag);
+            Views.viewsXMLfunc.AddViewNode(Tagslist, tag);
             t.Items.Clear();
             Populate(tag, null, t, null, true);
             TreeViewItem _item =
@@ -75,6 +75,7 @@ namespace WpfApp4.Views
 
         }
 
+        //populate view tree
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
             try
@@ -104,6 +105,8 @@ namespace WpfApp4.Views
         }
 
 
+
+//expand file tree level
 
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
@@ -139,7 +142,7 @@ namespace WpfApp4.Views
 
         }
 
-
+        //tagged paths in custom view
 
         public List<string> getTaggedPaths(TreeViewItem item)
         {
@@ -239,6 +242,8 @@ namespace WpfApp4.Views
 
 
 
+  //and/or filtering
+
         public void getComplexTags(TreeView tv,List<string> filterParams)
         {
             IEnumerable<string> newList = filterParams.OrderBy(x => x);
@@ -270,7 +275,7 @@ namespace WpfApp4.Views
                 }
 
             }
-
+            //merge categories by path
             var tagsOrder = (from listItem in list1
                 group listItem by listItem.path into g
                 select Merge(g)
@@ -287,6 +292,7 @@ namespace WpfApp4.Views
             for (int i=0;i< tagsOrder.Count;i++)
             {
                 l = tagsOrder[i].FileTag.Split(';').ToList();
+                //tag category count==1 will use AND
                 if (l.Count() == 1)
                 {
                     newList = from node in list
@@ -302,8 +308,8 @@ namespace WpfApp4.Views
                         return;
 
                 }
-              
-                else
+
+                else //tag category count>1 will use OR
                 {
                     orPaths = new List<string>();
                     foreach (string cat in l)
@@ -348,6 +354,8 @@ namespace WpfApp4.Views
         }
 
 
+
+//build view display from paths
 
         public void MakeTreeFromPaths(TreeView tv,List<string> paths, string rootNodeName = "", char separator = '/')
         {

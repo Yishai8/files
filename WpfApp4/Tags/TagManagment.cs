@@ -28,6 +28,7 @@ namespace WpfApp4.Tags
 		
 		// add the tags to all selected files according to the user selection
 
+        //save tags to tags XML file
         public static void saveFileTags(List<string> filepaths, string tags)
         {
 			
@@ -56,7 +57,7 @@ namespace WpfApp4.Tags
                     Tag newTag = new Tag(item);
 
                     newTag.saveFileTags(tags);
-                    Tags.XMLFile.AddTagNode(tags, filename);
+                    Tags.tagsXMLfunc.AddTagNode(tags, filename);
                 }
                 
 
@@ -65,6 +66,7 @@ namespace WpfApp4.Tags
 
         }
 //================delete the tags to each selected file ===========================
+
 
 
    public static void saveFileTags1(List<string> filepaths, string tags)
@@ -114,10 +116,11 @@ namespace WpfApp4.Tags
             return newTag.getFileTag();
       }
 
- 
+ //get file paths related to a tag
+
         public static List<List<string>> getPathsByTag(string tag,string isCategory)
         {
-            return Tags.XMLFile.getPathsByTag(tag, isCategory);
+            return Tags.tagsXMLfunc.getPathsByTag(tag, isCategory);
         }
 
 

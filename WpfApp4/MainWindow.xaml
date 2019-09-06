@@ -124,7 +124,10 @@
             <TreeView.Resources>
 
                 <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+
                     <MenuItem Header="Delete tags" Click="deleteTags" />
+                   <MenuItem Header="Add Tag" Click="TagView" />
+
                 </ContextMenu>
 
                 <Style TargetType="{x:Type TreeViewItem}">
@@ -215,6 +218,7 @@
                         <Image Name="Button2_Image" Source="/Icons/minusSign.png" RenderTransformOrigin="1.508,-2.14" Margin="633,286,436,420"/>
 
                     </Button>
+
                    
                     <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="177,74,210,438" RenderTransformOrigin="0.664,0.606" Width="723"/>
                     
@@ -229,6 +233,7 @@
 				    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="210,407,0,0" VerticalAlignment="Top" Content="Main category" Width="146"/>
 					 
 					<Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="726,407,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134"/>
+
                     <ListBox x:Name="lb" HorizontalContentAlignment="Center" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="177,450,719,94" RenderTransformOrigin="0.5,0.5" Width="214">
                         <ListBox.ItemTemplate>
 						 
@@ -241,7 +246,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                     
+
                     <ListBox x:Name="lb1" HorizontalContentAlignment="Center"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="682,450,210,94" RenderTransformOrigin="0.5,0.5" Width="218">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -254,9 +259,11 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+
                     <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="LightPink" Click="addTags" Margin="390,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
                     
 			   </Grid>
+
             </TabItem>
             <TabItem Width="200" Margin="204,0,-204,0">
                 <TabItem.Header >
@@ -266,6 +273,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="White" Height="{Binding ElementName=tc,Path=ActualHeight}">
+
                     <Grid Name="Radio" Visibility="Collapsed" VerticalAlignment="Top">
                         <Label Width="74" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Content="get view by:" Visibility="Collapsed" Margin="-174,4,0,0" />
                         <RadioButton GroupName="tagsWay" Content="Main+SubCategory" IsChecked="True" Visibility="Collapsed" Margin="-38,12,-242,11" Height="16" FontSize="11"/>
@@ -273,11 +281,14 @@
                         <RadioButton GroupName="tagsWay" Content="SubCategoy" Visibility="Collapsed" Margin="190,12,-470,11" Height="16" FontSize="11" />
                         <Button Style="{StaticResource DialogButtonStyle}" Content="Create view" Visibility="Collapsed" Height="29" Width="103"  HorizontalAlignment="Left" Margin="293,4,0,0" VerticalAlignment="Top" Click="getView" >
 
+
                         </Button>
 
 
 
+
                     </Grid>    
+
                     <ListBox HorizontalContentAlignment="Center" x:Name="lb2" Margin="249,58,669,471" HorizontalAlignment="Center" Width="192">
 
                         <ListBox.ItemTemplate>
@@ -324,12 +335,14 @@
                             </Style>
                         </TreeView.Resources>
                     </TreeView>
+
                     <Button Content="Create Filtered View" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" Margin="419,4,0,0" Click="open" VerticalAlignment="Top" Width="122" Height="29"/>
 
                 </Grid>
             </TabItem>
 			
 	
+
             <TabItem Width="200" Margin="204,0,-204,0" >
                 <TabItem.Header >
                     <StackPanel Orientation="Horizontal">

@@ -23,6 +23,14 @@
     <ChildTag name="Dan" />
     <ChildTag name="David" />
   </HeaderTag>
+<HeaderTag name="Sports &amp; Recreation" showOldValues="true">
+  <ChildTag name="Aviation"/>
+  <ChildTag name="Boats"/>
+  <ChildTag name="Golf"/>
+  <ChildTag name="Hunting &amp; Fishing"/>
+  <ChildTag name="Snow &amp; Water"/>
+  <ChildTag name="Ski"/>
+</HeaderTag>
   <HeaderTag name="Animals &amp; Pets" showOldValues="true">
     <ChildTag name="Birds" />
     <ChildTag name="Dogs &amp; Cats" />

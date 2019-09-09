@@ -22,6 +22,8 @@ namespace WpfApp4.Controls.TagControl
     /// </summary>
     public partial class andOrSelection : Window
     {
+		
+		// handles with the filtering and condition for searching or for the  filtered views
         ObservableCollection<string> LVFilterTags = new ObservableCollection<string>() ;
         List<string> tags = new List<string>();
         string mainCatText = "CategoryName=";

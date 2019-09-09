@@ -10,7 +10,8 @@ namespace WpfApp4.Tags
 {
     public class tagsCategory
     {        
-
+        // class which describe  the structure of the tagCategories
+		
         public IList<string> categoryOptions { get; set; } //single category
 
         public tagsCategory(string name, List<string> options,bool showOldValus)

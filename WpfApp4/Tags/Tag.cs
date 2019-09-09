@@ -27,7 +27,12 @@ namespace WpfApp4.Tags
 {
     class Tag //each file is a tag
     {
-        
+        // this class handles with updating and retreiving  the tags stream from the alternate data
+		// of the files , it uses the NtfsAlternateStream methods class
+		// we describe below  how the program uses those methods 
+		
+		
+		
         List<string> FileTag { get; set; } //list of tags name and value sport.ski
         string _path;  //file path
         public Tag(string pathName)
@@ -174,42 +179,45 @@ namespace WpfApp4.Tags
 			  ind_1 = ind-1;
 			  ind1  = ind+1;
 			  
-			   cat = tags.Substring(0,(ind));
-			   subCat = tags.Substring((ind1));
+			   cat = tags.Substring(0,(ind));  // extract the category name from the tags string
+			   subCat = tags.Substring((ind1));  // extract the subCategory name from the tags string
 			}
 			
 			string cc = getFileTag();
 			
                 FileStream stream = NtfsAlternateStream.Open(this._path + streamName, FileAccess.ReadWrite, FileMode.OpenOrCreate, FileShare.None);
                 stream.Close();
-                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);
+                IEnumerable<NtfsAlternateStream> fileStream = NtfsAlternateStream.EnumerateStreams(this._path);  // Enumerates the alternate streams from a file
                 foreach (NtfsAlternateStream ads in fileStream)
                 {   
                     if (ads.StreamType.ToString().Equals("AlternateData"))
                         if (ads.Name.Equals(streamName + ":$DATA"))
 
                         {   
-                        string currentTags = getFileTag();
-                        List<string> list = currentTags.Split(';').ToList();
-                       
+                        string currentTags = getFileTag();   // get the exsisting tag of file 
+                        List<string> list = currentTags.Split(';').ToList();  // create a list of tags,each tag is sapereted by ;  
+                                                                                 
 						   if(list.Contains(tags))
 						   {  
 					      
 							var currentTagsLength = currentTags.Length;  
 							var tagsLength = tags.Length;  
-							for (var i=1;i< currentTagsLength ;i++)
+							for (var i=1;i< currentTagsLength ;i++)  // check all the the tags the file has, 
 							{   
-								
-								if (currentTags.Substring(i,tagsLength) == tags)
+							 if (currentTags.Substring(i,tagsLength) == tags) // if tag already exsist in file will not be added 
 								{  
 							        
-							        currentTags=currentTags.Remove(i-1,tagsLength+1);
+							        currentTags=currentTags.Remove(i-1,tagsLength+1);  // remove the exsisting tag from tags string 
 									
-									if (currentTags == "")
-										NtfsAlternateStream.WriteAllText(this._path,currentTags );  //haviva
+									if (currentTags == "")    // if the file hasn't any tag 
+										//We use the variable "currentTags" to order the tags of file (having type of String)
+                                        //WriteAllText Methos of the class NtfsAlternateStream	Creates a new file,
+										//writes the specified string to the file, and then closes the file. If the target file already exists, it is overwritten.
+										// This method  supports NTFS alternate file streams paths.  									
+										NtfsAlternateStream.WriteAllText(this._path,currentTags );  // NtfsAlternateStream Defines a utility class to read NTFS alternate streams data. 
 									else
 
-									NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags);
+									NtfsAlternateStream.WriteAllText(this._path + streamName, currentTags);  //add the tags to the file 
 									
 									
 									if (ind == -1)

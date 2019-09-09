@@ -182,7 +182,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Grid.Column="1" Margin="212.2,0,305,0">
 
-                        <Label Width="60" Height="100" HorizontalAlignment="Left" Margin="0,0,0,-70" >File Tags:</Label>
+                        <Label Width="60" Height="25"  Foreground="Black"  FontWeight="Bold" HorizontalAlignment="Left" Margin="0,-70,0,-70" >File Tags:</Label>
                         <Label Name="TagsOutput" Height="30" Width="441" HorizontalAlignment="Left" Margin="0,0,0,0.4"/>
 
 
@@ -218,17 +218,30 @@
 
                     <ListBox Name="lb_tag" AllowDrop="True" Drop="files_Drop" HorizontalAlignment="Center" Margin="177,74,210,438" RenderTransformOrigin="0.664,0.606" Width="723"/>
 
-                    <Label HorizontalAlignment="Left" Margin="483,43,0,0" VerticalAlignment="Top" Content="Drop files to tag" Width="162"/>
+                    <Label HorizontalAlignment="Left" Margin="483,43,0,0" VerticalAlignment="Top" Foreground="Black" FontWeight="Bold" Content="Drop files to tag" Width="162"/>
                     <StackPanel Orientation="Horizontal">
 
-                        <Button Content="update categories" Foreground ="Black" Background="PaleGreen" FontSize="15.0"  ForceCursor="true" Cursor="Hand"  Height="25"
+                        <Button HorizontalContentAlignment="Center" Content="Update     Categories"  FontWeight="Bold" Foreground ="Black" Background="Aquamarine" FontSize="15.0"  ForceCursor="true"  Cursor="Hand"  Height="25" Margin= "170,650,0,0" Width="540"
             Click="TagView" />
-                        <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="LightGoldenRodYellow" Click="deleteTags1" Margin="415,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="140">Delete tag from files</Button>
-                        <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="Aquamarine" Click="deleteTags" Margin="-240,400,0,0" RenderTransformOrigin="0.597,-1.44" Width="143">delete all tags from files</Button>
-                    </StackPanel>
-                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="210,407,0,0" VerticalAlignment="Top" Content="Main category" Width="146"/>
+                        <Button Height="28" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="LightGoldenRodYellow" Click="deleteTags1" Margin="60,560,0,0" RenderTransformOrigin="0.597,-1.44" FontWeight="Bold" Width="143">Delete tag from files</Button>
 
-                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="726,407,0,0" VerticalAlignment="Top" Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134"/>
+                        <Button Height="28" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="Plum" Click="deleteTags" Margin="-145,650,0,0" RenderTransformOrigin="0.597,-1.44" FontWeight="Bold" Width="143">Delete all tags from files</Button>
+                    </StackPanel>
+
+
+
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="210,407,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="SeaGreen"   Content="Main category" RenderTransformOrigin="1.515,0.203" Width="134"/>
+
+
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="740,410,0,0" VerticalAlignment="Top" FontWeight="Bold" Content="Update tag's files"  RenderTransformOrigin="1.515,0.203" Foreground="RoyalBlue" Width="190"/>
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="735,430,0,0" VerticalAlignment="Top" Content="===============" RenderTransformOrigin="1.515,0.203" Width="200"/>
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="745,430,0,0" VerticalAlignment="Top" Content="                              " RenderTransformOrigin="1.515,0.203" Width="134"/>
+
+
+
+
+
+                    <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="530,407,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="SeaGreen"   Content="Sub category" RenderTransformOrigin="1.515,0.203" Width="134"/>
                     <ListBox x:Name="lb" HorizontalContentAlignment="Center" ItemsSource="{Binding Categories}"  HorizontalAlignment="Center" Margin="177,450,719,94" RenderTransformOrigin="0.5,0.5" Width="214">
                         <ListBox.ItemTemplate>
 
@@ -242,7 +255,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <ListBox x:Name="lb1" HorizontalContentAlignment="Center"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="682,450,210,94" RenderTransformOrigin="0.5,0.5" Width="218">
+                    <ListBox x:Name="lb1" HorizontalContentAlignment="Center"   HorizontalAlignment="Center" ItemsSource="{Binding ElementName=lb, Path=SelectedItem.categoryOptions}" Margin="290,450,210,94" RenderTransformOrigin="0.5,0.5" Width="218">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
 
@@ -254,7 +267,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="LightPink" Click="addTags" Margin="390,696,0,0" RenderTransformOrigin="0.597,-1.44" Width="143">Add tag to files</Button>
+                    <Button Height="25" Style="{StaticResource DialogButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground ="Black" Background="LightPink" Click="addTags" Margin="770,480,0,0" RenderTransformOrigin="0.597,-1.44" FontWeight="Bold"   Width="140" >Add tag to files</Button>
 
                 </Grid>
             </TabItem>

@@ -27,15 +27,23 @@ namespace WpfApp4
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+	
+	//===========================================================================================
+	// This is the main program which includes the activities of the Altview.
+	// According to the option/action the user does , this program navigates 
+	//to the appropriate process and class functions that handles in the specific user's action .
+	//============================================================================================
+	
     public partial class MainWindow : Window
     {
         System.Windows.Point _startPoint;
         bool _IsDragging = false;
         ObservableCollection<tagsCategory> Categories = Tags.TagManagment.LoadCategoriesListFromXML();  //tag options 
-
+        
 
         public MainWindow()
         {
+			 
             InitializeComponent();
             Tags.XMLFile.init();
             lb.ItemsSource = Categories;
@@ -48,12 +56,15 @@ namespace WpfApp4
 
         private void foldersItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) //context for right button  menu 1 menu 2
         {
+			 
             TreeView tv = sender as TreeView;
             //tv.ContextMenu.Visibility = tv.SelectedItem == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
+        // Enable the user to open the files he drag for view for reading the data or update the data  
         private void ThumbnailsOpenFile(object sender, MouseButtonEventArgs e)
         {
+			
             if (e.ChangedButton == MouseButton.Left)    // Left button was double clicked
             {
 
@@ -101,13 +112,15 @@ namespace WpfApp4
 
         private TreeView GetObjectParent(TreeViewItem obj)
         {
-
+ 
             while (!(obj.Parent.GetType().Name == "TreeView")) //get to treeview parent
                 obj = (TreeViewItem)obj.Parent;
             return (TreeView)obj.Parent;
         }
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)       //create the tree view
         {
+		
+		 
             try
             {
                 Icon ic = SysIcon.OfPath(tag);
@@ -131,7 +144,7 @@ namespace WpfApp4
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+			 
             foreach (DriveInfo driv in DriveInfo.GetDrives())   //fetch the drives info
             {
                 try
@@ -153,6 +166,7 @@ namespace WpfApp4
 
         private void Tree_PreviewMouseMove(object sender, MouseEventArgs e)
         {
+			 
 
             if (e.LeftButton == MouseButtonState.Pressed && !_IsDragging)
 
@@ -177,7 +191,9 @@ namespace WpfApp4
 
         private void StartDrag(MouseEventArgs e)
         {
+			 
             _IsDragging = true;
+			
             TreeView par = GetObjectParent((TreeViewItem)e.Source);
             object temp = par.SelectedItem;
             DataObject data = null;
@@ -210,12 +226,14 @@ namespace WpfApp4
 
         private void CustomviewTree_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+			 
             _startPoint = e.GetPosition(null);
         }
 
 
         private void Tree_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+			 
 
             TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
 
@@ -229,14 +247,17 @@ namespace WpfApp4
 
         static TreeViewItem VisualUpwardSearch(DependencyObject source)
         {
+			 
             while (source != null && !(source is TreeViewItem))
                 source = System.Windows.Media.VisualTreeHelper.GetParent(source);
 
             return source as TreeViewItem;
         }
-
+		
+        // Display the list of tags i.e categories and subCategories before perfoming any change in those lists
         private void TagView(object sender, RoutedEventArgs e)
         {
+			 
             Views.HandleViews b = new Views.HandleViews();
             MenuItem mnu = sender as MenuItem;
 
@@ -269,6 +290,7 @@ namespace WpfApp4
         //Handle dropped files on listBox for tagging 
         private void files_Drop(object sender, DragEventArgs e)
         {
+			 
             try
             {
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -294,7 +316,7 @@ namespace WpfApp4
                         MessageBox.Show("you have not authority to the file " + files[0]);
                         return;
                     }
-                    //=================================================
+                     
                     if (!myOtherFilesList.Contains(files[0]))
                     {
                         lb_tag.Items.Add(files[0]);
@@ -333,16 +355,18 @@ namespace WpfApp4
 
         }
 
+        // Remove the selected file from the drop files list 
         private void removeTagsFromList(object sender, EventArgs e)
         {
+			 
             if (lb_tag.SelectedIndex >= 0)
                 lb_tag.Items.RemoveAt(lb_tag.SelectedIndex);
         }
 
-
+       // The user can drag folder   or file to create free view 
         private void CustomviewTree_Drop(object sender, DragEventArgs e)
         {
-
+			
             if (e.OriginalSource.GetType().Name != "Grid")
             {
                 FileAttributes attr = FileAttributes.Directory; //default
@@ -353,18 +377,59 @@ namespace WpfApp4
                 //treeviewitem moving
                 if (_IsDragging)
                 {
+				 	 
                     TreeViewItem from = (TreeViewItem)e.Source;
+					 
                     var List = from.Items.Cast<TreeViewItem>().ToList();
+					 
+					 
+                    TreeViewItem _item = from ;// (TreeViewItem)sender;
+			 
+			 
+               if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
+               {
+                _item.Items.Clear();
+
+                try
+                {
+
+                    foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
+                    {
+                        DirectoryInfo _dirinfo = new DirectoryInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+						 
+                    }
+
+                    foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
+                    {
+                        FileInfo _dirinfo = new FileInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
+
+
+                    }
+
+                }
+
+                catch (Exception ex)
+                { Console.WriteLine(ex.InnerException); }
+
+           }
+					
+					_item = from ;  
+				     List = from.Items.Cast<TreeViewItem>().ToList();   
+					
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
-
-
+                    
                     if ((from.Header.ToString()).IndexOf('.') > -1)
                     {
-                        MessageBox.Show("you can't drag file into file only into folder");  //hierarchy validation
+                        MessageBox.Show("you can't drag file into file only into folder");
                         e.Handled = true;
                         _IsDragging = false;
                         return;
                     }
+				
 
                     if ((from.Header).Equals(dest.Header))
                     {
@@ -376,7 +441,7 @@ namespace WpfApp4
 
                     foreach (TreeViewItem t in List)
                     {
-
+						
                         if (t.Header != null)
                         {
                             if ((t.Header).Equals(dest.Header))
@@ -418,12 +483,12 @@ namespace WpfApp4
                         var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                         if (files == null) //files are dragged from treeView
                         {
-
+							
                             files = new[] { (string)((TreeViewItem)(e.Data.GetData(e.Data.GetFormats()[0]))).Tag };
                         }
                         foreach (string f in files)
                         {
-
+                          
                             attr = File.GetAttributes(f);
 
                             if (attr.HasFlag(FileAttributes.Directory) || source.Tag.ToString() == "Custom Folder")
@@ -469,41 +534,44 @@ namespace WpfApp4
         }
 
 
-
+        // Drag the root level  for creating free view 
+		//(the user can also create new root level according to his needs and not to drag )
         private void CustomTree_Drop(object sender, DragEventArgs e)
         {
-
+			            
             if (e.OriginalSource.GetType().Name == "Grid")
-            {
+            {   
                 TreeView source = e.Source as TreeView;
                 if (_IsDragging)
-                {
+                {  
                     TreeView from = e.Source as TreeView;
                     var List = from.Items.Cast<TreeViewItem>().ToList();
 
 
                     TreeViewItem dest = e.Data.GetData(e.Data.GetFormats()[0]) as TreeViewItem;
-
-
+                   
                     TreeViewItem searchItem = List.Find(x => x.Header.ToString().Equals(dest.Header));
-                    if (searchItem == null)
-                    {
+                   
+				   if (searchItem == null)
+                    {  
+						
                         if ((GetObjectParent(dest)).Name == "foldersItem")
-                        {
+                        {  
 
                             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                             var myOtherList = source.Items.Cast<TreeViewItem>().ToList();
-
+                           
                             if (files == null) //files are dragged from treeView
                             {
-
+                             
                                 files = new[] { (string)((TreeViewItem)(e.Data.GetData(e.Data.GetFormats()[0]))).Tag };
                             }
                             foreach (string f in files)
-                            {
+                            {  
+								 
                                 TreeViewItem searchItem1 = myOtherList.Find(x => x.Header.ToString().Equals(Path.GetFileName(f)));
                                 if (searchItem1 == null)
-                                {
+                                {  
 
                                     // source.Items.Add(newEntry);
                                     var isFile = new Uri(f).AbsolutePath.Split('/').Last().Contains('.');
@@ -521,13 +589,14 @@ namespace WpfApp4
 
                                     else
                                         Populate(Path.GetFileName(f), f, source, null, true);
-                                }
-                            }
+                                }  
+                            } 
 
 
-                        }
+                        } 
                         else
                         {
+						 
                             if ((dest.Parent as TreeViewItem) != null)
                             {
                                 (dest.Parent as TreeViewItem).Items.Remove(dest);
@@ -541,12 +610,53 @@ namespace WpfApp4
                             from.Items.Insert(0, dest);
                         }
 
-                    }
+                    } 
 
 
 
                     else
                         MessageBox.Show("Item with the same name exists in destination - Drag failed");
+					 
+					
+	 
+                   TreeViewItem _item = dest ; 
+		 
+	 
+                if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
+                 {
+                  _item.Items.Clear();
+
+                  try
+                  {
+
+                    foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
+                    {
+                        DirectoryInfo _dirinfo = new DirectoryInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+						 
+                    }
+
+                    foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
+                    {
+                        FileInfo _dirinfo = new FileInfo(dir);
+                        if ((_dirinfo.Attributes & FileAttributes.System) == 0)
+                            Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
+
+
+                    }
+
+                 }
+
+                catch (Exception ex)
+                { Console.WriteLine(ex.InnerException); }
+
+
+            
+
+        }
+					
+			
                     e.Handled = true;
                     _IsDragging = false;
                     return;
@@ -561,7 +671,7 @@ namespace WpfApp4
         public static T Clone<T>(T from)
 
         {
-
+ 
             string objStr = XamlWriter.Save(from);
 
             StringReader stringReader = new StringReader(objStr);
@@ -574,9 +684,10 @@ namespace WpfApp4
 
         }
 
+    // The user can add child folders as much as he wants and in each level he wants
         private void addNode(object sender, RoutedEventArgs e)
         {
-
+ 
             TreeViewItem newRoot = new TreeViewItem();
             Controls.InputDialog.inputMessage inputDialog = new Controls.InputDialog.inputMessage("Please enter folder name", "");
             inputDialog.Title = "Add New Folder";
@@ -604,7 +715,7 @@ namespace WpfApp4
                     if (DestToAdd != null)
                     {
 
-                        if ((DestToAdd.Header.ToString()).IndexOf('.') > -1)  //hh
+                        if ((DestToAdd.Header.ToString()).IndexOf('.') > -1)   
                         {
                             MessageBox.Show("you add folder  into  file, you can drag folder only into folder  ");
 
@@ -625,9 +736,10 @@ namespace WpfApp4
             }
 
         }
-
-        private void addRootNode(object sender, RoutedEventArgs e)
+//  Enables the user to add his own  root folder to the view he wants to create 
+        private void addRootNode(object sender, RoutedEventArgs e)  
         {
+			 
             TreeViewItem newRoot = new TreeViewItem();
             Controls.InputDialog.inputMessage inputDialog = new Controls.InputDialog.inputMessage("Please enter folder name", "");
             inputDialog.Title = "Add New Folder";
@@ -665,8 +777,9 @@ namespace WpfApp4
 
         }
 
-        private void removeNode(object sender, RoutedEventArgs e)
+        private void removeNode(object sender, RoutedEventArgs e)  // remove selected folders/files  from view 
         {
+			 
 
             try
             {
@@ -697,27 +810,9 @@ namespace WpfApp4
                     var itemIndex = par.Items.IndexOf(selected);
 
                     par.Items.Remove(selected);
-                    if (par.Items.Count == 0)     //hh0609
-                    {
-                        MessageBox.Show("View has no folders/files ,view will be deleted");  //hh0609
-                        string messageBoxText = "Are you sure you want to delete view " + viewName.Text + "?";
-                        MessageBoxButton button = MessageBoxButton.YesNo;
-                        MessageBoxImage icon = MessageBoxImage.Warning;
-                        if (MessageBox.Show(messageBoxText, null, button, icon) == MessageBoxResult.No)
-                            return;
-                        else
-                        {
-                            Views.HandleViews b = new Views.HandleViews();
-                            b.deleteCustomView(viewName.Text);
-                            MessageBox.Show("View deleted");
-                            CustomviewTree.Items.Clear();
-                            return;
 
-                        }
-                    }
 
-                        //hh 0609
-                    }
+                }
                 else
                 {
 
@@ -729,7 +824,7 @@ namespace WpfApp4
             catch (NullReferenceException ex)
             {
                 Console.WriteLine(ex.InnerException);
-                MessageBox.Show("you didn't chose the folder/file to remove " ); //hh3108
+                MessageBox.Show("Choose the item you want to remove");  
             }
 
         }
@@ -737,6 +832,7 @@ namespace WpfApp4
 
         private void createNewTree(object sender, RoutedEventArgs e)
         {
+			 
 
             CustomviewTree.Items.Clear();
             viewName.Text = string.Empty;
@@ -744,7 +840,10 @@ namespace WpfApp4
         }
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
+			
+			 
             TreeViewItem _item = (TreeViewItem)sender;
+						 
             if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
             {
                 _item.Items.Clear();
@@ -757,6 +856,7 @@ namespace WpfApp4
                         DirectoryInfo _dirinfo = new DirectoryInfo(dir);
                         if ((_dirinfo.Attributes & FileAttributes.System) == 0)
                             Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+						 
                     }
 
                     foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
@@ -777,9 +877,12 @@ namespace WpfApp4
             }
 
         }
+ 
+  
 
+ 
         void _driitem_Selected(object sender, RoutedEventArgs e)
-        {
+        { 
 
             TreeViewItem item = sender as TreeViewItem;
             //you can access item properties eg item.Header etc. 
@@ -788,7 +891,7 @@ namespace WpfApp4
 
         private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)   //files on right side of the tree view
         {
-
+ 
             TreeView tree = (TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
 
@@ -840,7 +943,7 @@ namespace WpfApp4
         private void saveTags(List<string> fileNames, string tag) //tag the file
 
         {
-
+ 
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
 
             Tags.TagManagment.saveFileTags(fileNames, tag);
@@ -855,6 +958,7 @@ namespace WpfApp4
 
         private void getView(object sender, RoutedEventArgs e) //populate treeview with view
         {
+			 
             Views.HandleViews b = new Views.HandleViews();
             var selectedCategoryLB = lb2.SelectedValue as Tags.tagsCategory;
             var selectedSubCategory = lb3.SelectedValue;
@@ -891,15 +995,20 @@ namespace WpfApp4
 
                 b.createViewByTag(rbTarget.Content.ToString(), selectedCategory + "." + selectedSubCategory, viewTree);
             }
-            else { MessageBox.Show("main category was not selected"); return; }
+            else 
+			  { 
+		        MessageBox.Show("main category was not selected");
+				return;
+              }
 
 
 
 
         }
 
-        private void saveView(object sender, RoutedEventArgs e) //populate treeview with view
+        private void saveView(object sender, RoutedEventArgs e) //save the view created by the user 
         {
+			 
             Views.HandleViews b = new Views.HandleViews();
             //save existing view
             if (viewName.Text != string.Empty)
@@ -936,6 +1045,7 @@ namespace WpfApp4
 
         private void LoadView(object sender, RoutedEventArgs e) //populate treeview with view
         {
+			 
             Views.HandleViews b = new Views.HandleViews();
             List<string> NamesList = b.getCustomViewsList();
             Controls.List.ListMessage inputDialog = new Controls.List.ListMessage(NamesList);
@@ -954,12 +1064,14 @@ namespace WpfApp4
 
         private void clearTagsFromList(object sender, RoutedEventArgs e)
         {
+			 
             lb_tag.Items.Clear();
 
         }
 
         private void changeBinding(object sender, SelectionChangedEventArgs e)
         {
+			 
             ListBox av = (ListBox)sender;
             var Categories = Tags.TagManagment.LoadCategoriesListFromXML();
             var a = (Tags.tagsCategory)(((ListBox)sender).SelectedItem);
@@ -970,8 +1082,9 @@ namespace WpfApp4
                 lb3.ItemsSource = a.categoryOptions;
         }
 
-        private void addTags(object sender, RoutedEventArgs e)
+        private void addTags(object sender, RoutedEventArgs e)  // handles in adding tags to files
         {
+			 
 
             var selectedCategoty = lb.SelectedValue as Tags.tagsCategory;
             var selectedSubCategory = lb1.SelectedValue;
@@ -1007,11 +1120,11 @@ namespace WpfApp4
         }
 
 
-        //===========delete all tags from selected files ===========================
+        //delete all tags from selected files 
 
         private void deleteTags(object sender, RoutedEventArgs e)
         {
-
+ 
             string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
 
             XDocument xmlDocument = XDocument.Load(docFilePath);
@@ -1070,11 +1183,11 @@ namespace WpfApp4
             doc = XDocument.Load(docFilePath);
             return;
         }
-        //===================delete  selected tags from file=============
+        //delete  selected tags from file
 
-        private void deleteTags1(object sender, RoutedEventArgs e)  //hh
+        private void deleteTags1(object sender, RoutedEventArgs e)  
         {
-
+ 
             var selectedCategoty = lb.SelectedValue as Tags.tagsCategory;
             var selectedSubCategory = lb1.SelectedValue;
             if (selectedCategoty == null)
@@ -1091,7 +1204,7 @@ namespace WpfApp4
 
             if (lb_tag.Items.Count > 0)
             {
-                string messageBoxText = "Are you sure you want to delete this category and all subcategories " + "?";
+                string messageBoxText = "Are you sure you want to delete this category from the above files " + "?";
                 MessageBoxButton button = MessageBoxButton.YesNo;
                 MessageBoxImage icon = MessageBoxImage.Warning;
                 if (MessageBox.Show(messageBoxText, null, button, icon) == MessageBoxResult.No)
@@ -1113,12 +1226,12 @@ namespace WpfApp4
 
         }
 
-        //===========The selected tags to be deleted  from selected files ===========================
+        //The selected tags to be deleted  from selected files
 
         private void saveTags_for_delete(List<string> fileNames, string tag) //tag the file
 
         {
-
+ 
 
             TreeViewItem _item = (TreeViewItem)foldersItem.SelectedItem;
 
@@ -1128,9 +1241,9 @@ namespace WpfApp4
         }
 
 
-        private void open(object sender, RoutedEventArgs e)
+        private void open(object sender, RoutedEventArgs e)   // handles with the creating of filtered view 
         {
-
+ 
             Controls.TagControl.andOrSelection inputDialog = new Controls.TagControl.andOrSelection(Categories);
             inputDialog.Title = "Set Custom View filters";
 

@@ -64,7 +64,7 @@ namespace WpfApp4.Tags
 
 
         }
-        //================delete the tags to each selected file ===========================
+        //================delete the tags from each selected file ===========================
 
 
         public static void saveFileTags1(List<string> filepaths, string tags)

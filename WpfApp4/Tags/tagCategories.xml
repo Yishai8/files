@@ -23,14 +23,14 @@
     <ChildTag name="Dan" />
     <ChildTag name="David" />
   </HeaderTag>
-<HeaderTag name="Sports &amp; Recreation" showOldValues="true">
-  <ChildTag name="Aviation"/>
-  <ChildTag name="Boats"/>
-  <ChildTag name="Golf"/>
-  <ChildTag name="Hunting &amp; Fishing"/>
-  <ChildTag name="Snow &amp; Water"/>
-  <ChildTag name="Ski"/>
-</HeaderTag>
+  <HeaderTag name="Sports &amp; Recreation" showOldValues="true">
+    <ChildTag name="Aviation" />
+    <ChildTag name="Boats" />
+    <ChildTag name="Golf" />
+    <ChildTag name="Hunting &amp; Fishing" />
+    <ChildTag name="Snow &amp; Water" />
+    <ChildTag name="Ski" />
+  </HeaderTag>
   <HeaderTag name="Animals &amp; Pets" showOldValues="true">
     <ChildTag name="Birds" />
     <ChildTag name="Dogs &amp; Cats" />
@@ -57,11 +57,6 @@
     <ChildTag name="c++" />
     <ChildTag name="graphics" />
     <ChildTag name="algebra" />
-  </HeaderTag>
-  <HeaderTag name="CoursesFeatue" showOldValues="true">
-    <ChildTag name="ex" showOldValues="true" />
-    <ChildTag name="material" />
-    <ChildTag name="grades" />
   </HeaderTag>
   <HeaderTag name="year" showOldValues="true">
     <ChildTag name="2018" showOldValues="true" />

@@ -15,6 +15,9 @@ namespace WpfApp4.Tags
     static class XMLFile
     {
 
+         
+		 // this class contains functions which handles with  xml files (I/O)
+		 
         static string docFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Tags.xml";
         static readonly string viewFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Views.xml";//create xml on desktop
         static XDocument tagDoc = null;    //load the xml file to object

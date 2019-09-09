@@ -56,7 +56,7 @@ namespace WpfApp4.Tags
                     Tag newTag = new Tag(item);
 
                     newTag.saveFileTags(tags);
-                    Tags.XMLFile.AddTagNode(tags, filename);
+                    Tags.tagsXMLfunc.AddTagNode(tags, filename);
                 }
 
 
@@ -117,7 +117,7 @@ namespace WpfApp4.Tags
 
         public static List<List<string>> getPathsByTag(string tag, string isCategory)
         {
-            return Tags.XMLFile.getPathsByTag(tag, isCategory);
+            return Tags.tagsXMLfunc.getPathsByTag(tag, isCategory);
         }
 
 

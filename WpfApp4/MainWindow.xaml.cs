@@ -45,7 +45,8 @@ namespace WpfApp4
         {
 			 
             InitializeComponent();
-            Tags.XMLFile.init();
+            Tags.tagsXMLfunc.init();
+            Views.viewsXMLfunc.init();
             lb.ItemsSource = Categories;
             lb2.ItemsSource = Categories;
 

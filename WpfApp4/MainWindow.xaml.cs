@@ -366,6 +366,8 @@ namespace WpfApp4
        // The user can drag folder   or file to create free view 
         private void CustomviewTree_Drop(object sender, DragEventArgs e)
         {
+		 try 
+		 {
 			
             if (e.OriginalSource.GetType().Name != "Grid")
             {
@@ -390,8 +392,7 @@ namespace WpfApp4
                {
                 _item.Items.Clear();
 
-                try
-                {
+              
 
                     foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
                     {
@@ -410,11 +411,7 @@ namespace WpfApp4
 
                     }
 
-                }
-
-                catch (Exception ex)
-                { Console.WriteLine(ex.InnerException); }
-
+              
            }
 					
 					_item = from ;  
@@ -530,7 +527,8 @@ namespace WpfApp4
 
 
             }
-
+			}
+			catch (Exception ex){MessageBox.Show("you did invalid drag");}
         }
 
 

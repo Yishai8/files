@@ -143,10 +143,23 @@ namespace WpfApp4.Views
 
         public List<string> getTaggedPaths(TreeViewItem item)
         {
+            try
+            {
+                ItemCollection items1 = item.Items;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("you didnt chose View to tag");
+                return null;
+            }
             ItemCollection items = item.Items;
             List<string> paths = new List<string>();
-            if (item.Tag.ToString() != "Custom Folder")
+            try
+            {
+                if (item.Tag.ToString() != "Custom Folder")
                 paths.Add(item.Tag.ToString()); //tagged top level
+            }
+            catch (Exception ex) { Console.WriteLine(ex.InnerException); }
             for (int i = 0; i < items.Count; i++)
 
             {

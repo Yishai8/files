@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -30,8 +31,9 @@ namespace WpfApp4.Tags
 
         public static void saveFileTags(List<string> filepaths, string tags)
         {
-
-            foreach (string filename in filepaths)
+            try
+            {
+                foreach (string filename in filepaths)
             {
 
                 List<string> itemsToTag = new List<string>();
@@ -61,7 +63,10 @@ namespace WpfApp4.Tags
 
 
             }
+            }
 
+            catch (Exception ex) { return; }
+            MessageBox.Show(" Tags added successfully ");
 
         }
         //================delete the tags from each selected file ===========================

@@ -254,8 +254,9 @@ namespace WpfApp4
 
             return source as TreeViewItem;
         }
-		
+
         // Display the list of tags i.e categories and subCategories before perfoming any change in those lists
+        // and enables the user to tag view he has created
         private void TagView(object sender, RoutedEventArgs e)
         {
 			 
@@ -529,7 +530,7 @@ namespace WpfApp4
 
             }
 			}
-			catch (Exception ex){MessageBox.Show("you did invalid drag");}
+            catch (Exception ex) { MessageBox.Show("you did invalid drag"); return; }
         }
 
 
@@ -1056,6 +1057,7 @@ namespace WpfApp4
             {
                 b.LoadCustomView(CustomviewTree, inputDialog.lblQuestion.SelectedItem.ToString());
                 viewName.Text = inputDialog.lblQuestion.SelectedItem.ToString();
+                MessageBox.Show("To Tag View : Right Click View");
             }
 
 
@@ -1114,7 +1116,7 @@ namespace WpfApp4
             }
 
             lb_tag.Items.Clear();
-            MessageBox.Show("Tags added successfuly");
+          
             return;
         }
 
@@ -1269,7 +1271,8 @@ namespace WpfApp4
                     }
 
                     MessageBox.Show("View filter is:  " + filters);
-
+                    b.saveCustomView(viewTree, "view" + filters, true);
+                    MessageBox.Show("view" + filters + "created");
                 }
                 return;
             }

@@ -41,10 +41,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Height="25" Content="Click here to update Categories " Click="AddNewTagGroup" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="150,273,0,0" RenderTransformOrigin="0.597,-1.44"></Button>
+        <Button Height="25" Content="Add/Delete/Update Categories" Click="AddNewTagGroup" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="170,273,0,0" RenderTransformOrigin="0.597,-1.44"></Button>
 
         <WrapPanel HorizontalAlignment="Right" Margin="0,369,691.6,209.6" Width="135">
-            
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
             <Button IsCancel="True" MinWidth="60">_Cancel</Button>
         </WrapPanel>
     </Grid>

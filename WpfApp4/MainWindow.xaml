@@ -124,7 +124,8 @@
             <TreeView.Resources>
 
                 <ContextMenu  x:Key="TVtemContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Header="Delete tags" Click="deleteTags" />
+
+                    <MenuItem Header="Add Tag" Click="TagView" />
                 </ContextMenu>
 
                 <Style TargetType="{x:Type TreeViewItem}">

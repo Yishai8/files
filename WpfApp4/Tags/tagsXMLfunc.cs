@@ -246,10 +246,14 @@ namespace WpfApp4.Tags
                 new XDocument(
                      new XElement("root")).Save(docFilePath);
             tagsXMLfunc.tagDoc = LoadFile(docFilePath);
+        }
 
-
-
-
+        static public void init1()  
+        {
+            // if (!CheckFileExsists(docFilePath))
+            //   new XDocument(
+            //      new XElement("root")).Save(docFilePath);
+            tagsXMLfunc.tagDoc = LoadFile(docFilePath);
         }
 
     }

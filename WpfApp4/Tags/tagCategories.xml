@@ -10,26 +10,10 @@
     <ChildTag name="Rock, Hard Rock &amp; Heavy Metal" />
     <ChildTag name="Urban" />
   </HeaderTag>
-  <HeaderTag name="Sports &amp; Recreation" showOldValues="true">
-    <ChildTag name="Aviation" />
-    <ChildTag name="Boats" />
-    <ChildTag name="Golf" />
-    <ChildTag name="Hunting &amp; Fishing" />
-    <ChildTag name="Snow &amp; Water" />
-    <ChildTag name="Ski" />
-  </HeaderTag>
   <HeaderTag name="Friends" showOldValues="true">
     <ChildTag name="Moshe" />
     <ChildTag name="Dan" />
     <ChildTag name="David" />
-  </HeaderTag>
-  <HeaderTag name="Sports &amp; Recreation" showOldValues="true">
-    <ChildTag name="Aviation" />
-    <ChildTag name="Boats" />
-    <ChildTag name="Golf" />
-    <ChildTag name="Hunting &amp; Fishing" />
-    <ChildTag name="Snow &amp; Water" />
-    <ChildTag name="Ski" />
   </HeaderTag>
   <HeaderTag name="Animals &amp; Pets" showOldValues="true">
     <ChildTag name="Birds" />
@@ -50,6 +34,7 @@
   </HeaderTag>
   <HeaderTag name="Locations" showOldValues="true">
     <ChildTag name="Israel" />
+    <ChildTag name="Landscapes" />
     <ChildTag name="Austria" />
   </HeaderTag>
   <HeaderTag name="CoursesName" showOldValues="true">
@@ -63,8 +48,7 @@
     <ChildTag name="2019" />
     <ChildTag name="2017" />
   </HeaderTag>
-  <HeaderTag name="School" showOldValues="true">
-    <ChildTag name="Courses" showOldValues="true" />
-    <ChildTag name="articles" />
+  <HeaderTag name="Sport" showOldValues="true">
+    <ChildTag name="Ski" />
   </HeaderTag>
 </root>
